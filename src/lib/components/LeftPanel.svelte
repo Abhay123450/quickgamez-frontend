@@ -27,7 +27,7 @@
 	bind:this={parent}
 	class="flex flex-col w-full h-dvh max-h-dvh overflow-y-auto bg-white dark:bg-neutral-800"
 >
-	<div class:flex-1={$isSideNavWindowOpen} class="flex flex-col min-h-8 max-h-fit overflow-y-auto">
+	<div class="flex flex-col min-h-8 h-fit max-h-fit max-h-fit-firefox overflow-y-auto flex-1">
 		<MiniWindow
 			isMaximized={$isSideNavWindowOpen}
 			title="QuickGamez.com"
@@ -43,7 +43,7 @@
 			<SideNav />
 		</MiniWindow>
 	</div>
-	<div class="flex flex-col min-h-8 max-h-fit overflow-y-auto" class:flex-1={$isGamesNavWindowOpen}>
+	<div class="flex flex-col min-h-8 h-fit max-h-fit max-h-fit-firefox overflow-y-auto flex-1">
 		<MiniWindow
 			isMaximized={$isGamesNavWindowOpen}
 			title="Games"
@@ -58,7 +58,7 @@
 			<Games />
 		</MiniWindow>
 	</div>
-	<div class="flex flex-col min-h-8 max-h-fit overflow-y-auto" class:flex-1={$isSettingsWindowOpen}>
+	<div class="flex flex-col min-h-8 h-fit max-h-fit max-h-fit-firefox overflow-y-auto flex-1">
 		<MiniWindow
 			title="Site Settings"
 			icon={IoSettingsOutline}
@@ -77,7 +77,7 @@
 
 <style>
 	.max-h-fit-firefox {
-		/* max-height: fit-content; */
+		max-height: fit-content;
 		max-height: -moz-fit-content;
 	}
 </style>

@@ -13,6 +13,8 @@
 	export let icon: IconType;
 	export let seekAttention: boolean = false;
 
+	export let clientHeight: number = 0;
+
 	function toggleMaximize() {
 		isMaximized = !isMaximized;
 		if (isMaximized) {
@@ -36,7 +38,7 @@
 	});
 </script>
 
-<div class="flex flex-col w-full h-fit max-h-full rounded-md">
+<div bind:clientHeight class="flex flex-col w-full h-fit max-h-full rounded-md">
 	<!-- head -->
 	<button
 		on:click={toggleMaximize}
