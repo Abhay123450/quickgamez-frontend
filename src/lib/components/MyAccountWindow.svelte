@@ -13,8 +13,9 @@
 	import { type User } from '$lib/types/User';
 	import { onMount } from 'svelte';
 	import { Icon } from 'svelte-icons-pack';
+	import { pushState } from '$app/navigation';
 
-	let user: User | null = $userDetails;
+	// let user: User | null = $userDetails;
 
 	let confirmLogout = false;
 	let isProcessing = true;
@@ -22,11 +23,13 @@
 	function openLogin() {
 		$isLoginPanelOpen = true;
 		$loginActiveTab = 1;
+		pushState('', { isLoginPanelOpen: true });
 	}
 
 	function openSignup() {
 		$isLoginPanelOpen = true;
 		$loginActiveTab = 0;
+		pushState('', { isLoginPanelOpen: true });
 	}
 
 	export async function getUserInfo(): Promise<User | null> {
@@ -85,27 +88,28 @@
 			$isLoggedIn = false;
 			$userDetails = null;
 			addToast(data.message, 'success', 3000);
+			confirmLogout = false;
 		}
 	}
 
-	$: $isLoggedIn,
-		async () => {
-			user = await getUserInfo();
-		};
+	// $: $isLoggedIn,
+	// 	async () => {
+	// 		user = await getUserInfo();
+	// 	};
 
-	onMount(async () => {
-		user = await getUserInfo();
+	onMount(() => {
+		getUserInfo();
 	});
 </script>
 
 <div class="relative flex flex-col w-full h-auto p-1 bg-white rounded-b overflow-y-auto">
-	{#if $isLoggedIn}
+	{#if $userDetails}
 		<!-- user details -->
 		<p class="text-lg font-semibold line-clamp-1">
-			{user?.name} ABhay ANand hello dear dear dear
+			{$userDetails.name}
 		</p>
 
-		<p class="text-base font-normal line-clamp-1">@{user?.username}</p>
+		<p class="text-base font-normal line-clamp-1">@{$userDetails.username}</p>
 
 		<a
 			href="/users/profile/my-profile"

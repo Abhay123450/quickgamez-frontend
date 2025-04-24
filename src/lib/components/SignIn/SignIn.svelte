@@ -1,7 +1,14 @@
 <script lang="ts">
 	import { fade, fly } from 'svelte/transition';
-	import Tab from '../Tab.svelte';
-	import { addToast, isLoggedIn, isLoginPanelOpen, loginActiveTab } from '../../../routes/stores';
+	import Tab from '../tabs/Tab.svelte';
+	import type { Tab as TabType } from '../tabs/Tabs';
+	import {
+		addToast,
+		isLoggedIn,
+		isLoginPanelOpen,
+		loginActiveTab,
+		userDetails
+	} from '../../../routes/stores';
 	import { trapFocus } from '$lib/actions';
 	import { Icon } from 'svelte-icons-pack';
 	import { CgClose } from 'svelte-icons-pack/cg';
@@ -15,6 +22,7 @@
 	import ButtonWithLoading from '../common/ButtonWithLoading.svelte';
 	import ButtonResendOtp from '../common/ButtonResendOtp.svelte';
 	import { fetchRequest } from '$lib/utils/fetchRequest';
+	import { pushState } from '$app/navigation';
 
 	const host = `http://${$page.url.hostname}:4000`;
 	const CREATE_USER_ROUTE = '/api/v1/users';
@@ -83,7 +91,8 @@
 		FORGOT_PASSWORD,
 		VERIFY_EMAIL,
 		RESET_PASSWORD,
-		LOGIN_SUCCESSFULL
+		LOGIN_SUCCESSFULL,
+		EMAIL_VERIFIED
 	}
 
 	let isProcessing: boolean = false;
@@ -93,11 +102,12 @@
 	let registerStage: RegisterStage = RegisterStage.ENTER_DETAILS;
 	let loginStage: LoginStage = LoginStage.ENTER_DETAILS;
 
-	let tabs = ['SIGN UP', 'LOG IN'];
-	let activeTab = tabs[$loginActiveTab];
+	let tabs: TabType[] = [{ name: 'SIGN UP' }, { name: 'LOG IN' }];
+	let activeTab: string = tabs[$loginActiveTab].name;
 
 	function closeLoginWindow() {
-		$isLoginPanelOpen = false;
+		// $isLoginPanelOpen = false;
+		history.back();
 	}
 
 	function selectTab(tab: string) {
@@ -239,6 +249,8 @@
 			const responseData = await response.json();
 			const success: boolean = responseData.success;
 
+			console.log(`login res data ${JSON.stringify(responseData)}`);
+
 			if (!success) {
 				console.log('an error occurred');
 				loginError = responseData.message;
@@ -246,6 +258,10 @@
 				handleLoginError(errorCode);
 				isProcessing = false;
 				return;
+			}
+
+			if (responseData.user) {
+				$userDetails = responseData.user;
 			}
 
 			// ON SUCCESS
@@ -260,7 +276,7 @@
 	function handleLoginError(errorCode: string) {
 		switch (errorCode) {
 			case 'USER_NOT_FOUND':
-				activeTab = tabs[0];
+				activeTab = tabs[0].name;
 				registerEmail = loginEmail;
 				registerPassword = loginPassword;
 				registerStage = RegisterStage.ENTER_DETAILS;
@@ -295,13 +311,15 @@
 		const success: boolean = responseData.success;
 		if (!success) {
 			console.log(`an error occurred: ${JSON.stringify(responseData)}`);
-			forgotPasswordError = responseData.message + ' ' + responseData.errors;
+			forgotPasswordError = responseData.message;
+			isProcessing = false;
 			return;
 		}
 
 		// ON SUCCESS
 		isProcessing = false;
-		loginStage = LoginStage.RESET_PASSWORD;
+		isForgotPassword = true;
+		loginStage = LoginStage.VERIFY_EMAIL;
 	}
 
 	async function verifyEmail() {
@@ -335,12 +353,21 @@
 
 			// const responseData = await response.json();
 
-			const responseData = await fetchRequest('POST', VERIFY_EMAIL_ROUTE, data);
+			const url = `${host}${VERIFY_EMAIL_ROUTE}`;
+			const response = await fetch(url, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(data)
+			});
+
+			const responseData = await response.json();
 
 			const success: boolean = responseData.success;
 			if (!success) {
-				console.log('an error occurred');
-				loginError = responseData.message;
+				console.log('an error occurred: ', responseData.message);
+				verifyEmailError = responseData.message;
 				isProcessing = false;
 				return;
 			}
@@ -371,7 +398,7 @@
 			const data = {
 				email: forgotPasswordEmail,
 				otp: forgotPasswordOtp,
-				password: newPassword
+				newPassword: newPassword
 			};
 
 			const url = `${host}${RESET_PASSWORD_ROUTE}`;
@@ -410,8 +437,9 @@
 		addToast('Login successful', 'success', 10000);
 		$isLoggedIn = true;
 		setTimeout(() => {
-			$isLoginPanelOpen = false;
-			$loginActiveTab = 0;
+			if ($page.state.isLoginPanelOpen === true) {
+				history.back();
+			}
 		}, 3000);
 		// await getUserInfo();
 	}
@@ -420,7 +448,7 @@
 		registerStage = RegisterStage.REGISTRATION_SUCCESSFULL;
 		setTimeout(() => {
 			$loginActiveTab = 1;
-			activeTab = tabs[$loginActiveTab];
+			activeTab = tabs[$loginActiveTab].name;
 			loginStage = LoginStage.ENTER_DETAILS;
 		}, 3000);
 	}
@@ -429,7 +457,7 @@
 		console.log('mounted');
 		console.log(`registerStage: ${registerStage}`);
 		console.log(`loginActiveTab: ${$loginActiveTab}`);
-		activeTab = tabs[$loginActiveTab];
+		activeTab = tabs[$loginActiveTab].name;
 	});
 	// $: validateEmail(email.email);
 	// $: validatePassword(password.password);
@@ -499,12 +527,14 @@
 						<p id="stage1-error" class="text-red-500" in:fly={{ y: -20 }}>
 							{registerStage1Error}
 						</p>
-						<!-- <button
-							class="w-full border rounded-md p-2 mt-2 bg-red-500 text-white {isDataValid
-								? ''
-								: 'opacity-50'}"
-							disabled={!isDataValid}>SignIn</button
-						> -->
+						<p class="text-xs self-center">
+							By signing up, you agree to our
+							<a href="/terms" class="text-blue-600 underline" target="_blank">Terms of Service</a>
+							and
+							<a href="/privacy-policy" class="text-blue-600 underline" target="_blank"
+								>Privacy Policy</a
+							>
+						</p>
 						<ButtonWithLoading
 							text="Sign Up"
 							bind:isLoading={isProcessing}
@@ -517,7 +547,7 @@
 							class="text-red-500 px-1"
 							on:click={(e) => {
 								$loginActiveTab = 1;
-								selectTab(tabs[$loginActiveTab]);
+								selectTab(tabs[$loginActiveTab].name);
 								e.stopPropagation();
 							}}>Log In</button
 						>
@@ -598,7 +628,7 @@
 							class="text-red-500 px-1"
 							on:click={(e) => {
 								$loginActiveTab = 0;
-								selectTab(tabs[$loginActiveTab]);
+								selectTab(tabs[$loginActiveTab].name);
 								e.stopPropagation();
 							}}>Create Account</button
 						>
