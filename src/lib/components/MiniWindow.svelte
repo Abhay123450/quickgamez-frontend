@@ -38,14 +38,14 @@
 	});
 </script>
 
-<div bind:clientHeight class="flex flex-col w-full h-fit max-h-full rounded-md">
+<section bind:clientHeight class="flex flex-col w-full h-fit max-h-full rounded-md">
 	<!-- head -->
 	<button
 		on:click={toggleMaximize}
 		class="flex flex-row w-full h-8 px-1 space-x-1 rounded border border-neutral-500 bg-yellow-200 align-middle shrink-0 sticky top-0"
 	>
 		<Icon src={icon} className="w-6 h-6 self-center" />
-		<p class="w-full h-fit p-1 self-center text-left">{title}</p>
+		<h2 class="w-full h-fit p-1 self-center text-left">{title}</h2>
 		<div class="flex flex-row w-fit h-full space-x-1">
 			<!-- <div
 				class="flex flex-col w-6 h-6 self-center text-center rounded-md active:shadow-inner text-neutral-800"
@@ -62,40 +62,14 @@
 		</div>
 	</button>
 	<!-- body -->
-	{#if isMaximized}
+	{#key isMaximized}
 		<div
-			class="w-full h-auto overflow-auto scrollbar-thin"
+			class="w-full h-auto overflow-auto scrollbar-thin window-body"
 			in:slide={{ duration: 400 }}
 			out:slide={{ duration: 400 }}
+			class:hidden={!isMaximized}
 		>
 			<slot></slot>
 		</div>
-	{/if}
-</div>
-
-<style>
-	@keyframes attention {
-		0% {
-			opacity: 0.5;
-		}
-		100% {
-			opacity: 1;
-		}
-	}
-
-	.custom-border::before {
-		content: '';
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		border: 1px solid gray;
-		border-radius: 0.2rem;
-		box-sizing: border-box;
-	}
-
-	/* .scrollbar-thin {
-		scrollbar-width: thin;
-	} */
-</style>
+	{/key}
+</section>
