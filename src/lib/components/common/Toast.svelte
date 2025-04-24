@@ -1,6 +1,8 @@
 <!-- Toast.svelte -->
 <script lang="ts">
+	import { Icon } from 'svelte-icons-pack';
 	import { removeToast } from '../../../routes/stores';
+	import { CgClose } from 'svelte-icons-pack/cg';
 
 	export let id: number;
 	export let message: string;
@@ -11,27 +13,27 @@
 	<div>{message}</div>
 	<button
 		on:click={() => removeToast(id)}
-		class="close flex flex-row w-5 h-5 text-xl ml-1"
+		class="close flex flex-row flex-shrink-0 w-5 h-5 text-xl ml-1 text-black"
 		aria-label="Close"
 	>
-		<img class="flex" src="/icons/cross_icon.svg" alt="close" />
+		<Icon src={CgClose} className="w-5 h-5" />
 	</button>
 </div>
 
 <style>
 	.toast.info {
-		@apply bg-blue-100 border-blue-300 text-blue-700;
+		@apply bg-blue-100 border-blue-400 text-blue-800;
 	}
 
 	.toast.success {
-		@apply bg-green-100 border-green-300 text-green-700;
+		@apply bg-green-100 border-green-400 text-green-800;
 	}
 
 	.toast.warning {
-		@apply bg-yellow-100 border-yellow-300 text-yellow-700;
+		@apply bg-yellow-100 border-yellow-400 text-yellow-800;
 	}
 
 	.toast.error {
-		@apply bg-red-100 border-red-300 text-red-700;
+		@apply bg-red-100 border-red-400 text-red-800;
 	}
 </style>
