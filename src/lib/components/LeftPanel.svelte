@@ -4,22 +4,63 @@
 	import SiteSettings from './SiteSettings.svelte';
 	import SideNav from './SideNav.svelte';
 	import Games from './Games.svelte';
-	import { onMount } from 'svelte';
+	import { afterUpdate, beforeUpdate, onMount } from 'svelte';
 	import {
 		isSideNavWindowOpen,
 		isGamesNavWindowOpen,
 		isSettingsWindowOpen
 	} from '../../routes/stores';
+	import { beforeNavigate } from '$app/navigation';
+	import { throttle } from '$lib/utils/throttle';
 
 	let parent: HTMLDivElement;
-	// let isSideNavWindowOpen: boolean = $isSideNavWindowOpen;
-	// let isSiteSettingsWindowOpen: boolean = false;
-	// let isGamesNavWindowOpen: boolean = false;
+
+	function updateFlexClasses() {
+		if (!parent) return;
+		const children = Array.from(parent.children) as HTMLElement[];
+
+		const windowBodies = Array.from(
+			parent.querySelectorAll<HTMLElement>('.window-body:not(.hidden)')
+		) as HTMLElement[];
+		console.log('windowBodies', windowBodies);
+		const totalHeight = windowBodies.reduce((sum, el) => sum + el.scrollHeight + 32, 0);
+		const parentHeight = parent.clientHeight;
+		console.log('totalHeight', totalHeight);
+		console.log('parentHeight', parentHeight);
+
+		const miniWindowContainers = Array.from(parent.children) as HTMLElement[];
+
+		console.log('miniWindowContainers', miniWindowContainers);
+		miniWindowContainers.forEach((el) => {
+			// el;
+			// el.classList.toggle('flex-1', totalHeight > parentHeight);
+			let windowBody = el.querySelector('.window-body') as HTMLElement;
+			console.log('windowBody', windowBody);
+			if (!windowBody) return;
+			console.log(
+				`windowBody scrollHeight ${windowBody.scrollHeight} clientHeight ${windowBody.clientHeight}`
+			);
+			let shouldFlex =
+				windowBody.scrollHeight > (parentHeight - 32 * miniWindowContainers.length) / 3;
+			el.classList.toggle('flex-1', shouldFlex);
+		});
+	}
 
 	onMount(() => {
-		$isSideNavWindowOpen = true;
-		$isSettingsWindowOpen = true;
-		$isGamesNavWindowOpen = true;
+		// $isSideNavWindowOpen = true;
+		// $isSettingsWindowOpen = true;
+		// $isGamesNavWindowOpen = true;
+
+		updateFlexClasses();
+		window.addEventListener('resize', throttle(updateFlexClasses, 100));
+
+		return () => {
+			window.removeEventListener('resize', updateFlexClasses);
+		};
+	});
+
+	beforeUpdate(() => {
+		updateFlexClasses();
 	});
 </script>
 
@@ -27,7 +68,7 @@
 	bind:this={parent}
 	class="flex flex-col w-full h-dvh max-h-dvh overflow-y-auto bg-white dark:bg-neutral-800"
 >
-	<div class="flex flex-col min-h-8 h-fit max-h-fit max-h-fit-firefox overflow-y-auto flex-1">
+	<div class="flex flex-col min-h-8 h-fit max-h-fit max-h-fit-firefox overflow-y-auto">
 		<MiniWindow
 			isMaximized={$isSideNavWindowOpen}
 			title="QuickGamez.com"
@@ -43,7 +84,7 @@
 			<SideNav />
 		</MiniWindow>
 	</div>
-	<div class="flex flex-col min-h-8 h-fit max-h-fit max-h-fit-firefox overflow-y-auto flex-1">
+	<div class="flex flex-col min-h-8 h-fit max-h-fit max-h-fit-firefox overflow-y-auto">
 		<MiniWindow
 			isMaximized={$isGamesNavWindowOpen}
 			title="Games"
@@ -58,7 +99,7 @@
 			<Games />
 		</MiniWindow>
 	</div>
-	<div class="flex flex-col min-h-8 h-fit max-h-fit max-h-fit-firefox overflow-y-auto flex-1">
+	<div class="flex flex-col min-h-8 h-fit max-h-fit max-h-fit-firefox overflow-y-auto">
 		<MiniWindow
 			title="Site Settings"
 			icon={IoSettingsOutline}

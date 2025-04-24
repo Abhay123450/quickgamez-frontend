@@ -7,6 +7,7 @@
 	import { IoNotificationsSharp } from 'svelte-icons-pack/io';
 	import { BsPersonCircle } from 'svelte-icons-pack/bs';
 	import { AiFillAccountBook } from 'svelte-icons-pack/ai';
+	import { throttle } from '$lib/utils/throttle';
 
 	let parent: HTMLDivElement;
 	// let screenHeight: number;
@@ -24,18 +25,51 @@
 	// 	console.log('child count', childCount);
 	// });
 
+	function updateFlexClasses() {
+		if (!parent) return;
+		const children = Array.from(parent.children) as HTMLElement[];
+
+		const windowBodies = Array.from(
+			parent.querySelectorAll<HTMLElement>('.window-body:not(.hidden)')
+		) as HTMLElement[];
+		console.log('windowBodies', windowBodies);
+		const totalHeight = windowBodies.reduce((sum, el) => sum + el.scrollHeight + 32, 0);
+		const parentHeight = parent.clientHeight;
+		console.log('totalHeight', totalHeight);
+		console.log('parentHeight', parentHeight);
+
+		const miniWindowContainers = Array.from(parent.children) as HTMLElement[];
+
+		console.log('miniWindowContainers', miniWindowContainers);
+		miniWindowContainers.forEach((el) => {
+			let windowBody = el.querySelector('.window-body') as HTMLElement;
+			console.log('windowBody', windowBody);
+			if (!windowBody) return;
+			console.log(
+				`windowBody scrollHeight ${windowBody.scrollHeight} clientHeight ${windowBody.clientHeight}`
+			);
+			let shouldFlex =
+				windowBody.scrollHeight > (parentHeight - 32 * miniWindowContainers.length) / 3;
+			el.classList.toggle('flex-1', shouldFlex);
+		});
+	}
+
 	onMount(() => {
-		$isNotificationWindowOpen = true;
-		$isMyAccountWindowOpen = true;
+		updateFlexClasses();
+		window.addEventListener('resize', throttle(updateFlexClasses, 500));
+
+		return () => {
+			window.removeEventListener('resize', updateFlexClasses);
+		};
+	});
+
+	beforeUpdate(() => {
+		updateFlexClasses();
 	});
 </script>
 
-<div
-	bind:this={parent}
-	bind:clientHeight={parentHeight}
-	class="flex flex-col w-full h-dvh max-h-dvh overflow-hidden"
->
-	<div class="flex flex-col min-h-8 h-fit max-h-fit max-h-fit-firefox overflow-y-auto flex-1">
+<div bind:this={parent} class="flex flex-col w-full h-dvh max-h-dvh overflow-y-auto">
+	<div class="flex flex-col min-h-8 h-fit max-h-fit max-h-fit-firefox overflow-y-auto">
 		<MiniWindow
 			isMaximized={$isMyAccountWindowOpen}
 			title="My Account"
@@ -51,7 +85,7 @@
 			<MyAccountWindow />
 		</MiniWindow>
 	</div>
-	<div class="flex flex-col min-h-8 h-fit max-h-fit max-h-fit-firefox overflow-y-auto flex-1">
+	<div class="flex flex-col min-h-8 h-fit max-h-fit max-h-fit-firefox overflow-y-auto">
 		<MiniWindow
 			isMaximized={$isNotificationWindowOpen}
 			icon={IoNotificationsSharp}
@@ -67,7 +101,7 @@
 			<NotificationWindow />
 		</MiniWindow>
 	</div>
-	<div class="flex flex-col min-h-8 h-fit max-h-fit max-h-fit-firefox overflow-y-auto flex-1">
+	<!-- <div class="flex flex-col min-h-8 h-fit max-h-fit max-h-fit-firefox overflow-y-auto flex-1">
 		<MiniWindow
 			isMaximized={$isNotificationWindowOpen}
 			icon={IoNotificationsSharp}
@@ -82,7 +116,7 @@
 		>
 			<NotificationWindow />
 		</MiniWindow>
-	</div>
+	</div> -->
 
 	<!-- <div class="flex flex-col flex-1 shrink min-h-8 h-fit overflow-y-auto">
 		<NotificationWindow />
