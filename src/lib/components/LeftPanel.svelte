@@ -4,53 +4,41 @@
 	import SiteSettings from './SiteSettings.svelte';
 	import SideNav from './SideNav.svelte';
 	import Games from './Games.svelte';
-	import { afterUpdate, beforeUpdate, onMount } from 'svelte';
+	import { beforeUpdate, onMount } from 'svelte';
 	import {
 		isSideNavWindowOpen,
 		isGamesNavWindowOpen,
 		isSettingsWindowOpen
 	} from '../../routes/stores';
-	import { beforeNavigate } from '$app/navigation';
 	import { throttle } from '$lib/utils/throttle';
 
 	let parent: HTMLDivElement;
 
 	function updateFlexClasses() {
 		if (!parent) return;
+		const WINDOW_HEADER_HEIGHT = 32;
 		const children = Array.from(parent.children) as HTMLElement[];
 
 		const windowBodies = Array.from(
 			parent.querySelectorAll<HTMLElement>('.window-body:not(.hidden)')
 		) as HTMLElement[];
-		console.log('windowBodies', windowBodies);
 		const totalHeight = windowBodies.reduce((sum, el) => sum + el.scrollHeight + 32, 0);
 		const parentHeight = parent.clientHeight;
-		console.log('totalHeight', totalHeight);
-		console.log('parentHeight', parentHeight);
 
 		const miniWindowContainers = Array.from(parent.children) as HTMLElement[];
 
-		console.log('miniWindowContainers', miniWindowContainers);
 		miniWindowContainers.forEach((el) => {
-			// el;
-			// el.classList.toggle('flex-1', totalHeight > parentHeight);
 			let windowBody = el.querySelector('.window-body') as HTMLElement;
-			console.log('windowBody', windowBody);
 			if (!windowBody) return;
-			console.log(
-				`windowBody scrollHeight ${windowBody.scrollHeight} clientHeight ${windowBody.clientHeight}`
-			);
 			let shouldFlex =
-				windowBody.scrollHeight > (parentHeight - 32 * miniWindowContainers.length) / 3;
+				windowBody.scrollHeight >
+				(parentHeight - WINDOW_HEADER_HEIGHT * miniWindowContainers.length) /
+					parent.children.length;
 			el.classList.toggle('flex-1', shouldFlex);
 		});
 	}
 
 	onMount(() => {
-		// $isSideNavWindowOpen = true;
-		// $isSettingsWindowOpen = true;
-		// $isGamesNavWindowOpen = true;
-
 		updateFlexClasses();
 		window.addEventListener('resize', throttle(updateFlexClasses, 100));
 
@@ -80,7 +68,6 @@
 				$isSideNavWindowOpen = false;
 			}}
 		>
-			<!-- <Games /> -->
 			<SideNav />
 		</MiniWindow>
 	</div>

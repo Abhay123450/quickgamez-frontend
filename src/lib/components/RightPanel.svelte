@@ -1,55 +1,37 @@
 <script lang="ts">
-	import { afterUpdate, beforeUpdate, onMount } from 'svelte';
+	import { beforeUpdate, onMount } from 'svelte';
 	import MiniWindow from './MiniWindow.svelte';
 	import NotificationWindow from './NotificationWindow.svelte';
 	import MyAccountWindow from './MyAccountWindow.svelte';
-	import { isMyAccountWindowOpen, isNotificationWindowOpen } from '../../routes/stores';
+	import {
+		isMyAccountWindowOpen,
+		isNotificationWindowOpen,
+		showGameLog
+	} from '../../routes/stores';
 	import { IoNotificationsSharp } from 'svelte-icons-pack/io';
 	import { BsPersonCircle } from 'svelte-icons-pack/bs';
-	import { AiFillAccountBook } from 'svelte-icons-pack/ai';
 	import { throttle } from '$lib/utils/throttle';
+	import GameLog from './GameLog.svelte';
 
 	let parent: HTMLDivElement;
-	// let screenHeight: number;
-	// let childCount: number;
-	// let childHeight: number;
-	let parentHeight: number;
-	let accountWindowHeight: number;
-	let notificationWindowHeight1: number;
-	let notificationWindowHeight2: number;
-	let perChildHeight: number;
-
-	// onMount(() => {
-	// 	screenHeight = window.innerHeight;
-	// 	childCount = parent.children.length;
-	// 	console.log('child count', childCount);
-	// });
 
 	function updateFlexClasses() {
 		if (!parent) return;
-		const children = Array.from(parent.children) as HTMLElement[];
 
 		const windowBodies = Array.from(
 			parent.querySelectorAll<HTMLElement>('.window-body:not(.hidden)')
 		) as HTMLElement[];
 		console.log('windowBodies', windowBodies);
-		const totalHeight = windowBodies.reduce((sum, el) => sum + el.scrollHeight + 32, 0);
 		const parentHeight = parent.clientHeight;
-		console.log('totalHeight', totalHeight);
-		console.log('parentHeight', parentHeight);
 
 		const miniWindowContainers = Array.from(parent.children) as HTMLElement[];
 
-		console.log('miniWindowContainers', miniWindowContainers);
 		miniWindowContainers.forEach((el) => {
 			let windowBody = el.querySelector('.window-body') as HTMLElement;
-			console.log('windowBody', windowBody);
 			if (!windowBody) return;
-			console.log(
-				`windowBody scrollHeight ${windowBody.scrollHeight} clientHeight ${windowBody.clientHeight}`
-			);
 			let shouldFlex =
-				windowBody.scrollHeight > (parentHeight - 32 * miniWindowContainers.length) / 3;
+				windowBody.scrollHeight >
+				(parentHeight - 32 * miniWindowContainers.length) / miniWindowContainers.length;
 			el.classList.toggle('flex-1', shouldFlex);
 		});
 	}
@@ -80,7 +62,6 @@
 			on:minimize={() => {
 				$isMyAccountWindowOpen = false;
 			}}
-			bind:clientHeight={accountWindowHeight}
 		>
 			<MyAccountWindow />
 		</MiniWindow>
@@ -96,34 +77,17 @@
 			on:minimize={() => {
 				$isNotificationWindowOpen = false;
 			}}
-			bind:clientHeight={notificationWindowHeight1}
 		>
 			<NotificationWindow />
 		</MiniWindow>
 	</div>
-	<!-- <div class="flex flex-col min-h-8 h-fit max-h-fit max-h-fit-firefox overflow-y-auto flex-1">
-		<MiniWindow
-			isMaximized={$isNotificationWindowOpen}
-			icon={IoNotificationsSharp}
-			title="Notifications"
-			on:maximize={() => {
-				$isNotificationWindowOpen = true;
-			}}
-			on:minimize={() => {
-				$isNotificationWindowOpen = false;
-			}}
-			bind:clientHeight={notificationWindowHeight2}
-		>
-			<NotificationWindow />
-		</MiniWindow>
-	</div> -->
-
-	<!-- <div class="flex flex-col flex-1 shrink min-h-8 h-fit overflow-y-auto">
-		<NotificationWindow />
-	</div>
-	<div class="flex flex-col flex-1 shrink min-h-8 h-fit overflow-y-auto">
-		<NotificationWindow />
-	</div> -->
+	{#if $showGameLog}
+		<div class="flex flex-col min-h-8 h-fit max-h-fit max-h-fit-firefox overflow-y-auto">
+			<MiniWindow isMaximized={true} icon={IoNotificationsSharp} title="Game Log">
+				<GameLog />
+			</MiniWindow>
+		</div>
+	{/if}
 </div>
 
 <style>

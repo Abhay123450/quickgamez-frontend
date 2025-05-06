@@ -14,6 +14,7 @@
 	import { onMount } from 'svelte';
 	import { Icon } from 'svelte-icons-pack';
 	import { pushState } from '$app/navigation';
+	import UserAvatar from './common/UserAvatar.svelte';
 
 	// let user: User | null = $userDetails;
 
@@ -23,13 +24,13 @@
 	function openLogin() {
 		$isLoginPanelOpen = true;
 		$loginActiveTab = 1;
-		pushState('', { isLoginPanelOpen: true });
+		pushState('', { ...$page.state, isLoginPanelOpen: true, loginActiveTab: 1 });
 	}
 
 	function openSignup() {
 		$isLoginPanelOpen = true;
 		$loginActiveTab = 0;
-		pushState('', { isLoginPanelOpen: true });
+		pushState('', { ...$page.state, isLoginPanelOpen: true, loginActiveTab: 0 });
 	}
 
 	export async function getUserInfo(): Promise<User | null> {
@@ -104,12 +105,19 @@
 
 <div class="relative flex flex-col w-full h-auto p-1 bg-white rounded-b overflow-y-auto">
 	{#if $userDetails}
-		<!-- user details -->
-		<p class="text-lg font-semibold line-clamp-1">
-			{$userDetails.name}
-		</p>
+		<div class="flex flex-row w-full h-fit ps-1 mb-1">
+			<div class="flex flex-col w-fit h-fit self-center">
+				<UserAvatar avatarUrl={$userDetails.avatar} className="w-12 h-12" />
+			</div>
+			<div class="flex flex-col w-full h-fit ps-2">
+				<!-- user details -->
+				<p class="text-lg font-semibold line-clamp-1">
+					{$userDetails.name}
+				</p>
 
-		<p class="text-base font-normal line-clamp-1">@{$userDetails.username}</p>
+				<p class="text-base font-normal line-clamp-1">@{$userDetails.username}</p>
+			</div>
+		</div>
 
 		<a
 			href="/users/profile/my-profile"

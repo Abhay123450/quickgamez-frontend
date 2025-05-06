@@ -23,8 +23,6 @@
 			dispatch('minimize');
 		}
 		$refreshRightPanel = !$refreshRightPanel;
-		console.info(`toggleMaximize ${isMaximized}`);
-		console.info(`refreshRightPanel ${$refreshRightPanel}`);
 	}
 
 	onMount(() => {
@@ -38,14 +36,18 @@
 	});
 </script>
 
-<section bind:clientHeight class="flex flex-col w-full h-fit max-h-full rounded-md">
+<section
+	bind:clientHeight
+	class="flex flex-col w-full h-fit max-h-full rounded-md"
+	aria-labelledby={`window-title-${title}`}
+>
 	<!-- head -->
 	<button
 		on:click={toggleMaximize}
-		class="flex flex-row w-full h-8 px-1 space-x-1 rounded border border-neutral-500 bg-yellow-200 align-middle shrink-0 sticky top-0"
+		class="flex flex-row w-full h-8 px-1 space-x-1 border rounded-md border-neutral-500 bg-yellow-200 align-middle shrink-0 sticky top-0"
 	>
 		<Icon src={icon} className="w-6 h-6 self-center" />
-		<h2 class="w-full h-fit p-1 self-center text-left">{title}</h2>
+		<h2 id={`window-title-${title}`} class="w-full h-fit p-1 self-center text-left">{title}</h2>
 		<div class="flex flex-row w-fit h-full space-x-1">
 			<!-- <div
 				class="flex flex-col w-6 h-6 self-center text-center rounded-md active:shadow-inner text-neutral-800"

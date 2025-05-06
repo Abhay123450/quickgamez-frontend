@@ -1,5 +1,5 @@
 import { Theme } from '$lib/constants/theme.enum';
-import type { Comment } from '$lib/types/Comment';
+import type { GameLog } from '$lib/types/GameLog';
 import type { User } from '$lib/types/User';
 import { writable, type Writable } from 'svelte/store';
 
@@ -8,15 +8,18 @@ export let isRightPanelOpen: Writable<boolean> = writable(false);
 export let theme: Writable<Theme> = writable(Theme.Default);
 
 /** Left Panel Windows START*/
-export let isSideNavWindowOpen: Writable<boolean> = writable(false);
-export let isSettingsWindowOpen: Writable<boolean> = writable(false);
-export let isGamesNavWindowOpen: Writable<boolean> = writable(false);
+export let isSideNavWindowOpen: Writable<boolean> = writable(true);
+export let isSettingsWindowOpen: Writable<boolean> = writable(true);
+export let isGamesNavWindowOpen: Writable<boolean> = writable(true);
 /** Left Panel END*/
 
 /** Right Panel Windows START*/
-export let isMyAccountWindowOpen: Writable<boolean> = writable(false);
-export let isNotificationWindowOpen: Writable<boolean> = writable(false);
+export let isMyAccountWindowOpen: Writable<boolean> = writable(true);
+export let isNotificationWindowOpen: Writable<boolean> = writable(true);
 /** Right Panel END*/
+
+/** IS GAME IN PROGRESS */
+export let isGameInProgess: Writable<boolean> = writable(false);
 
 /** TOAST START*/
 export interface Toast {
@@ -64,3 +67,47 @@ export let refreshRightPanel: Writable<boolean> = writable(false);
 /** User Details START */
 export let userDetails: Writable<User | null> = writable(null);
 /** User Details END */
+
+/** Cookie Settings */
+export let showCookieSettings: Writable<boolean> = writable(false);
+/** Cookie Settings */
+
+/** Game Log START */
+export let showGameLog: Writable<boolean> = writable(false);
+export const gameLog: Writable<GameLog[]> = writable<GameLog[]>([
+	{
+		timestamp: new Date(),
+		message: 'Game started heading kjsldlkas ccnklncklcnmc lmcnlc mlnvkl vclk vclknvc.',
+		type: 'info'
+	},
+	{
+		timestamp: new Date(),
+		message: 'Game started',
+		type: 'success'
+	},
+	{
+		timestamp: new Date(),
+		message: 'Your guess: A is correct',
+		type: 'error'
+	},
+	{
+		timestamp: new Date(),
+		message: 'Game started',
+		type: 'neutral'
+	},
+	{
+		timestamp: new Date(),
+		message: 'Game started',
+		type: 'warning'
+	}
+]);
+
+export function addGameLog(log: GameLog) {
+	gameLog.update((all) => [...all, log]);
+}
+
+export function clearGameLog() {
+	gameLog.set([]);
+}
+
+/** Game Log END */
