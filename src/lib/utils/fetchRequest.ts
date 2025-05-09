@@ -277,8 +277,8 @@ export async function fetchWithTokenRefresh<T>(
 	try {
 		request = {
 			headers: {
-				...request.headers,
-				'Content-Type': 'application/json'
+				'Content-Type': 'application/json',
+				...request.headers
 			},
 			credentials: 'include',
 			...request
@@ -293,6 +293,9 @@ export async function fetchWithTokenRefresh<T>(
 			return [{ error: 'An error occurred', errorCode: 'UNKNOWN' }, null];
 		}
 
+		if (!responseJson.success && responseJson.errorCode === 'VALIDATION_ERROR') {
+			return [{ error: responseJson.errors, errorCode: responseJson.errorCode }, null];
+		}
 		if (!responseJson.success && responseJson.errorCode === 'TOKEN_EXPIRED') {
 			const [error, isLoggedIn] = await refreshLogin(url.origin);
 			if (error) {
@@ -306,6 +309,8 @@ export async function fetchWithTokenRefresh<T>(
 				return [{ error: responseJson.message, errorCode: responseJson.errorCode }, null];
 			}
 			return [null, responseJson.data];
+		} else if (!responseJson.success) {
+			return [{ error: responseJson.message, errorCode: responseJson.errorCode }, null];
 		}
 		return [null, responseJson.data];
 	} catch (error) {
