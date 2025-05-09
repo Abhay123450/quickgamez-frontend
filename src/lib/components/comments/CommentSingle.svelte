@@ -8,6 +8,7 @@
 		BiDotsVerticalRounded
 	} from 'svelte-icons-pack/bi';
 	import { BsFlag, BsReply } from 'svelte-icons-pack/bs';
+	import { IoClose, IoTrashOutline } from 'svelte-icons-pack/io';
 	import type { Comment } from '$lib/types/Comment';
 	import { createEventDispatcher } from 'svelte';
 	import Replies from './Replies.svelte';
@@ -17,10 +18,8 @@
 	import { addToast, isLoggedIn, userDetails } from '../../../routes/stores';
 	import Dialog from '../Dialog.svelte';
 	import { pushState, replaceState } from '$app/navigation';
-	import { AiOutlineDelete } from 'svelte-icons-pack/ai';
-	import { IoClose, IoFlagOutline, IoTrashOutline, IoWarningOutline } from 'svelte-icons-pack/io';
-	import { OiCopilotWarning16 } from 'svelte-icons-pack/oi';
 	import { fade, fly, slide } from 'svelte/transition';
+	import UserAvatar from '../common/UserAvatar.svelte';
 
 	const dispatchNewReply = createEventDispatcher<{ newReply: Comment }>();
 
@@ -238,11 +237,12 @@
 	class="relative flex flex-col w-full min-w-full max-w-3xl p-2 mt-2 rounded-md border border-neutral-300"
 >
 	<header class="flex space-x-2 w-full h-fit">
-		<picture
+		<!-- <picture
 			class=" flex items-end justify-center w-10 h-10 border border-neutral-300 rounded-full overflow-clip bg-yellow-200"
 		>
 			<img class="w-11/12 h-11/12" src="/avatars/{comment.user.avatar || '1.svg'}" alt="avatar" />
-		</picture>
+		</picture> -->
+		<UserAvatar avatarUrl={comment.user.avatar} className="w-10 h-10" />
 		<div class="flex flex-col">
 			<p class="font-semibold text-base">
 				{comment.user.name}
@@ -288,7 +288,7 @@
 			class:text-blue-600={comment.myReaction === 'like'}
 			on:click={async () => {
 				if (!$isLoggedIn) {
-					pushState('', { requireLogin: true });
+					pushState('', { ...$page.state, requireLogin: true });
 					return;
 				}
 				const myReaction = comment.myReaction;
@@ -316,7 +316,7 @@
 			class=" flex flex-row text-neutral-600 p-1 items-center rounded-full hover:bg-neutral-200"
 			on:click={async () => {
 				if (!$isLoggedIn) {
-					pushState('', { requireLogin: true });
+					pushState('', { ...$page.state, requireLogin: true });
 					return;
 				}
 				const myReaction = comment.myReaction;
@@ -494,8 +494,7 @@
 		btnTextPositive="Login"
 		btnTextNegative="Cancel"
 		callbackFunctionPositive={() => {
-			replaceState('', { requireLogin: false });
-			pushState('', { isLoginPanelOpen: true });
+			replaceState('', { ...$page.state, requireLogin: false, isLoginPanelOpen: true });
 		}}
 	/>
 {/if}

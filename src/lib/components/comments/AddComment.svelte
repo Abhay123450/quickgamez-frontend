@@ -5,6 +5,7 @@
 	import type { Comment } from '$lib/types/Comment';
 	import { fetchWithTokenRefresh } from '$lib/utils/fetchRequest';
 	import { page } from '$app/stores';
+	import { pushState } from '$app/navigation';
 	const dispatch = createEventDispatcher();
 
 	export let isReply = false;
@@ -67,6 +68,10 @@
 		isProcessing = false;
 	}
 
+	function openLoginPanel() {
+		pushState('', { ...$page.state, isLoginPanelOpen: true });
+	}
+
 	onMount(() => {
 		if (textArea) {
 			textArea.focus();
@@ -81,7 +86,7 @@
 	out:slide={{ duration: 400 }}
 >
 	<form
-		class=" flex flex-col self-center w-full max-w-3xl rounded-md shadow-neutral-300 border bg-white border-gray-400"
+		class=" flex flex-col self-center w-full max-w-3xl rounded-md shadow-neutral-300 border bg-white border-neutral-400"
 		on:submit={postComment}
 	>
 		{#if isReply}
@@ -109,7 +114,7 @@
 			{:else}
 				<button
 					class="w-fit px-4 py-1 bg-yellow-300 rounded-md m-1"
-					on:click={() => ($isLoginPanelOpen = true)}
+					on:click={openLoginPanel}
 					type="button">Login to comment</button
 				>
 			{/if}

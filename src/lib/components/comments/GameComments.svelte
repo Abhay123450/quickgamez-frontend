@@ -6,8 +6,8 @@
 	import AddComment from './AddComment.svelte';
 	import Dialog from '../Dialog.svelte';
 	import { getCommentsFromLocalStorage, saveCommentsToLocalStorage } from '$lib/utils/localStorage';
-	import LoadingSpin from './LoadingSpin.svelte';
-	import SelectOptions from './SelectOptions.svelte';
+	import LoadingSpin from '../common/LoadingSpin.svelte';
+	import SelectOptions from '../common/SelectOptions.svelte';
 
 	export let game: string;
 	export let isWritingComment: boolean = false;
@@ -83,7 +83,7 @@
 			return null;
 		}
 		isLoading = false;
-		console.log(`comments response ${JSON.stringify(data.data)}`);
+		// console.log(`comments response ${JSON.stringify(data.data)}`);
 		return data.data as Comment[];
 	}
 
@@ -166,7 +166,7 @@
 
 	{#if !isWritingComment}
 		<button
-			class="w-full max-w-3xl rounded-md border border-gray-400 px-2 py-1 mt-2 text-left"
+			class="w-full max-w-3xl rounded-md border border-neutral-400 px-2 py-1 mt-2 text-left"
 			on:click={() => (isWritingComment = true)}
 		>
 			Write a comment...

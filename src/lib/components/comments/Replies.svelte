@@ -3,8 +3,7 @@
 	import { onMount } from 'svelte';
 	import CommentSingle from './CommentSingle.svelte';
 	import type { Comment } from '$lib/types/Comment';
-	import LoadingSpin from './LoadingSpin.svelte';
-	import AboutGame from './AboutGame.svelte';
+	import LoadingSpin from '../common/LoadingSpin.svelte';
 	import { getRepliesFromLocalStorage, saveRepliesToLocalStorage } from '$lib/utils/localStorage';
 
 	export let commentId: string = '';
