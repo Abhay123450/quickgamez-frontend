@@ -1,75 +1,177 @@
 <script lang="ts">
 	import '../app.css';
 	import { fade, fly } from 'svelte/transition';
-	import { theme, isLeftPanelOpen, toasts } from './stores';
+	import { theme, isGameInProgess } from './stores';
 	import { trapFocus } from '$lib/actions';
 	import ToastContainer from '$lib/components/common/ToastContainer.svelte';
-	import HomePageOptions from './HomePageOptions.svelte';
 	import { Theme } from '$lib/constants/theme.enum';
-	// import SideNav from '$lib/components/nav/SideNav.svelte';
-	// let isLeftCollapsed = isLeftPanelOpen.subscribe;
+	import SignIn from '$lib/components/SignIn/SignIn.svelte';
+	import RightPanel from '$lib/components/RightPanel.svelte';
+	import LeftPanel from '$lib/components/LeftPanel.svelte';
+	import { onMount } from 'svelte';
+	import Dialog from '$lib/components/Dialog.svelte';
+	import { goto, pushState, replaceState } from '$app/navigation';
+	import { page } from '$app/stores';
+	import { Icon } from 'svelte-icons-pack';
+	import { IoClose } from 'svelte-icons-pack/io';
+	import CookiePolicy from '$lib/components/CookiePolicy.svelte';
 
-	// isLeftPanelOpen.subscribe((isOpen) => {
-	// 	isLeftCollapsed = !isOpen;
-	// 	isLeftCollapsed = isLeftCollapsed;
-	// });
+	let href = '';
 
-	function toggleLeft() {
-		isLeftPanelOpen.update((isOpen) => !isOpen);
-	}
+	onMount(() => {
+		function handleLinkClick(e: MouseEvent) {
+			// Add some debug logs
+			// console.log('Click detected', e);
+			// console.log('Game in progress?', $isGameInProgess);
+
+			const target = e.target as HTMLElement;
+			const anchor = target.closest('a');
+
+			if (anchor) {
+				// console.log('Anchor found:', anchor);
+				// console.log('href:', anchor.getAttribute('href'));
+			}
+
+			if (anchor && $isGameInProgess) {
+				// console.log('Should prevent navigation');
+
+				// Prevent default more aggressively
+				e.preventDefault();
+				e.stopPropagation();
+
+				const linkHref = anchor.getAttribute('href') || '';
+				// console.log('Setting href to:', linkHref);
+
+				// Use setTimeout to ensure this runs after other handlers
+				setTimeout(() => {
+					href = linkHref;
+					pushState('', { showPageNavigationDialog: true });
+				}, 0);
+
+				return false; // Also return false for good measure
+			}
+		}
+
+		// Use capture phase to ensure this runs before other handlers
+		document.addEventListener('click', handleLinkClick, true);
+
+		// console.log('isLeftPanelOpen onmount', $page.state.isLeftPanelOpen);
+
+		// Clean up on component destruction
+		return () => {
+			document.removeEventListener('click', handleLinkClick, true);
+		};
+	});
 </script>
 
-<div class="min-h-screen w-full flex flex-col lg:flex-row lg:justify-center">
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+<!-- svelte-ignore a11y-no-static-element-interactions -->
+<div class="min-h-dvh w-full flex flex-col lg:flex-row lg:justify-center">
 	<!-- Left Section-->
-	<div
-		class="fixed left-0 top-0 h-lvh max-h-lvh w-full bg-transparent max-w-xl
-		flex flex-row z-10 lg:flex lg:bg-white lg:static lg:basis-1/4 xl:basis-1/5
-		{$theme === Theme.Dark ? 'bg-gray-800 text-neutral-200' : 'bg-white text-black'} bg-gray-200"
-		class:hidden={!$isLeftPanelOpen}
-	>
-		<div class="flex flex-col basis-11/12 lg:basis-full bg-white h-lvh">
-			<a class="self-center" href="/">
-				<img class="w-48 h-auto" src="/images/logo.webp" alt="logo" />
-			</a>
-			<HomePageOptions />
-		</div>
-		<!-- svelte-ignore a11y-click-events-have-key-events -->
-		<!-- svelte-ignore a11y-no-static-element-interactions -->
-		<!-- clicking outside left panel will close the left panel -->
-		<div class="flex flex-col basis-1/12 w-full lg:hidden h-full" on:click={toggleLeft}>
-			<button class="w-full h-auto bg-white opacity-100">
-				<img class="w-full h-auto" src="/icons/cross_icon.svg" alt="close" />
-			</button>
-			<div class="w-full h-full bg-black opacity-50">
-				<!-- <img class="" src="/icons/cross_icon.svg" alt="close" /> -->
+	{#key $page.state.isLeftPanelOpen}
+		<div
+			class="fixed left-0 top-0 min-h-dvh h-dvh max-h-dvh w-full bg-transparent flex flex-row z-40 xl:z-0 xl:flex xl:bg-white xl:static xl:basis-1/5
+				{$theme === Theme.Dark ? 'bg-gray-800 text-neutral-200' : 'bg-transparent text-black'} bg-gray-200"
+			class:hidden={!$page.state.isLeftPanelOpen}
+			use:trapFocus
+		>
+			<!-- svelte-ignore a11y-click-events-have-key-events -->
+			<!-- svelte-ignore a11y-no-static-element-interactions -->
+			<!-- clicking outside left panel will close the left panel -->
+			<div
+				class="flex flex-row w-full h-full bg-black bg-opacity-50 xl:place-content-end"
+				in:fade={{ duration: 300 }}
+				out:fade={{ duration: 300 }}
+			>
+				<div
+					class="flex flex-col flex-shrink-0 basis-11/12 max-w-md xl:basis-full bg-white h-full overflow-auto scrollbar-thin"
+					in:fly={{ x: -500, duration: 300 }}
+					out:fly={{ x: -500, duration: 300 }}
+				>
+					<LeftPanel />
+				</div>
+				<div
+					class="flex flex-col w-full xl:hidden h-full cursor-pointer"
+					on:click|stopPropagation={() => {
+						history.back();
+						console.log('poping', history.state);
+					}}
+				>
+					<button
+						class="w-full h-auto max-w-10 bg-white opacity-100 text-black"
+						in:fly={{ y: -50, duration: 300 }}
+						out:fly={{ y: -50, duration: 300 }}
+						aria-label="Close"
+					>
+						<Icon src={IoClose} className="w-full h-auto" />
+					</button>
+				</div>
 			</div>
 		</div>
-	</div>
+	{/key}
 
-	<!-- Middle Section -->
+	<!-- Middle Section (main content) -->
 	<main
-		class="w-full min-h-lvh h-lvh max-h-lvh lg:basis-3/4 xl:basis-3/5 flex flex-col bg-yellow-100"
+		class="w-full min-h-dvh h-dvh max-h-dvh lg:basis-3/4 xl:basis-3/5 flex flex-col bg-yellow-100"
 	>
-		<!-- <nav class="flex flex-row w-full bg-white">
-			<div class="flex place-items-end">
-				<i class="flex w-9 h-9 bg-white">
-					<button on:click={toggleLeft}><img src="/icons/menu_icon.svg" alt="menu" /></button>
-				</i>
-				<i class="flex w-9 h-9 bg-white">
-					<a href="/"> <button><img src="/icons/home_icon.svg" alt="menu" /></button></a>
-				</i>
-			</div>
-
-			<p>Home Page</p>
-		</nav> -->
 		<ToastContainer />
 		<slot />
 	</main>
 
-	<!-- Right Section -->
-	<div class="hidden xl:basis-1/5 xl:flex xl:w-full h-lvh max-h-lvh bg-white">
-		<div>
-			<!-- <p class="text-center text-gray-600">Right Section</p> -->
+	<!-- Right Section-->
+	{#key $page.state.isRightPanelOpen}
+		<div
+			class="fixed right-0 top-0 h-dvh max-h-dvh w-full bg-transparent flex flex-col z-40 lg:z-0 lg:flex lg:bg-white lg:static lg:basis-1/4 xl:basis-1/5
+				{$theme === Theme.Dark ? 'bg-gray-800 text-neutral-200' : 'bg-transparent text-black'} bg-gray-200"
+			class:hidden={!$page.state.isRightPanelOpen}
+		>
+			<!-- svelte-ignore a11y-click-events-have-key-events -->
+			<!-- svelte-ignore a11y-no-static-element-interactions -->
+			<!-- clicking outside right panel will close the right panel -->
+			<div
+				class="flex flex-row-reverse lg:flex-row w-full h-full max-h-full bg-black bg-opacity-50"
+				in:fade={{ duration: 300 }}
+				out:fade={{ duration: 300 }}
+			>
+				<div
+					class="flex flex-col flex-shrink-0 basis-11/12 lg:basis-full max-w-md bg-white h-full max-h-full border-r border-gray-400"
+					in:fly={{ x: 500, duration: 300 }}
+					out:fly={{ x: 500, duration: 300 }}
+				>
+					<!-- content -->
+					<RightPanel />
+				</div>
+				<div
+					class="flex flex-col w-full lg:hidden h-full cursor-pointer"
+					on:click|stopPropagation={() => history.back()}
+				>
+					<button
+						class="w-full h-auto max-w-10 bg-white opacity-100 place-self-end text-black"
+						in:fly={{ y: -50, duration: 300 }}
+						out:fly={{ y: -50, duration: 300 }}
+					>
+						<Icon src={IoClose} className="w-full h-auto" />
+					</button>
+				</div>
+			</div>
 		</div>
-	</div>
+	{/key}
+	<!-- Login Modal -->
+	{#if $page.state.isLoginPanelOpen}
+		<SignIn />
+	{/if}
+
+	{#if $page.state.showPageNavigationDialog}
+		<Dialog
+			title="Confirm Navigation"
+			message="Are you sure you want to navigate away from this page?"
+			isCancellable={true}
+			callbackFunctionPositive={() => {
+				replaceState('', { showPageNavigationDialog: false });
+				goto(href);
+			}}
+		/>
+	{/if}
+
+	<CookiePolicy />
 </div>

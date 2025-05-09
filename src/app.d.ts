@@ -5,7 +5,20 @@ declare global {
 		// interface Error {}
 		// interface Locals {}
 		// interface PageData {}
-		// interface PageState {}
+		interface PageState {
+			isLeftPanelOpen?: boolean;
+			isRightPanelOpen?: boolean;
+			isLoginPanelOpen?: boolean;
+			showPageNavigationDialog?: boolean;
+			requireLogin?: boolean;
+			showDeleteCommentDialog?: boolean;
+			showCommentReportDialog?: boolean;
+			showAvatarSelectionDialog?: boolean;
+			loginActiveTab?: number;
+			guessTheMovieActiveTab?: number;
+			showHowToPlayDialog?: boolean;
+			showTutorial?: boolean;
+		}
 		// interface Platform {}
 	}
 }
