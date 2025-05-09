@@ -365,7 +365,7 @@
 					{#if comment.user.userId === $userDetails?.userId}
 						<li>
 							<button
-								on:click={() => pushState('', { showDeleteCommentDialog: true })}
+								on:click={() => pushState('', { ...$page.state, showDeleteCommentDialog: true })}
 								type="button"
 								class="px-4 py-1 flex rounded hover:bg-neutral-200 items-center gap-2 shadow"
 								><Icon src={IoTrashOutline} className="w-4 h-4" />Delete</button
@@ -374,7 +374,7 @@
 					{:else}
 						<li>
 							<button
-								on:click={() => pushState('', { showCommentReportDialog: true })}
+								on:click={() => pushState('', { ...$page.state, showCommentReportDialog: true })}
 								type="button"
 								class="px-4 py-1 rounded hover:bg-neutral-200 flex items-center gap-2 shadow"
 								><Icon src={BsFlag} className="w-3.5 h-3.5" />Report</button
