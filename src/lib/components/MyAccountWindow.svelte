@@ -150,7 +150,7 @@
 		{/if}
 	{:else}
 		<!-- login prompt -->
-		<p class="mb-1">Login to save your progress.</p>
+		<p class="mb-1">Login to save your progress, post comments, climb leaderboards and more.</p>
 		<button
 			class="w-full h-fit px-4 py-0.5 rounded-md bg-red-600 text-white text-lg self-center"
 			on:click={openLogin}>Login</button

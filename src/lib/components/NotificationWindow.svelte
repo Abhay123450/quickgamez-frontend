@@ -78,10 +78,6 @@
 		console.log(`notificationsmarkasread ${JSON.stringify(data)}`);
 	}
 
-	async function handleNotificationClick(notification: Notification) {
-		markNotificationAsRead(notification.notificationId);
-	}
-
 	async function getNotifications(): Promise<Notification[]> {
 		const notificationsFromCache = getNotificationsFromCache();
 		if (notificationsFromCache) {

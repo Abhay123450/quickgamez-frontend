@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { soundVolume } from '../../../routes/stores';
 	import { fade, fly } from 'svelte/transition';
-	import { createEventDispatcher, onMount, tick } from 'svelte';
+	import { onMount, tick } from 'svelte';
 	import { Icon } from 'svelte-icons-pack';
 	import type { Tab } from './Tabs';
 	import { page } from '$app/stores';
