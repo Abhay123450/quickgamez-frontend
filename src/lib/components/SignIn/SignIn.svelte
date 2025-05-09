@@ -62,8 +62,6 @@
 	let verifyEmailError = '';
 	let resetPasswordError = '';
 
-	let loginWindowMessage = '';
-
 	let isRegisterDataValid = false;
 	let isLoginDataValid = false;
 	let isForgotPasswordDataValid = false;
@@ -428,10 +426,6 @@
 		}
 	}
 
-	function createUsername() {
-		console.log('creating username');
-	}
-
 	function loginSuccessFull() {
 		loginStage = LoginStage.LOGIN_SUCCESSFULL;
 		addToast('Login successful', 'success', 10000);
@@ -452,16 +446,6 @@
 			loginStage = LoginStage.ENTER_DETAILS;
 		}, 3000);
 	}
-
-	onMount(() => {
-		console.log('mounted');
-		console.log(`registerStage: ${registerStage}`);
-		console.log(`loginActiveTab: ${$loginActiveTab}`);
-		activeTab = tabs[$loginActiveTab].name;
-	});
-	// $: validateEmail(email.email);
-	// $: validatePassword(password.password);
-	// $: validateUsername(username.username);
 </script>
 
 <div
@@ -484,8 +468,8 @@
 		}
 	}}
 >
-	<Tab bind:activeTab {tabs} showIcon={false}>
-		<!-- Register -->
+	<Tab bind:activeTab {tabs} showIcon={false} context="logintab">
+		<!-- REGISTER -->
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<!-- svelte-ignore a11y-no-static-element-interactions -->
 		<div
@@ -573,7 +557,7 @@
 				{/if}
 			</div>
 		</div>
-		<!-- Login -->
+		<!-- LOGIN -->
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<!-- svelte-ignore a11y-no-static-element-interactions -->
 		<div
