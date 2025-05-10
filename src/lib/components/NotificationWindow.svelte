@@ -8,7 +8,7 @@
 	import LoadingSpin from './common/LoadingSpin.svelte';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
-	import { userDetails } from '../../routes/stores';
+	import { isLoggedIn, userDetails } from '../../routes/stores';
 
 	const NotificationActions = {
 		OPEN_PROFILE: 'open_profile',
@@ -113,7 +113,11 @@
 
 	onMount(async () => {
 		console.log('notification mounted');
-		notifications = await getNotifications();
+		if ($isLoggedIn) {
+			notifications = await getNotifications();
+		} else {
+			isLoading = false;
+		}
 	});
 </script>
 
