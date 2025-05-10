@@ -1,12 +1,30 @@
 <script lang="ts">
 	import { pushState } from '$app/navigation';
 	import { page } from '$app/stores';
-	import { isLeftPanelOpen, isRightPanelOpen } from '../../../routes/stores';
 	import { Icon } from 'svelte-icons-pack';
 	import { RiSystemMenuUnfold3Line2, RiSystemMenuFold3Line2 } from 'svelte-icons-pack/ri';
 
+	/**
+	 * Whether to show the logo or not.
+	 * If false, title will be shown
+	 * @type boolean
+	 * @default true
+	 */
 	export let isShowImage: boolean = true;
+	/**
+	 * Title shown in the top nav bar.
+	 * Effective when isShowImage is false
+	 * @type string
+	 * @default QuickGamez.com
+	 */
 	export let title: string = 'QuickGamez.com';
+	/**
+	 * Is the title a h1 tag, if false it will be a p tag.
+	 * Effective when isShowImage is false
+	 * @type boolean
+	 * @default true
+	 */
+	export let isH1Tag: boolean = true;
 
 	function openLeftPanel() {
 		pushState('', { ...$page.state, isLeftPanelOpen: true });
@@ -37,8 +55,10 @@
 				loading="lazy"
 			/>
 		</a>
-	{:else}
+	{:else if isH1Tag}
 		<h1 class="text-base sm:text-lg md:text-xl font-semibold self-center">{title}</h1>
+	{:else}
+		<p class="text-base sm:text-lg md:text-xl font-semibold self-center">{title}</p>
 	{/if}
 	<button
 		name="openRightPanel"
