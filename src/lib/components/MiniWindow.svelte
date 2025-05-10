@@ -1,6 +1,5 @@
 <script lang="ts">
-	import { fly, scale, slide } from 'svelte/transition';
-	import { afterUpdate, onMount } from 'svelte';
+	import { slide } from 'svelte/transition';
 	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
 
@@ -11,9 +10,10 @@
 	export let isMaximized: boolean = false;
 	export let title: string = 'Title';
 	export let icon: IconType;
-	export let seekAttention: boolean = false;
 
 	export let clientHeight: number = 0;
+
+	const id = 'window-title-' + title.split(' ').join('-');
 
 	function toggleMaximize() {
 		isMaximized = !isMaximized;
@@ -24,22 +24,12 @@
 		}
 		$refreshRightPanel = !$refreshRightPanel;
 	}
-
-	onMount(() => {
-		setInterval(() => {
-			seekAttention = !seekAttention;
-			// setTimeout(() => {
-			// 	seekAttention = !seekAttention;
-			// }, 500);
-		}, 5000);
-		// title === 'My Account' && (isMaximized = false);
-	});
 </script>
 
 <section
 	bind:clientHeight
 	class="flex flex-col w-full h-fit max-h-full rounded-md"
-	aria-labelledby={`window-title-${title}`}
+	aria-labelledby={`${id}`}
 >
 	<!-- head -->
 	<button
@@ -47,20 +37,14 @@
 		class="flex flex-row w-full h-8 px-1 space-x-1 border rounded-md border-neutral-500 bg-yellow-200 align-middle shrink-0 sticky top-0"
 	>
 		<Icon src={icon} className="w-6 h-6 self-center" />
-		<h2 id={`window-title-${title}`} class="w-full h-fit p-1 self-center text-left">{title}</h2>
+		<h2 id={`${id}`} class="w-full h-fit p-1 self-center text-left">
+			{title}
+		</h2>
 		<div class="flex flex-row w-fit h-full space-x-1">
-			<!-- <div
-				class="flex flex-col w-6 h-6 self-center text-center rounded-md active:shadow-inner text-neutral-800"
-			> -->
 			<Icon
 				src={isMaximized ? FiMinus : FiPlus}
 				className="w-6 h-6 self-center hover:shadow-inner"
 			/>
-			<!-- </div> -->
-
-			<!-- <button class="flex w-6 h-6 self-center rounded-md active:shadow-inner text-neutral-600">
-		<Icon src={IoClose} className="w-full h-full" />
-		</button> -->
 		</div>
 	</button>
 	<!-- body -->
