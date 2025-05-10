@@ -70,16 +70,6 @@
 						</button>
 					{/if}
 				{/each}
-				<!-- <button class="w-11 h-11 md:w-12 md:h-12 border rounded-md hover:border-black">Q</button>
-				<button class="w-11 h-11 md:w-12 md:h-12 border rounded-md hover:border-black">W</button>
-				<button class="w-11 h-11 md:w-12 md:h-12 border rounded-md hover:border-black">E</button>
-				<button class="w-11 h-11 md:w-12 md:h-12 border rounded-md hover:border-black">R</button>
-				<button class="w-11 h-11 md:w-12 md:h-12 border rounded-md hover:border-black">T</button>
-				<button class="w-11 h-11 md:w-12 md:h-12 border rounded-md hover:border-black">Y</button>
-				<button class="w-11 h-11 md:w-12 md:h-12 border rounded-md hover:border-black">U</button>
-				<button class="w-11 h-11 md:w-12 md:h-12 border rounded-md hover:border-black">I</button>
-				<button class="w-11 h-11 md:w-12 md:h-12 border rounded-md hover:border-black">O</button>
-				<button class="w-11 h-11 md:w-12 md:h-12 border rounded-md hover:border-black">P</button> -->
 			</div>
 
 			<div class="flex justify-center">
@@ -97,15 +87,6 @@
 						</button>
 					{/if}
 				{/each}
-				<!-- <button class="w-11 h-11 md:w-12 md:h-12 border rounded-md hover:border-black">A</button>
-				<button class="w-11 h-11 md:w-12 md:h-12 border rounded-md hover:border-black">S</button>
-				<button class="w-11 h-11 md:w-12 md:h-12 border rounded-md hover:border-black">D</button>
-				<button class="w-11 h-11 md:w-12 md:h-12 border rounded-md hover:border-black">F</button>
-				<button class="w-11 h-11 md:w-12 md:h-12 border rounded-md hover:border-black">G</button>
-				<button class="w-11 h-11 md:w-12 md:h-12 border rounded-md hover:border-black">H</button>
-				<button class="w-11 h-11 md:w-12 md:h-12 border rounded-md hover:border-black">J</button>
-				<button class="w-11 h-11 md:w-12 md:h-12 border rounded-md hover:border-black">K</button>
-				<button class="w-11 h-11 md:w-12 md:h-12 border rounded-md hover:border-black">L</button> -->
 			</div>
 
 			<div class="flex justify-center">
@@ -123,13 +104,6 @@
 						</button>
 					{/if}
 				{/each}
-				<!-- <button class="w-11 h-11 md:w-12 md:h-12 border rounded-md hover:border-black">Z</button>
-				<button class="w-11 h-11 md:w-12 md:h-12 border rounded-md hover:border-black">X</button>
-				<button class="w-11 h-11 md:w-12 md:h-12 border rounded-md hover:border-black">C</button>
-				<button class="w-11 h-11 md:w-12 md:h-12 border rounded-md hover:border-black">V</button>
-				<button class="w-11 h-11 md:w-12 md:h-12 border rounded-md hover:border-black">B</button>
-				<button class="w-11 h-11 md:w-12 md:h-12 border rounded-md hover:border-black">N</button>
-				<button class="w-11 h-11 md:w-12 md:h-12 border rounded-md hover:border-black">M</button> -->
 			</div>
 		</div>
 	{:else}
