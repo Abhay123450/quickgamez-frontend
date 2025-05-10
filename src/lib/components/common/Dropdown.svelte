@@ -23,6 +23,10 @@
 	$: selectedLabel = options.find((option) => option.value === selectedOption)?.label || '';
 
 	onMount(() => {
+		if (handleOptionChange) {
+			handleOptionChange(selectedOption);
+		}
+
 		// Close dropdown when clicking outside
 		const handleClickOutside = (event: MouseEvent) => {
 			if (isOpen && dropdownRef && !dropdownRef.contains(event.target as Node)) {

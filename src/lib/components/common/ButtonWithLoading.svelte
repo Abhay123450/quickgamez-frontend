@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { Icon } from 'svelte-icons-pack';
 	import { CgSpinner } from 'svelte-icons-pack/cg';
-	import { fade, fly, scale } from 'svelte/transition';
 	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
 
@@ -10,9 +9,9 @@
 	export let isDisabled = false;
 </script>
 
-<div class="flex flex-col">
+<div class="flex flex-col w-full h-fit">
 	{#if isLoading}
-		<Icon src={CgSpinner} className="w-9 h-9 mt-2 animate-spin self-center" />
+		<Icon src={CgSpinner} className="w-9 h-9 animate-spin self-center" />
 	{:else}
 		<button
 			disabled={isDisabled}
