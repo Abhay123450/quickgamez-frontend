@@ -22,7 +22,7 @@
 	import ButtonWithLoading from '../common/ButtonWithLoading.svelte';
 	import ButtonResendOtp from '../common/ButtonResendOtp.svelte';
 	import { fetchRequest } from '$lib/utils/fetchRequest';
-	import { pushState } from '$app/navigation';
+	import { pushState, replaceState } from '$app/navigation';
 
 	const host = `http://${$page.url.hostname}:4000`;
 	const CREATE_USER_ROUTE = '/api/v1/users';
@@ -109,7 +109,7 @@
 	}
 
 	function selectTab(tab: string) {
-		activeTab = tab;
+		replaceState('', { ...$page.state, loginActiveTab: tabs.findIndex((t) => t.name === tab) });
 	}
 
 	async function createUser() {

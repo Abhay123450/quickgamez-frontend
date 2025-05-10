@@ -39,9 +39,9 @@ export function trapFocus(node: HTMLElement) {
 	return {
 		destroy() {
 			node.removeEventListener('keydown', handleKeydown);
-			if (previous) {
-				previous.focus();
-			}
+			// if (previous) {
+			// 	previous.focus();
+			// }
 		}
 	};
 }
