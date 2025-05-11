@@ -4,18 +4,12 @@
 
 <div class="flex flex-col w-full h-auto bg-white rounded-b space-y-1 overflow-y-auto pb-1">
 	<a class="self-center" href="/">
-		<picture>
-			<source srcset="/images/logo/logo480.webp" type="image/webp" media="(max-width: 480px)" />
-			<source srcset="/images/logo/logo768.webp" type="image/webp" media="(max-width: 768px)" />
-			<source srcset="/images/logo/logo1024.webp" type="image/webp" media="(max-width: 1024px)" />
-			<source srcset="/images/logo/logo1200.webp" type="image/webp" media="(max-width: 1200px)" />
-			<source srcset="/images/logo/logo1600.webp" type="image/webp" media="(max-width: 1600px)" />
-			<img
-				class="w-40 h-[74px] mix-blend-multiply"
-				src="/images/logo/logo1600.webp"
-				alt="QuickGamez logo"
-			/>
-		</picture>
+		<img
+			class="w-40 h-[74px] mix-blend-multiply"
+			srcset="/images/logo/logo768.webp 1x, /images/logo/logo1024.webp 2x, /images/logo/logo1200.webp 3x, /images/logo/logo1600.webp 4x"
+			alt="QuickGamez logo"
+			loading="lazy"
+		/>
 	</a>
 	<a
 		class="p-2 mx-1 mb-1 w-auto rounded-md hover:bg-neutral-100
