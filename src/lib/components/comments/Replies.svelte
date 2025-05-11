@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { onMount } from 'svelte';
+	import { onMount, tick } from 'svelte';
 	import CommentSingle from './CommentSingle.svelte';
 	import type { Comment } from '$lib/types/Comment';
 	import LoadingSpin from '../common/LoadingSpin.svelte';
@@ -14,8 +14,10 @@
 	let isLoading = false;
 
 	let replies: Comment[] = [];
-	const limit = 10;
+	const limit = 2;
 	let pageNumber: number = 1;
+
+	let replyDiv: HTMLDivElement;
 
 	$: if (newReplyAdded) {
 		console.info('new reply added', JSON.stringify(newReplyAdded));
@@ -24,7 +26,7 @@
 		newReplyAdded = null;
 	}
 
-	async function getReplies(commentId: string): Promise<Comment[]> {
+	async function fetchReplies(commentId: string): Promise<Comment[]> {
 		isLoading = true;
 		const url = `http://${$page.url.hostname}:4000/api/v1/comments/${commentId}/replies?page=${pageNumber}&limit=${limit}`;
 		const response = await fetch(url, {
@@ -50,6 +52,28 @@
 		return data.data as Comment[];
 	}
 
+	async function loadReplies() {
+		replies = [...replies, ...(await fetchReplies(commentId))];
+		saveRepliesToLocalStorage(commentId, replies);
+		// requestAnimationFrame(() => {
+
+		// 	const firstArticle = replyDiv.querySelector('button');
+		// 	console.info('first article', firstArticle);
+		// 	if (firstArticle) {
+		// 		(firstArticle as HTMLElement).focus();
+		// 	}
+		// });
+		await tick();
+		const newRepliesFirst = replyDiv.querySelectorAll('article')[
+			(pageNumber - 2) * limit
+		] as HTMLElement;
+		console.info('new replies first', newRepliesFirst);
+		const focusable = newRepliesFirst.querySelector<HTMLElement>(
+			'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+		);
+		focusable?.focus();
+	}
+
 	onMount(async () => {
 		console.info('replies', replies);
 		replies = getRepliesFromLocalStorage(commentId) || [];
@@ -63,7 +87,7 @@
 	}
 </script>
 
-<div class="flex flex-col w-full h-full max-w-3xl">
+<div bind:this={replyDiv} class="flex flex-col w-full h-full max-w-3xl">
 	{#each replies as reply, i}
 		<div class="flex flex-row w-full h-fit">
 			<div class="relative flex flex-row flex-shrink-0 basis-[5%] w-full min-h-full justify-center">
@@ -92,10 +116,7 @@
 		<button
 			disabled={isLoading}
 			class="line underline w-fit font-medium text-blue-600 text-base mt-2 ps-1"
-			on:click={async () => {
-				replies = [...replies, ...(await getReplies(commentId))];
-				saveRepliesToLocalStorage(commentId, replies);
-			}}
+			on:click={loadReplies}
 		>
 			{#if isLoading}
 				<LoadingSpin />

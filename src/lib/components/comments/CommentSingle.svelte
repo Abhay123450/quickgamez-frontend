@@ -82,13 +82,6 @@
 			},
 			credentials: 'include'
 		});
-		// const response = await fetch(url, {
-		// 	method,
-		// 	headers: {
-		// 		'Content-Type': 'application/json'
-		// 	},
-		// 	credentials: 'include'
-		// });
 
 		console.info(`reaction response error ${JSON.stringify(error)}`);
 		console.info(`reaction response data ${JSON.stringify(response)}`);
@@ -96,12 +89,6 @@
 
 	function replyToComment() {
 		showReplyForm = true;
-		// return;
-		// let replyTo = {
-		// 	commentId: comment.commentId,
-		// 	commentBy: comment.user.username
-		// };
-		// dispatch('replyTo', replyTo);
 	}
 
 	function numberToString(num: number): string {
@@ -181,10 +168,6 @@
 	function newReplyAdded(e: CustomEvent<Comment>) {
 		const comment = e.detail;
 		console.log('new reply added event recieved', JSON.stringify(comment));
-		// if (comment.replyToComment?.commentId === comment.commentId) {
-		// 	newReply = comment;
-		// 	return;
-		// }
 		newReply = comment;
 		dispatchNewReply('newReply', comment);
 	}
@@ -237,11 +220,6 @@
 	class="relative flex flex-col w-full min-w-full max-w-3xl p-2 mt-2 rounded-md border border-neutral-300"
 >
 	<header class="flex space-x-2 w-full h-fit">
-		<!-- <picture
-			class=" flex items-end justify-center w-10 h-10 border border-neutral-300 rounded-full overflow-clip bg-yellow-200"
-		>
-			<img class="w-11/12 h-11/12" src="/avatars/{comment.user.avatar || '1.svg'}" alt="avatar" />
-		</picture> -->
 		<UserAvatar avatarUrl={comment.user.avatar} className="w-10 h-10" />
 		<div class="flex flex-col">
 			<p class="font-semibold text-base">
@@ -273,12 +251,13 @@
 			? comment.text
 			: comment.text.substring(0, maxCommentLengthWhenCollapsed) + '...'}
 	</p>
-	<button
-		on:click={() => (isExpanded = !isExpanded)}
-		class="w-fit pb-1 rounded-md underline underline-offset-2 font-medium text-neutral-600 hover:text-black"
-		class:hidden={!shouldCollapseComment(comment.text)}
-		>{isExpanded ? 'Show less' : 'Read more'}
-	</button>
+	{#if shouldCollapseComment(comment.text)}
+		<button
+			on:click={() => (isExpanded = !isExpanded)}
+			class="w-fit pb-1 rounded-md underline underline-offset-2 font-medium text-neutral-600 hover:text-black"
+			>{isExpanded ? 'Show less' : 'Read more'}
+		</button>
+	{/if}
 	<footer class="flex flex-row">
 		<button
 			class=" flex flex-row p-1 items-center rounded-full hover:bg-neutral-200 {comment.myReaction ===
