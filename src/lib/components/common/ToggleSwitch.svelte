@@ -10,7 +10,7 @@
 
 	const dispatch: EventDispatcher<any> = createEventDispatcher();
 
-	function handleToggle(event: Event) {
+	function toggle(_event: Event) {
 		dispatch('toggle', isChecked);
 		playAudio();
 	}
@@ -30,28 +30,15 @@
 </audio>
 
 <div class="flex flex-row justify-center p-1">
-	{#if isChecked}
-		<!-- CHECK Icon -->
+	<button
+		on:click={toggle}
+		class="flex flex-row items-center px-3 py-2 border rounded-md {isChecked
+			? 'border-emerald-700 bg-emerald-300'
+			: 'border-neutral-500 bg-neutral-200'}"
+		aria-label="{label} is {isChecked ? 'on' : 'off'}"
+	>
+		<span class="flex mr-4">{label}</span>
 
-		<button
-			on:click={handleToggle}
-			class="flex flex-row items-center px-3 py-2 border border-emerald-700 bg-emerald-300 rounded-md"
-			aria-label="{label} is on"
-		>
-			<span class="flex mr-4">{label}</span>
-
-			<Icon src={FiCheck} className="w-5 h-5" />
-		</button>
-	{:else}
-		<!-- Cross Icon -->
-		<button
-			on:click={handleToggle}
-			class="flex flex-row items-center px-3 py-2 border border-neutral-500 bg-neutral-200 rounded-md"
-			aria-label="{label} is off"
-		>
-			<span class="flex mr-4">{label}</span>
-
-			<Icon src={IoClose} className="w-5 h-5" />
-		</button>
-	{/if}
+		<Icon src={isChecked ? FiCheck : IoClose} className="w-5 h-5" />
+	</button>
 </div>
