@@ -120,7 +120,7 @@
 		</div>
 
 		<a
-			href="/users/profile/my-profile"
+			href="/users/profile/me"
 			class="w-full h-fit px-4 py-1 my-1 rounded-md border border-red-600 font-medium text-center text-red-600 hover:bg-red-600 hover:text-white"
 			>View Profile & Settings</a
 		>

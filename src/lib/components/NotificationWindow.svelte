@@ -130,9 +130,7 @@
 		<hr class="border-t border-neutral-400" />
 		{#each notifications as notification}
 			<a
-				href={notification.action === NotificationActions.OPEN_PROFILE
-					? `/users/profile/my-profile`
-					: ''}
+				href={notification.action === NotificationActions.OPEN_PROFILE ? `/users/profile/me` : ''}
 				type="button"
 				class="relative flex w-full px-1.5 py-1 rounded-sm text-start {notification.isRead
 					? 'bg-neutral-100 hover:bg-neutral-200'
