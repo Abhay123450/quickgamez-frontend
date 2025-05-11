@@ -1,5 +1,9 @@
+import { popPreviousFocusElement, pushPreviousFocusElement } from '../routes/stores';
+
 export function trapFocus(node: HTMLElement) {
 	const previous: HTMLElement | null = document.activeElement as HTMLElement;
+
+	pushPreviousFocusElement(previous);
 
 	function focusable(): HTMLElement[] {
 		const focusableElements: NodeListOf<HTMLElement> = node.querySelectorAll(
@@ -39,9 +43,10 @@ export function trapFocus(node: HTMLElement) {
 	return {
 		destroy() {
 			node.removeEventListener('keydown', handleKeydown);
-			// if (previous) {
-			// 	previous.focus();
-			// }
+			const previous = popPreviousFocusElement();
+			if (previous) {
+				previous.focus();
+			}
 		}
 	};
 }

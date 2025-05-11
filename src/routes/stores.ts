@@ -111,3 +111,20 @@ export function clearGameLog() {
 }
 
 /** Game Log END */
+
+/** trapfocus */
+
+const previousFocusElements: Writable<HTMLElement[]> = writable([]);
+
+export function pushPreviousFocusElement(element: HTMLElement) {
+	previousFocusElements.update((all) => [...all, element]);
+}
+
+export function popPreviousFocusElement(): HTMLElement | null {
+	let popped: HTMLElement | null = null;
+	previousFocusElements.update((all) => {
+		popped = all.pop() || null;
+		return all;
+	});
+	return popped;
+}
