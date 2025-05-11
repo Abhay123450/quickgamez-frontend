@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import { fly } from 'svelte/transition';
 	import { showCookieSettings } from '../../routes/stores';
+	import { trapFocus } from '$lib/actions';
 
 	type CookiePreferences = {
 		necessary: boolean;
@@ -55,6 +56,7 @@
 
 {#if showBanner || $showCookieSettings}
 	<div
+		use:trapFocus
 		in:fly={{ y: 100, duration: 300 }}
 		out:fly={{ y: 100, duration: 300 }}
 		class="fixed bottom-0 left-0 md:left-4 md:bottom-4 lg:bottom-8 lg:left-8 w-full max-w-3xl max-h-dvh bg-yellow-200 text-black px-4 py-6 border-2 md:border border-black rounded-t-md md:rounded-b-md shadow-lg overflow-y-auto z-50"
