@@ -58,7 +58,6 @@
 	}
 
 	function getRankingsFromSession(timeRange: TimeRange) {
-		console.log('getRankingsFromSession timerange', timeRange);
 		const key = `leaderboard-${game}-${timeRange.toLowerCase()}`;
 		const item = sessionStorage.getItem(key);
 		if (!item) {

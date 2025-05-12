@@ -8,10 +8,16 @@
 			id: 1,
 			title: 'Guess The Movie - Hollywood',
 			image: '/images/guess-the-movie-logo.webp',
-			slug: 'guess-the-movie'
+			slug: 'guess-the-movie/hollywood'
 		},
 		{
 			id: 2,
+			title: 'Guess The Movie - Bollywood',
+			image: '/images/guess-the-movie-logo.webp',
+			slug: 'guess-the-movie/bollywood'
+		},
+		{
+			id: 3,
 			title: 'More Games Coming Soon',
 			image: '/images/coming-soon.webp',
 			slug: ''

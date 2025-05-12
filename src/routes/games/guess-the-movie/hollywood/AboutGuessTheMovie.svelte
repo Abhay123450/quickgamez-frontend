@@ -3,18 +3,17 @@
 	class="flex flex-col w-auto h-full p-2 rounded-md bg-white space-y-1 overflow-y-auto rounded-scrollbar"
 >
 	<header>
-		<h2 id="about-title" class="text-xl font-bold">About Guess The Movie</h2>
+		<h2 id="about-title" class="text-xl font-bold">About Guess The Movie - Hollywood</h2>
 	</header>
 
 	<p>
-		<strong>Guess The Movie</strong> is an exciting <em>movie guessing game</em> where players must guess
-		the name of a movie one letter at a time before running out of lives and time.
+		<strong>Guess The Movie - Hollywood</strong> is an exciting <em>movie guessing game</em> where players
+		must guess the name of a movie one letter at a time before running out of lives and time.
 	</p>
 
 	<section aria-labelledby="start-title">
 		<h3 id="start-title" class="text-xl font-bold">Starting the Game</h3>
 		<ul class="list-disc ps-4 lg:ps-5">
-			<li>Select your preferred category: <em>Hollywood</em> or <em>Bollywood</em>.</li>
 			<li>Choose a difficulty level: Easy, Medium, or Hard.</li>
 			<li>
 				Enable or disable the game timer using the "Timer" toggle. <strong>Note:</strong> Games played

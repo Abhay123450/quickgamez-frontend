@@ -1,4 +1,4 @@
-import type { Difficulty, GameData, GuessTheMovieGuesses } from './movie';
+import type { GameData } from './movie';
 
 export function calculateScore(gameData: GameData): number {
 	const { movieNameUnguessed, difficulty, livesUsed, timeLeft, result, guesses, isTimerOn } =

@@ -15,7 +15,7 @@
 		isSideNavWindowOpen,
 		showGameLog,
 		soundVolume
-	} from '../../stores.js';
+	} from '../../../stores.js';
 
 	import { trapFocus } from '$lib/actions.js';
 
@@ -41,16 +41,16 @@
 		type Movie,
 		type MovieObj,
 		type GameData
-	} from './movie.js';
+	} from '../movie.js';
 	import Hint from '$lib/components/common/Hint.svelte';
-	import { calculateScore } from './calculateScore.js';
+	import { calculateScore } from '../calculateScore.js';
 	import Leaderboards from '$lib/components/common/Leaderboards.svelte';
 	import type { Tab as TabType } from '$lib/components/tabs/Tabs.js';
 	import Tab from '$lib/components/tabs/Tab.svelte';
 	import Dropdown from '$lib/components/common/Dropdown.svelte';
 	import { pushState } from '$app/navigation';
 	import ScoreCounter from '$lib/components/common/ScoreCounter.svelte';
-	import howToPlay from './howToPlay.js';
+	import howToPlay from '../howToPlay.js';
 	// utils
 	import { getRandomNumBetween } from '$lib/utils/getRandomNumBetween.js';
 	import { focus } from '$lib/utils/focus.js';
@@ -87,7 +87,7 @@
 
 	$: scrollToTarget(newHintDiv);
 
-	let movieName: string = 'Guess The Movie';
+	let movieName: string = 'Guess The Movie - Bollywood';
 
 	let isStarting: boolean = false;
 	let showHints = false;
@@ -114,7 +114,7 @@
 	let previousGameState: GameState = GameState.Start;
 
 	const options: Industry[] = ['Bollywood', 'Hollywood'];
-	let industry: Industry = options[1];
+	let industry: Industry = options[0];
 
 	//audio
 	let loseHealthAudio: HTMLAudioElement;
@@ -135,7 +135,7 @@
 	}
 
 	function movieStringToObject(movie: string): MovieObj[] {
-		if (movieName === 'Guess The Movie') {
+		if (movieName === 'Guess The Movie - Bollywood') {
 			return movie.split('').map((char: string): MovieObj => {
 				return {
 					character: char.toLocaleUpperCase(),
@@ -423,7 +423,7 @@
 				body: JSON.stringify(result)
 			};
 			const [error, response] = await fetchWithTokenRefresh(
-				new URL(`${host}/api/v1/games/guess-the-movie/result`),
+				new URL(`${host}/api/v1/games/guess-the-movie/results`),
 				request
 			);
 			if (error) {
@@ -433,7 +433,7 @@
 			}
 			console.log('result saved on server', response);
 		} catch (error) {
-			console.log(error);
+			console.log('error saving on server', error);
 			saveResultNotSavedOnServerInLocalStorage(result);
 		}
 	}
@@ -594,12 +594,6 @@
 		$isNotificationWindowOpen = false;
 	}
 
-	function changeIndustry(value: string) {
-		// selectedOption.set(event.detail);
-		industry = value as Industry;
-		console.log('selectedOption', industry);
-	}
-
 	function changeDifficulty(value: string) {
 		difficulty = value as Difficulty;
 		console.log('selectedDefficulty', difficulty);
@@ -707,7 +701,7 @@
 </script>
 
 <svelte:head>
-	<title>Guess The Movie | Play online for free | QuickGamez</title>
+	<title>Guess The Movie - Bollywood | Play online for free | QuickGamez</title>
 	<meta
 		name="description"
 		content="A movie guessing game where you guess the name of a movie one letter at a time before running out of lives or time, with hints to help."
@@ -741,7 +735,7 @@
 
 		<!-- center -->
 		<div class="flex grow items-center justify-around">
-			<h1 class="text-xl font-semibold">Guess The Movie</h1>
+			<h1 class="text-xl font-semibold">Guess The Movie - Bollywood</h1>
 		</div>
 
 		<!-- right -->
@@ -801,7 +795,7 @@
 				out:fly={{ duration: 300 }}
 				class="bg-black bg-opacity-50 xl:hidden h-auto"
 			>
-				<TopNav isShowImage={false} title="Guess The Movie - Hollywood" isH1Tag={false} />
+				<TopNav isShowImage={false} title="Guess The Movie - Bollywood" isH1Tag={false} />
 			</div>
 
 			<Tab {tabs} bind:activeTab={currentTab} context="gametab" shallowRouteMode="home-tab-only">
@@ -811,16 +805,8 @@
 							<div
 								class="bg-white px-2 py-4 w-11/12 h-11/12 flex flex-col items-center rounded shadow-lg overflow-auto space-y-2 rounded-scrollbar"
 							>
-								<p class="text-2xl font-bold hidden xl:flex">Guess The Movie</p>
+								<p class="text-2xl font-bold hidden xl:flex">Guess The Movie - Bollywood</p>
 
-								<div class="flex w-full md:w-10/12 lg:w-8/12">
-									<Dropdown
-										options={options.map((option) => ({ label: option, value: option }))}
-										defaultOption={options[0]}
-										name="Category"
-										handleOptionChange={changeIndustry}
-									/>
-								</div>
 								<div class="flex w-full md:w-10/12 lg:w-8/12">
 									<Dropdown
 										options={difficultyOptions.map((option) => ({ label: option, value: option }))}
@@ -887,7 +873,7 @@
 									<Icon src={CgClose} size="24" />
 								</button>
 
-								<p class="text-2xl font-bold">Guess The Movie</p>
+								<p class="text-2xl font-bold">Guess The Movie - Bollywood</p>
 
 								<button
 									on:click={hideModal}
@@ -1003,11 +989,11 @@
 				<!-- Tab 2 -->
 				<!-- Leaderboards -->
 				<div slot="tab2" class="relative w-full h-full flex flex-col justify-center p-1 pt-0">
-					<Leaderboards game="guess-the-movie" />
+					<Leaderboards game="guess-the-movie-bollywood" />
 				</div>
 
 				<div slot="tab3" class="relative w-full h-full flex flex-col justify-center p-1 pt-0">
-					<GameComments game="guess-the-movie" />
+					<GameComments game="guess-the-movie-bollywood" />
 				</div>
 
 				<div slot="tab4" class="relative w-full h-full flex flex-col justify-center p-1 pt-0">
@@ -1046,7 +1032,7 @@
 				transition:fly={{ duration: 300, y: 50 }}
 				class="bg-white p-2 max-h-full flex flex-col items-center rounded shadow-lg overflow-y-auto cursor-auto"
 			>
-				<h2 class="text-2xl font-bold">Guess The Movie: How To Play?</h2>
+				<h2 class="text-2xl font-bold">Guess The Movie - Bollywood: How To Play?</h2>
 				<HowToPlay steps={howToPlay} />
 			</div>
 		</div>
