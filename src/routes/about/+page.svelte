@@ -8,7 +8,9 @@
 </svelte:head>
 
 <div class="flex flex-col">
-	<TopNav />
+	<div class="flex sticky top-0">
+		<TopNav />
+	</div>
 	<h1 class="text-xl font-bold text-center m-4">About Website</h1>
 	<p class="px-3 py-2">
 		Welcome to QuickGamez.com, where you can play free online games anytime! Currently, there is one
@@ -26,4 +28,5 @@
 			class=" bg-white p-1 rounded-md">er.abhay.gkp@gmail.com</span
 		>
 	</p>
+	<a class="w-fit h-fit px-3 py-2 underline" href="/privacy-policy">Privacy Policy</a>
 </div>

@@ -20,27 +20,14 @@
 
 	onMount(() => {
 		function handleLinkClick(e: MouseEvent) {
-			// Add some debug logs
-			// console.log('Click detected', e);
-			// console.log('Game in progress?', $isGameInProgess);
-
 			const target = e.target as HTMLElement;
 			const anchor = target.closest('a');
 
-			if (anchor) {
-				// console.log('Anchor found:', anchor);
-				// console.log('href:', anchor.getAttribute('href'));
-			}
-
 			if (anchor && $isGameInProgess) {
-				// console.log('Should prevent navigation');
-
-				// Prevent default more aggressively
 				e.preventDefault();
 				e.stopPropagation();
 
 				const linkHref = anchor.getAttribute('href') || '';
-				// console.log('Setting href to:', linkHref);
 
 				// Use setTimeout to ensure this runs after other handlers
 				setTimeout(() => {
@@ -54,8 +41,6 @@
 
 		// Use capture phase to ensure this runs before other handlers
 		document.addEventListener('click', handleLinkClick, true);
-
-		// console.log('isLeftPanelOpen onmount', $page.state.isLeftPanelOpen);
 
 		// Clean up on component destruction
 		return () => {
@@ -114,8 +99,8 @@
 	<main
 		class="w-full min-h-dvh h-dvh max-h-dvh lg:basis-3/4 xl:basis-3/5 flex flex-col bg-yellow-100"
 	>
-		<ToastContainer />
 		<slot />
+		<ToastContainer />
 	</main>
 
 	<!-- Right Section-->

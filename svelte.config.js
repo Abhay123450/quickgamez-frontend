@@ -18,10 +18,10 @@ const config = {
 		// 	pages: 'public',
 		// 	assets: 'public',
 		// 	fallback: 'error.html',
-		// 	precompress: false,
+		// precompress: true,
 		// 	strict: true
 		// }),
-		adapter: adapter({ out: "./public", nodejsRuntime: 20, }),
+		adapter: adapter({ out: "./public", nodejsRuntime: 20, precompress: true }),
 		csp: {
 			directives: {
 				'script-src': ['self'],
