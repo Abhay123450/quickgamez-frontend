@@ -69,7 +69,7 @@
 				out:fade={{ duration: 300 }}
 			>
 				<div
-					class="flex flex-col flex-shrink-0 basis-11/12 max-w-md xl:basis-full bg-white h-full overflow-auto scrollbar-thin"
+					class="flex flex-col flex-shrink-0 w-11/12 max-w-md xl:w-full bg-white h-full overflow-auto scrollbar-thin"
 					in:fly={{ x: -500, duration: 300 }}
 					out:fly={{ x: -500, duration: 300 }}
 				>
@@ -119,7 +119,7 @@
 				out:fade={{ duration: 300 }}
 			>
 				<div
-					class="flex flex-col flex-shrink-0 basis-11/12 lg:basis-full max-w-md bg-white h-full max-h-full border-r border-gray-400"
+					class="flex flex-col flex-shrink-0 w-11/12 lg:w-full max-w-md bg-white h-full max-h-full border-r border-gray-400"
 					in:fly={{ x: 500, duration: 300 }}
 					out:fly={{ x: 500, duration: 300 }}
 				>

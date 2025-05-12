@@ -64,12 +64,13 @@
 <div id="gameLogContainer" class="flex flex-col w-full bg-white px-0.5">
 	{#each $gameLog as log}
 		<div
-			class={`flex flex-col px-1 pt-0.5 pb-1 border-b-[1px] border-neutral-500 justify-center ${getLogTypeColor(
+			class={`w-full flex flex-col px-1 pt-0.5 pb-1 border-b-[1px] border-neutral-500 justify-center ${getLogTypeColor(
 				log.type
 			)}`}
 		>
 			<p class="text-xs text-neutral-600 tracking-wider">{formatDate(log.timestamp)}</p>
-			<pre class="text-base/5 text-neutral-700 text-wrap font-mono">{log.message}</pre>
+			<pre
+				class="w-full text-base/5 text-neutral-700 text-wrap font-mono break-words">{log.message}</pre>
 		</div>
 	{/each}
 </div>
