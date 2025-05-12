@@ -31,8 +31,7 @@
 
 	function handleTimeRangeChange(e: any) {
 		timeRange = e.detail;
-		console.log(`option change recieved `, timeRange);
-		fetchLeaderboard(timeRange);
+		getLeaderboard(timeRange);
 	}
 
 	async function fetchLeaderboard(timeRange: TimeRange) {
@@ -48,6 +47,40 @@
 		}
 		rankings = data.rankings;
 	}
+
+	function saveRankingsToSession(timeRange: TimeRange) {
+		const key = `leaderboard-${game}-${timeRange.toLowerCase()}`;
+		const data = {
+			savedOn: Date.now(),
+			rankings
+		};
+		sessionStorage.setItem(key, JSON.stringify(data));
+	}
+
+	function getRankingsFromSession(timeRange: TimeRange) {
+		const key = `leaderboard-${game}-${timeRange.toLowerCase()}`;
+		const item = sessionStorage.getItem(key);
+		if (!item) {
+			return null;
+		}
+		const data = JSON.parse(item);
+		if (Date.now() - data.savedOn > 1 * 60 * 1000) {
+			// 1 minute
+			sessionStorage.removeItem(key);
+			return null;
+		}
+		return data.rankings;
+	}
+
+	async function getLeaderboard(timeRange: TimeRange) {
+		const data = getRankingsFromSession(timeRange);
+		if (data) {
+			rankings = data;
+			return;
+		}
+		await fetchLeaderboard(timeRange);
+		saveRankingsToSession(timeRange);
+	}
 </script>
 
 <section
@@ -58,7 +91,7 @@
 
 	<SelectOptions
 		options={['Daily', 'Weekly', 'All-Time']}
-		on:change={throttle(handleTimeRangeChange, 600)}
+		onchangeHandler={throttle(handleTimeRangeChange, 600)}
 	/>
 
 	<div class="flex flex-row w-full mt-3 mb-2 items-end">

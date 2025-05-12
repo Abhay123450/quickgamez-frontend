@@ -3,12 +3,17 @@
 	const dispatch = createEventDispatcher();
 
 	export let options: string[];
+	export let onchangeHandler: ((option: string) => void) | null = null;
+
 	let selectedOption: string = options[0];
 
 	function handleOptionChange(option: string) {
 		return function () {
 			selectedOption = option;
 			console.log(`Selected option`, selectedOption);
+			if (onchangeHandler) {
+				onchangeHandler(selectedOption);
+			}
 			dispatch('change', selectedOption);
 		};
 	}
