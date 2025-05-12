@@ -29,8 +29,8 @@
 
 	let timeRange: TimeRange = 'Daily';
 
-	function handleTimeRangeChange(e: any) {
-		timeRange = e.detail;
+	function handleTimeRangeChange(value: string) {
+		timeRange = value as TimeRange;
 		getLeaderboard(timeRange);
 	}
 
@@ -58,6 +58,7 @@
 	}
 
 	function getRankingsFromSession(timeRange: TimeRange) {
+		console.log('getRankingsFromSession timerange', timeRange);
 		const key = `leaderboard-${game}-${timeRange.toLowerCase()}`;
 		const item = sessionStorage.getItem(key);
 		if (!item) {
