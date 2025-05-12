@@ -3,6 +3,13 @@ export default {
   content: ['./src/**/*.{html,js,svelte,ts}'],
   theme: {
     extend: {
+      zIndex: {
+        '60': 60,
+        '70': 70,
+        '80': 80,
+        '90': 90,
+        '100': 100
+      }
       // colors: {
       //   backgroundPrimary: 'var(--color-primary)',
       //   backgroundSecondary: 'var(--color-secondary)',
@@ -13,6 +20,6 @@ export default {
       // }
     },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/typography')],
 }
 
