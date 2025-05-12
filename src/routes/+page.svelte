@@ -1,80 +1,72 @@
 <script>
-	import { onMount } from 'svelte';
-	import { isLeftPanelOpen, addToast } from './stores';
 	import TopNav from '$lib/components/common/TopNav.svelte';
-	// let isLeftOpen = false;
-
-	function toggleLeftPanel() {
-		isLeftPanelOpen.update((isOpen) => !isOpen);
-	}
+	import { homePageSchema } from './homePageSchema';
 
 	// Dummy data or fetch it from a store/api
 	let games = [
 		{
 			id: 1,
-			title: 'Guess The Movie',
+			title: 'Guess The Movie - Hollywood',
 			image: '/images/guess-the-movie-logo.webp',
 			slug: 'guess-the-movie'
+		},
+		{
+			id: 2,
+			title: 'More Games Coming Soon',
+			image: '/images/coming-soon.webp',
+			slug: ''
 		}
-		// { id: 1, title: 'Game One', image: '/images/guess-the-movie.png', slug: 'guess-the-movie' }
-		// { id: 2, title: 'Game Two', image: '/path/to/image2.jpg', slug: 'game-two' }
-		// Add more games...
 	];
-
-	onMount(() => {
-		let lastVisit = localStorage.getItem('lastVisit');
-		if (!lastVisit || Date.now() - parseInt(lastVisit) > 2 * 60 * 60 * 1000) {
-			// 2 hours
-			addToast('Welcome!', 'success', 10000);
-			localStorage.setItem('lastVisit', Date.now().toString());
-		}
-	});
 </script>
 
 <svelte:head>
-	<title>QuickGamez | Play online games for free</title>
+	<title>QuickGamez - Play online games for free</title>
 	<meta
 		name="description"
-		content="Play free online games on our website! Enjoy hours of fun without any downloads or sign-ups. Start playing now!"
+		content="Play free online games at QuickGamez! Enjoy hours of fun without any downloads or sign-ups. Start playing now!"
 	/>
+
+	{@html `<script type="application/ld+json">${JSON.stringify(homePageSchema)}</script>`}
 </svelte:head>
 
-<div class="flex flex-col overflow-auto max-h-lvh">
-	<TopNav />
-	<!-- <h1 class="text-2xl font-bold text-center mb-6">Featured Games</h1> -->
-	<!-- Scrollable container -->
-	<div class="flex flex-row flex-wrap">
-		{#each games as game}
-			<div class="min-w-[50%] max-w-[50%] md:min-w-[33.333%] md:max-w-[33.333%] shrink-0 p-1">
-				<div class="bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
-					<a href={`/games/${game.slug}`}>
-						<img class="rounded-t-lg w-full h-auto" src={game.image} alt={game.title} />
-						<div class="align-middle">
-							<h5 class="text-xl ps-1 font-semibold tracking-tight text-gray-900 dark:text-white">
-								{game.title}
-							</h5>
-							<!-- <div class="flex items-center mt-2.5 mb-5">
-							<button
-								class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-							>
-								More Info
-							</button>
-						</div> -->
-						</div>
-					</a>
-				</div>
-			</div>
-		{/each}
-		<div class="min-w-[50%] max-w-[50%] md:min-w-[33.333%] md:max-w-[33.333%] shrink-0 p-1">
-			<div class="bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
-				<!-- <a href={`/games/${game.slug}`}> -->
-				<img
-					class="rounded-t-lg w-full h-auto"
-					src="/images/coming-soon.webp"
-					alt="More games coming soon"
-				/>
-				<!-- </a> -->
-			</div>
-		</div>
+<div class="flex flex-col overflow-auto max-h-lvh scrollbar-thin">
+	<div class="flex sticky top-0">
+		<TopNav />
 	</div>
+
+	<h1 class="text-2xl font-bold self-center border-b-2 border-black w-fit">Featured Games</h1>
+	<div class="grid grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 gap-2 p-2">
+		{#each games as game}
+			<a href={game.slug.length > 0 ? `/games/${game.slug}` : ''} class="flex flex-col">
+				<div class="aspect-square bg-white rounded-t-md overflow-clip">
+					<img src={game.image} alt={game.title + ' image'} class="w-full h-full object-cover" />
+				</div>
+				<div class="flex flex-col bg-white rounded-b-md px-1 pb-1">
+					<h2 class="text-lg font-semibold">{game.title}</h2>
+					{#if game.slug.length > 0}
+						<button
+							type="button"
+							class="bg-red-600 w-full text-white font-bold py-1 px-3 rounded-md"
+						>
+							Play Now
+						</button>
+					{/if}
+				</div>
+			</a>
+		{/each}
+	</div>
+	<h2 class=" font-sans text-2xl font-semibold text-gray-800 p-2">Play online games for free</h2>
+	<p class="text-lg p-2">
+		Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vero impedit porro inventore
+		accusantium, omnis debitis consectetur commodi et voluptatibus earum perspiciatis tenetur
+		temporibus, accusamus laboriosam est voluptates consequuntur, nemo id! Lorem ipsum dolor sit
+		amet consectetur adipisicing elit. Cupiditate praesentium, obcaecati ipsa nihil maxime ullam est
+		sed ipsum, nemo aliquam, sapiente ipsam quis consequatur commodi eum id reprehenderit molestiae
+		similique. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vero impedit porro
+		inventore accusantium, omnis debitis consectetur commodi et voluptatibus earum perspiciatis
+		tenetur temporibus, accusamus laboriosam est voluptates consequuntur, nemo id! Lorem ipsum dolor
+		sit amet consectetur adipisicing elit. Cupiditate praesentium, obcaecati ipsa nihil maxime ullam
+		est sed ipsum, nemo aliquam, sapiente ipsam quis consequatur commodi eum id reprehenderit
+		molestiae similique.
+	</p>
 </div>
