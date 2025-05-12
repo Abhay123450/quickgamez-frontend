@@ -6,6 +6,8 @@
 
 	const host = `http://${$page.url.hostname}:4000`;
 
+	export let game: string;
+
 	type TimeRange = 'Daily' | 'Weekly' | 'All-Time';
 
 	type Ranking = {
@@ -35,7 +37,7 @@
 
 	async function fetchLeaderboard(timeRange: TimeRange) {
 		const url = new URL(
-			host + `/api/v1/games/guess-the-movie/leaderboard?time=${timeRange.toLowerCase()}&count=10`
+			host + `/api/v1/games/${game}/leaderboard?time=${timeRange.toLowerCase()}&count=10`
 		);
 		const request: RequestInit = {};
 

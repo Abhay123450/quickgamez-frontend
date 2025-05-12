@@ -1003,7 +1003,7 @@
 				<!-- Tab 2 -->
 				<!-- Leaderboards -->
 				<div slot="tab2" class="relative w-full h-full flex flex-col justify-center p-1 pt-0">
-					<Leaderboards />
+					<Leaderboards game="guess-the-movie" />
 				</div>
 
 				<div slot="tab3" class="relative w-full h-full flex flex-col justify-center p-1 pt-0">

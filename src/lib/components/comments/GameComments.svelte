@@ -100,19 +100,6 @@
 		}
 	}
 
-	onMount(() => {
-		// getComments(game, filter, pageNumber, limit);
-		// const commentsList = (await loadComments()) || (await fetchComments(game));
-		// console.info('commentsList', commentsList);
-		// if (commentsList) {
-		// 	isLoading = false;
-		// 	comments = commentsList;
-		// 	pageNumber = comments.length / limit;
-		// 	saveCommentsToLocalStorage(game, filter, comments);
-		// }
-		// isLoading = false;
-	});
-
 	function newCommentAdded(e: CustomEvent<Comment>) {
 		console.log('newCommentAdded', JSON.stringify(e.detail));
 		const comment: Comment = e.detail;
