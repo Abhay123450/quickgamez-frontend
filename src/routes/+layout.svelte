@@ -55,7 +55,7 @@
 	<!-- Left Section-->
 	{#key $page.state.isLeftPanelOpen}
 		<div
-			class="fixed left-0 top-0 min-h-dvh h-dvh max-h-dvh w-full bg-transparent flex flex-row z-40 xl:z-0 xl:flex xl:bg-white xl:static xl:basis-1/5
+			class="fixed left-0 top-0 min-h-dvh h-dvh max-h-dvh w-full bg-transparent flex flex-row z-40 xl:z-0 xl:flex xl:bg-white xl:static xl:w-1/5
 				{$theme === Theme.Dark ? 'bg-gray-800 text-neutral-200' : 'bg-transparent text-black'} bg-gray-200"
 			class:hidden={!$page.state.isLeftPanelOpen}
 			use:trapFocus
@@ -106,7 +106,7 @@
 	<!-- Right Section-->
 	{#key $page.state.isRightPanelOpen}
 		<div
-			class="fixed right-0 top-0 h-dvh max-h-dvh w-full bg-transparent flex flex-col z-40 lg:z-0 lg:flex lg:bg-white lg:static lg:basis-1/4 xl:basis-1/5
+			class="fixed right-0 top-0 h-dvh max-h-dvh w-full bg-transparent flex flex-col z-40 lg:z-0 lg:flex lg:bg-white lg:static lg:w-1/4 xl:w-1/5
 				{$theme === Theme.Dark ? 'bg-gray-800 text-neutral-200' : 'bg-transparent text-black'} bg-gray-200"
 			class:hidden={!$page.state.isRightPanelOpen}
 		>

@@ -21,7 +21,6 @@
 		const windowBodies = Array.from(
 			parent.querySelectorAll<HTMLElement>('.window-body:not(.hidden)')
 		) as HTMLElement[];
-		console.log('windowBodies', windowBodies);
 		const parentHeight = parent.clientHeight;
 
 		const miniWindowContainers = Array.from(parent.children) as HTMLElement[];
