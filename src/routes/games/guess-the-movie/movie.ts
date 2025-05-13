@@ -51,7 +51,7 @@ export type GameData = {
 	livesUsed: number;
 	startedAt: number;
 	endedAt: number;
-	guesses: Array<{ character: string; isCorrect: boolean; guessedAt: number }>;
+	guesses: Array<{ character: string; isCorrect: boolean; guessedAt: Date }>;
 	result: 'win' | 'lose';
 	pointsBreakdown: string[];
 };
