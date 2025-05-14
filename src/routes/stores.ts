@@ -74,33 +74,7 @@ export let showCookieSettings: Writable<boolean> = writable(false);
 
 /** Game Log START */
 export let showGameLog: Writable<boolean> = writable(false);
-export const gameLog: Writable<GameLog[]> = writable<GameLog[]>([
-	{
-		timestamp: new Date(),
-		message: 'Game started heading kjsldlkas ccnklncklcnmc lmcnlc mlnvkl vclk vclknvc.',
-		type: 'info'
-	},
-	{
-		timestamp: new Date(),
-		message: 'Game started',
-		type: 'success'
-	},
-	{
-		timestamp: new Date(),
-		message: 'Your guess: A is correct',
-		type: 'error'
-	},
-	{
-		timestamp: new Date(),
-		message: 'Game started',
-		type: 'neutral'
-	},
-	{
-		timestamp: new Date(),
-		message: 'Game started',
-		type: 'warning'
-	}
-]);
+export const gameLog: Writable<GameLog[]> = writable<GameLog[]>([]);
 
 export function addGameLog(log: GameLog) {
 	gameLog.update((all) => [...all, log]);
@@ -112,7 +86,7 @@ export function clearGameLog() {
 
 /** Game Log END */
 
-/** trapfocus */
+/** trapfocus START */
 
 const previousFocusElements: Writable<HTMLElement[]> = writable([]);
 
@@ -128,3 +102,5 @@ export function popPreviousFocusElement(): HTMLElement | null {
 	});
 	return popped;
 }
+
+/** trapfocus END */

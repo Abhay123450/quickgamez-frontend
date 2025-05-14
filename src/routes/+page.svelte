@@ -15,12 +15,6 @@
 			title: 'Guess The Movie - Bollywood',
 			image: '/images/guess-the-movie-logo.webp',
 			slug: 'guess-the-movie/bollywood'
-		},
-		{
-			id: 3,
-			title: 'More Games Coming Soon',
-			image: '/images/coming-soon.webp',
-			slug: ''
 		}
 	];
 </script>
@@ -36,43 +30,135 @@
 </svelte:head>
 
 <div class="flex flex-col overflow-auto max-h-lvh scrollbar-thin">
-	<div class="flex sticky top-0">
+	<header class="flex sticky top-0 z-10">
 		<TopNav />
-	</div>
+	</header>
 
-	<h1 class="text-2xl font-bold self-center border-b-2 border-black w-fit">Featured Games</h1>
-	<div class="grid grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 gap-2 p-2">
-		{#each games as game}
-			<a href={game.slug.length > 0 ? `/games/${game.slug}` : ''} class="flex flex-col">
-				<div class="aspect-square bg-white rounded-t-md overflow-clip">
-					<img src={game.image} alt={game.title + ' image'} class="w-full h-full object-cover" />
-				</div>
-				<div class="flex flex-col bg-white rounded-b-md px-1 pb-1">
-					<h2 class="text-lg font-semibold">{game.title}</h2>
-					{#if game.slug.length > 0}
-						<button
-							type="button"
-							class="bg-red-600 w-full text-white font-bold py-1 px-3 rounded-md"
-						>
-							Play Now
-						</button>
-					{/if}
-				</div>
-			</a>
-		{/each}
-	</div>
-	<h2 class=" font-sans text-2xl font-semibold text-gray-800 p-2">Play online games for free</h2>
-	<p class="text-lg p-2">
-		Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vero impedit porro inventore
-		accusantium, omnis debitis consectetur commodi et voluptatibus earum perspiciatis tenetur
-		temporibus, accusamus laboriosam est voluptates consequuntur, nemo id! Lorem ipsum dolor sit
-		amet consectetur adipisicing elit. Cupiditate praesentium, obcaecati ipsa nihil maxime ullam est
-		sed ipsum, nemo aliquam, sapiente ipsam quis consequatur commodi eum id reprehenderit molestiae
-		similique. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vero impedit porro
-		inventore accusantium, omnis debitis consectetur commodi et voluptatibus earum perspiciatis
-		tenetur temporibus, accusamus laboriosam est voluptates consequuntur, nemo id! Lorem ipsum dolor
-		sit amet consectetur adipisicing elit. Cupiditate praesentium, obcaecati ipsa nihil maxime ullam
-		est sed ipsum, nemo aliquam, sapiente ipsam quis consequatur commodi eum id reprehenderit
-		molestiae similique.
-	</p>
+	<section aria-labelledby="featured-games-heading" class="p-2">
+		<h1
+			id="featured-games-heading"
+			class="text-2xl font-bold text-center border-b-2 border-black w-fit mx-auto mb-4"
+		>
+			Featured Games
+		</h1>
+		<div class="grid grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 gap-2">
+			{#each games as game}
+				<article
+					class="flex flex-col bg-white rounded-md shadow-sm"
+					aria-labelledby={`game-title-${game.slug}`}
+				>
+					<a
+						href={game.slug.length > 0 ? `/games/${game.slug}` : '#'}
+						class="block aspect-square rounded-t-md overflow-hidden"
+					>
+						<img
+							src={game.image}
+							alt={`${game.title} game thumbnail`}
+							class="w-full h-full object-cover"
+						/>
+					</a>
+					<div class="flex flex-col px-1 pb-1">
+						<h2 id={`game-title-${game.slug}`} class="text-lg font-semibold">{game.title}</h2>
+						{#if game.slug.length > 0}
+							<a
+								href={`/games/${game.slug}`}
+								class="bg-red-600 text-white font-bold text-center py-1 px-3 rounded-md mt-2"
+								aria-label={`Play ${game.title} now`}
+							>
+								Play Now
+							</a>
+						{/if}
+					</div>
+				</article>
+			{/each}
+		</div>
+	</section>
+
+	<section class="p-2" aria-labelledby="about-heading">
+		<h2 id="about-heading" class="text-xl font-semibold text-gray-900 mb-2">
+			Play Free Online Games - Fun, Fast & On Any Device!
+		</h2>
+		<p class="text-base text-gray-800">
+			Welcome to QuickGamez.com, your go-to hub for exciting and free online games! Whether you're
+			at home or on the move, our mobile - friendly platform lets you enjoy gaming anywhere - on
+			your PC, tablet, or mobile phone. No downloads or installations needed - just tap, click, and
+			play.
+		</p>
+	</section>
+
+	<section class="p-2 space-y-4" aria-labelledby="features-heading">
+		<h2 id="features-heading" class="text-xl font-semibold text-gray-900">
+			Why You'll Love Playing Here
+		</h2>
+
+		<article>
+			<h3 class="text-lg font-semibold text-gray-800">🎮 Play on Any Device</h3>
+			<p class="text-base text-gray-800">
+				Our games are optimized for all screen sizes and browsers. Whether you're using Android,
+				iOS, Windows, or macOS, you'll enjoy a smooth and responsive gaming experience.
+			</p>
+		</article>
+
+		<article>
+			<h3 class="text-lg font-semibold text-gray-800">🏆 Leaderboards for Every Game</h3>
+			<p class="text-base text-gray-800">
+				Think you’ve got what it takes to be the best? Compete with players around the world and
+				climb the live leaderboards. Track your score, improve your ranking, and show off your
+				skills to the community.
+			</p>
+		</article>
+
+		<article>
+			<h3 class="text-lg font-semibold text-gray-800">💬 Comment and Connect</h3>
+			<p class="text-base text-gray-800">
+				Each game features a comments section where you can share tips, ask questions, or simply
+				join the conversation. Connect with fellow players and be part of a growing gaming
+				community.
+			</p>
+		</article>
+	</section>
+
+	<section class="p-2" aria-labelledby="collection-heading">
+		<h2
+			id="collection-heading"
+			class="text-xl font-semibold text-gray-900 underline underline-offset-4 mb-2"
+		>
+			Current Game Collection
+		</h2>
+		<p class="text-base text-gray-800 mb-2">Our current lineup features two engaging titles:</p>
+		<ul class="list-disc pl-6 bg-white rounded-md py-2">
+			<li>
+				<a href="/games/guess-the-movie/hollywood" class="text-red-600 font-semibold"
+					>Guess The Movie – Hollywood</a
+				>
+				<p class="text-base text-gray-800">
+					Test your knowledge of Hollywood films in this fun guessing game.
+				</p>
+			</li>
+			<li>
+				<a href="/games/guess-the-movie/bollywood" class="text-red-600 font-semibold"
+					>Guess The Movie – Bollywood</a
+				>
+				<p class="text-base text-gray-800">
+					Love Hindi movies? Try to guess the movie titles based on clues and challenge your memory.
+				</p>
+			</li>
+		</ul>
+		<p class="text-base text-gray-800 mt-2">
+			And this is just the beginning! We're constantly working on adding more unique and
+			entertaining games to our platform. Stay tuned for upcoming releases!
+		</p>
+	</section>
+
+	<footer
+		class="flex flex-row justify-center p-2 mb-20 items-center space-x-2 border-t border-neutral-400"
+	>
+		<a class="hover:underline underline-offset-2 text-red-700" href="/privacy-policy"
+			>Privacy Policy</a
+		>
+		<p>•</p>
+		<a class="hover:underline underline-offset-2 text-red-700" href="/terms-of-use">Terms of Use</a>
+		<p>•</p>
+		<a class="hover:underline underline-offset-2 text-red-700" href="/contact">Contact Us</a>
+	</footer>
 </div>
