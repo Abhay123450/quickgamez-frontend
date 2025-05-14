@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import Footer from '$lib/components/common/Footer.svelte';
 	import TopNav from '$lib/components/common/TopNav.svelte';
 	import { Icon } from 'svelte-icons-pack';
 	import { IoHomeOutline } from 'svelte-icons-pack/io';
@@ -24,4 +25,5 @@
 			Return Home
 		</a>
 	</div>
+	<Footer />
 </div>

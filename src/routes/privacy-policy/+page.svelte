@@ -1,4 +1,5 @@
 <script>
+	import Footer from '$lib/components/common/Footer.svelte';
 	import TopNav from '$lib/components/common/TopNav.svelte';
 </script>
 
@@ -422,4 +423,5 @@
 			<li>By email: support@quickgamez.com</li>
 		</ul>
 	</div>
+	<Footer />
 </div>
