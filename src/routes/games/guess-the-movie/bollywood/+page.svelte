@@ -282,7 +282,7 @@
 				type: 'success'
 			});
 			gameData.guesses?.push({
-				guessedAt,
+				guessedAt: new Date(guessedAt),
 				character: char,
 				isCorrect: true
 			});
@@ -316,7 +316,7 @@
 				type: 'info'
 			});
 			gameData.guesses?.push({
-				guessedAt,
+				guessedAt: new Date(guessedAt),
 				character: char,
 				isCorrect: false
 			});
