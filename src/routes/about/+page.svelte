@@ -8,7 +8,7 @@
 	<meta name="description" content="Know about the website and the developer behind the website." />
 </svelte:head>
 
-<div class="flex flex-col overflow-auto max-h-dvh">
+<section class="flex flex-col overflow-auto min-h-dvh max-h-dvh">
 	<header class="flex sticky top-0 z-10">
 		<TopNav />
 	</header>
@@ -32,5 +32,6 @@
 			class=" bg-white p-1 rounded-md">er.abhay.gkp@gmail.com</span
 		>
 	</p>
+	<div class="flex flex-col grow"></div>
 	<Footer />
-</div>
+</section>
