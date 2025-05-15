@@ -30,7 +30,7 @@
 	{@html `<script type="application/ld+json">${JSON.stringify(homePageSchema)}</script>`}
 </svelte:head>
 
-<div class="flex flex-col overflow-auto max-h-lvh scrollbar-thin">
+<div class="flex flex-col overflow-auto max-h-dvh">
 	<header class="flex sticky top-0 z-10">
 		<TopNav />
 	</header>

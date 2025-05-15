@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { ValidationResult } from '$lib/types/ValidationResult';
 	import { debounce } from '$lib/utils/debounce';
+	import { generateSecureRandomString } from '$lib/utils/generateSecureRandomString';
 	import { Icon } from 'svelte-icons-pack';
 	import { BiEdit } from 'svelte-icons-pack/bi';
 
@@ -19,6 +20,8 @@
 		errorMessage: '',
 		validationMessage: ''
 	});
+
+	let id = 'input-' + name + '-' + generateSecureRandomString(5);
 
 	let validationMessage: string = '';
 	let errorMessage: string = '';
@@ -50,11 +53,12 @@
 
 <div class="flex flex-col relative w-full rounded-md border border-neutral-500">
 	<label
-		for="name"
+		for={id}
 		class="absolute -top-3 start-2 px-1 text-sm bg-yellow-100 border border-neutral-500 text-black rounded-md"
 		>{label}</label
 	>
 	<input
+		{id}
 		{name}
 		{value}
 		on:input={debouncedHandleInput}
