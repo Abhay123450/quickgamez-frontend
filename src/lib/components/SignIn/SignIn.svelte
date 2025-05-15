@@ -2,27 +2,20 @@
 	import { fade, fly } from 'svelte/transition';
 	import Tab from '../tabs/Tab.svelte';
 	import type { Tab as TabType } from '../tabs/Tabs';
-	import {
-		addToast,
-		isLoggedIn,
-		isLoginPanelOpen,
-		loginActiveTab,
-		userDetails
-	} from '../../../routes/stores';
+	import { addToast, isLoggedIn, loginActiveTab, userDetails } from '../../../routes/stores';
 	import { trapFocus } from '$lib/actions';
 	import { Icon } from 'svelte-icons-pack';
 	import { CgClose } from 'svelte-icons-pack/cg';
 	import { IoArrowBackOutline } from 'svelte-icons-pack/io';
 	import { OiVerified16 } from 'svelte-icons-pack/oi';
-	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
-	import InputText from '../common/InputText.svelte';
-	import InputEmail from '../common/InputEmail.svelte';
-	import InputPassword from '../common/InputPassword.svelte';
+	import InputPassword from '../common/input/InputPassword.svelte';
 	import ButtonWithLoading from '../common/ButtonWithLoading.svelte';
 	import ButtonResendOtp from '../common/ButtonResendOtp.svelte';
 	import { fetchRequest } from '$lib/utils/fetchRequest';
-	import { pushState, replaceState } from '$app/navigation';
+	import { replaceState } from '$app/navigation';
+	import InputText from '../common/input/InputText.svelte';
+	import { isEmailValid, isNotEmpty } from '$lib/utils/inputValidation';
 
 	const host = `http://${$page.url.hostname}:4000`;
 	const CREATE_USER_ROUTE = '/api/v1/users';
@@ -35,25 +28,37 @@
 	let registerForm: HTMLFormElement;
 	let loginForm: HTMLFormElement;
 
+	// RegisterStage.ENTER_DETAILS
 	let registerName: string;
 	let registerEmail: string;
 	let registerPassword: string;
+	// RegisterStage.ENTER_OTP
 	let registerOtp: string;
+	// LoginStage.ENTER_DETAILS
 	let loginEmail: string;
 	let loginPassword: string;
+	// LoginStage.FORGOT_PASSWORD
 	let forgotPasswordEmail: string;
+	// LoginStage.VERIFY_EMAIL
 	let forgotPasswordOtp: string;
+	// LoginStage.RESET_PASSWORD;
 	let newPassword: string;
 
-	let registerNameError = '';
-	let registerEmailError = '';
-	let registerPasswordError = '';
-	let registerOtpError = '';
-	let loginEmailError = '';
-	let loginPasswordError = '';
-	let forgotPasswordEmailError = '';
-	let forgotPasswordOtpError = '';
-	let newPasswordError = '';
+	let registerDataValid = {
+		registerName: false,
+		registerEmail: false,
+		registerPassword: false
+	};
+	let isRegisterOtpValid = false;
+
+	let loginDatValid = {
+		loginEmail: false,
+		loginPassword: false
+	};
+
+	let isForgotPasswordEmailValid = false;
+	let isForgotPasswordOtpValid = false;
+	let isNewPasswordValid = false;
 
 	let registerStage1Error = '';
 	let registerStage2Error = '';
@@ -64,20 +69,14 @@
 
 	let isRegisterDataValid = false;
 	let isLoginDataValid = false;
-	let isForgotPasswordDataValid = false;
 	let isVerifyEmailDataValid = false;
 	let isResetPasswordDataValid = false;
 
-	$: isRegisterDataValid =
-		!(registerEmailError || registerPasswordError || registerNameError) &&
-		!!registerEmail &&
-		!!registerPassword &&
-		!!registerName;
-	$: isLoginDataValid = !(loginEmailError || loginPasswordError) && !!loginEmail && !!loginPassword;
-	$: isForgotPasswordDataValid = !forgotPasswordEmailError && !!forgotPasswordEmail;
-	$: isVerifyEmailDataValid =
-		!forgotPasswordOtpError && !!forgotPasswordOtp && !!forgotPasswordEmail;
-	$: isResetPasswordDataValid = !newPasswordError && !!newPassword;
+	$: isRegisterDataValid = Object.values(registerDataValid).every((value) => value);
+	$: isLoginDataValid = Object.values(loginDatValid).every((value) => value);
+	$: isVerifyEmailDataValid = isForgotPasswordEmailValid && isForgotPasswordOtpValid;
+	$: isResetPasswordDataValid =
+		isNewPasswordValid && isForgotPasswordEmailValid && isForgotPasswordOtpValid;
 
 	enum RegisterStage {
 		ENTER_DETAILS,
@@ -104,7 +103,6 @@
 	let activeTab: string = tabs[$loginActiveTab].name;
 
 	function closeLoginWindow() {
-		// $isLoginPanelOpen = false;
 		history.back();
 	}
 
@@ -117,8 +115,13 @@
 			isProcessing = true;
 			registerStage1Error = '';
 
+			if (!isRegisterDataValid) {
+				registerStage1Error = 'Please fill in all the required fields';
+				isProcessing = false;
+				return;
+			}
+
 			const user = { email: registerEmail, password: registerPassword, name: registerName };
-			console.log('creating user');
 
 			const url = `${host}${CREATE_USER_ROUTE}`;
 			const response = await fetch(url, {
@@ -130,19 +133,16 @@
 			});
 
 			if (!response) {
-				console.log('an error occurred');
 				registerStage1Error = 'An error occurred';
 				isProcessing = false;
 				return;
 			}
 
 			const data = await response.json();
-			console.log(`create user res data ${JSON.stringify(data)}`);
 
 			const success: boolean = data.success;
 
 			if (!success) {
-				console.log('an error occurred');
 				registerStage1Error = data.message;
 				isProcessing = false;
 				return;
@@ -152,18 +152,21 @@
 			isProcessing = false;
 			registerStage = RegisterStage.ENTER_OTP;
 		} catch (error) {
-			console.log(`failed to create user: ${error}`);
 			registerStage1Error = `An error occurred: ${error}`;
 			isProcessing = false;
 		}
 	}
 
 	async function verifyOtp() {
-		console.log('verifying otp');
-
 		try {
 			isProcessing = true;
 			registerStage2Error = '';
+
+			if (!isVerifyEmailDataValid) {
+				registerStage2Error = 'Please fill in all the required fields';
+				isProcessing = false;
+				return;
+			}
 
 			const data = {
 				email: registerEmail,
@@ -175,7 +178,6 @@
 
 			const success: boolean = responseData.success;
 			if (!success) {
-				console.log('an error occurred');
 				registerStage2Error = responseData.message;
 				isProcessing = false;
 				return;
@@ -185,15 +187,12 @@
 			isProcessing = false;
 			registrationCompleted();
 		} catch (error) {
-			console.log(`failed to verify otp: ${error}`);
 			registerStage2Error = `An error occurred: ${error}`;
 			isProcessing = false;
 		}
 	}
 
 	async function sendOtp(email: string) {
-		console.log('resending otp');
-
 		const payload = { email };
 		const url = `${host}${SEND_EMAIL_OTP_ROUTE}`;
 		const response = await fetch(url, {
@@ -212,7 +211,6 @@
 		const responseData = await response.json();
 		const success: boolean = responseData.success;
 		if (!success) {
-			console.log('an error occurred');
 			registerStage2Error = responseData.message;
 			return;
 		}
@@ -221,13 +219,17 @@
 	}
 
 	async function login() {
-		console.log('logging in');
 		isProcessing = true;
+
+		if (!isLoginDataValid) {
+			loginError = 'Please fill in all the required fields';
+			isProcessing = false;
+			return;
+		}
 
 		try {
 			const payload = { email: loginEmail, password: loginPassword };
 			const url = `${host}${LOGIN_ROUTE}`;
-			console.log(`url ${url}`);
 			alert(url);
 			const response = await fetch(url, {
 				method: 'POST',
@@ -247,10 +249,7 @@
 			const responseData = await response.json();
 			const success: boolean = responseData.success;
 
-			console.log(`login res data ${JSON.stringify(responseData)}`);
-
 			if (!success) {
-				console.log('an error occurred');
 				loginError = responseData.message;
 				const errorCode = responseData.errorCode;
 				handleLoginError(errorCode);
@@ -265,7 +264,6 @@
 			// ON SUCCESS
 			loginSuccessFull();
 		} catch (error) {
-			console.log(`failed to login: ${error}`);
 			loginError = `An error occurred: ${error}`;
 			isProcessing = false;
 		}
@@ -289,6 +287,12 @@
 	async function forgotPassword() {
 		isProcessing = true;
 
+		if (!isForgotPasswordEmailValid) {
+			forgotPasswordError = 'Please fill in all the required fields';
+			isProcessing = false;
+			return;
+		}
+
 		const url = `${host}${FORGOT_PASSWORD_ROUTE}`;
 		const response = await fetch(url, {
 			method: 'POST',
@@ -308,7 +312,6 @@
 
 		const success: boolean = responseData.success;
 		if (!success) {
-			console.log(`an error occurred: ${JSON.stringify(responseData)}`);
 			forgotPasswordError = responseData.message;
 			isProcessing = false;
 			return;
@@ -321,35 +324,20 @@
 	}
 
 	async function verifyEmail() {
-		console.log('verifying email');
-
 		try {
 			isProcessing = true;
 			registerStage2Error = '';
+
+			if (!isForgotPasswordOtpValid) {
+				registerStage2Error = 'Please fill in all the required fields';
+				isProcessing = false;
+				return;
+			}
 
 			const data = {
 				email: forgotPasswordEmail,
 				otp: forgotPasswordOtp
 			};
-
-			// const response = await fetch(
-			// 	`http://${$page.url.hostname}:4000/api/v1/users/auth/verify-email`,
-			// 	{
-			// 		method: 'POST',
-			// 		headers: {
-			// 			'Content-Type': 'application/json'
-			// 		},
-			// 		body: JSON.stringify(data)
-			// 	}
-			// );
-
-			// if (!response) {
-			// 	registerStage2Error = 'An error occurred';
-			// 	isProcessing = false;
-			// 	return;
-			// }
-
-			// const responseData = await response.json();
 
 			const url = `${host}${VERIFY_EMAIL_ROUTE}`;
 			const response = await fetch(url, {
@@ -364,7 +352,6 @@
 
 			const success: boolean = responseData.success;
 			if (!success) {
-				console.log('an error occurred: ', responseData.message);
 				verifyEmailError = responseData.message;
 				isProcessing = false;
 				return;
@@ -380,18 +367,21 @@
 				login();
 			}
 		} catch (error) {
-			console.log(`failed to verify otp: ${error}`);
 			loginError = `An error occurred: ${error}`;
 			isProcessing = false;
 		}
 	}
 
 	async function resetPassword() {
-		console.log('reset password');
-
 		try {
 			isProcessing = true;
 			loginError = '';
+
+			if (!isResetPasswordDataValid) {
+				loginError = 'Please fill in all the required fields';
+				isProcessing = false;
+				return;
+			}
 
 			const data = {
 				email: forgotPasswordEmail,
@@ -420,7 +410,6 @@
 			loginStage = LoginStage.ENTER_DETAILS;
 			addToast('Password reset successful', 'success', 7000);
 		} catch (error) {
-			console.log(`failed to reset password: ${error}`);
 			loginError = `An error occurred: ${error}`;
 			isProcessing = false;
 		}
@@ -442,7 +431,7 @@
 		registerStage = RegisterStage.REGISTRATION_SUCCESSFULL;
 		setTimeout(() => {
 			$loginActiveTab = 1;
-			activeTab = tabs[$loginActiveTab].name;
+			selectTab(tabs[$loginActiveTab].name);
 			loginStage = LoginStage.ENTER_DETAILS;
 		}, 3000);
 	}
@@ -502,18 +491,38 @@
 						on:submit|preventDefault={createUser}
 						class="flex flex-col"
 					>
-						<InputText name="Name" bind:text={registerName} bind:errorMessage={registerNameError} />
-						<InputEmail bind:email={registerEmail} bind:errorMessage={registerEmailError} />
-						<InputPassword
-							bind:password={registerPassword}
-							bind:errorMessage={registerPasswordError}
-						/>
-						<p id="stage1-error" class="text-red-500" in:fly={{ y: -20 }}>
+						<div class="flex flex-col space-y-4">
+							<InputText
+								name="Name"
+								autocomplete="name"
+								bind:value={registerName}
+								validationErrorHandler={() => (registerDataValid.registerName = false)}
+								validationSuccessHandler={() => (registerDataValid.registerName = true)}
+							/>
+							<InputText
+								name="Email"
+								autocomplete="email"
+								bind:value={registerEmail}
+								validationErrorHandler={() => (registerDataValid.registerEmail = false)}
+								validationSuccessHandler={() => (registerDataValid.registerEmail = true)}
+							/>
+							<InputPassword
+								name="Password"
+								autocomplete="new-password"
+								bind:value={registerPassword}
+								validationErrorHandler={() => (registerDataValid.registerPassword = false)}
+								validationSuccessHandler={() => (registerDataValid.registerPassword = true)}
+							/>
+						</div>
+
+						<p id="stage1-error" class="text-red-600" in:fly={{ y: -20 }}>
 							{registerStage1Error}
 						</p>
-						<p class="text-xs self-center">
+						<p class="text-xs self-center mt-2">
 							By signing up, you agree to our
-							<a href="/terms" class="text-blue-600 underline" target="_blank">Terms of Service</a>
+							<a href="/terms-of-use" class="text-blue-600 underline" target="_blank"
+								>Terms of Use</a
+							>
 							and
 							<a href="/privacy-policy" class="text-blue-600 underline" target="_blank"
 								>Privacy Policy</a
@@ -528,7 +537,7 @@
 					<div class="flex flex-row w-fit h-fit mt-3 self-center place-items-center">
 						<p>Already have an account?</p>
 						<button
-							class="text-red-500 px-1"
+							class="text-red-600 px-1"
 							on:click={(e) => {
 								$loginActiveTab = 1;
 								selectTab(tabs[$loginActiveTab].name);
@@ -539,14 +548,21 @@
 				{:else if registerStage === RegisterStage.ENTER_OTP}
 					<p class="text-lg self-center font-medium">Verify Email</p>
 					<p class="text-base self-center my-1">Enter the OTP sent to {registerEmail}</p>
-					<form id="verify-otp" on:submit|preventDefault={verifyOtp}>
-						<InputText name="OTP" bind:text={registerOtp} bind:errorMessage={registerOtpError} />
+					<form class="pt-4" id="verify-otp" on:submit|preventDefault={verifyOtp}>
+						<InputText
+							name="OTP"
+							autocomplete="one-time-code"
+							bind:value={registerOtp}
+							validationFunction={isNotEmpty}
+							validationErrorHandler={() => (isRegisterOtpValid = false)}
+							validationSuccessHandler={() => (isRegisterOtpValid = true)}
+						/>
 						<ButtonResendOtp
 							on:click={() => {
 								sendOtp(registerEmail);
 							}}
 						/>
-						<p id="stage2-error" class="text-red-500">{registerStage2Error}</p>
+						<p id="stage2-error" class="text-red-600">{registerStage2Error}</p>
 						<ButtonWithLoading text="Verify" bind:isLoading={isProcessing} />
 					</form>
 				{:else if registerStage === RegisterStage.REGISTRATION_SUCCESSFULL}
@@ -589,17 +605,34 @@
 							</p>
 						{/if}
 					</div>
-					<form bind:this={loginForm} on:submit|preventDefault={login}>
-						<InputEmail bind:email={loginEmail} bind:errorMessage={loginEmailError} />
-						<InputPassword bind:password={loginPassword} bind:errorMessage={loginPasswordError} />
+					<form bind:this={loginForm} on:submit|preventDefault={login} class="flex flex-col">
+						<InputText
+							bind:value={loginEmail}
+							name="Email"
+							autocomplete="username"
+							placeholder="Enter Your Email"
+							validationFunction={isEmailValid}
+							validationErrorHandler={() => (loginDatValid.loginEmail = false)}
+							validationSuccessHandler={() => (loginDatValid.loginEmail = true)}
+							className="mt-4"
+						/>
+						<InputPassword
+							bind:value={loginPassword}
+							name="Password"
+							autocomplete="current-password"
+							placeholder="Enter Your Password"
+							validationErrorHandler={() => (loginDatValid.loginPassword = false)}
+							validationSuccessHandler={() => (loginDatValid.loginPassword = true)}
+							className="mt-6"
+						/>
 						<button
 							on:click={() => (loginStage = LoginStage.FORGOT_PASSWORD)}
 							type="button"
-							class="w-fit px-2 py-1 rounded-md text-red-500 text-sm"
+							class="w-fit px-1 py-1 rounded-md text-red-600 text-sm my-2 hover:underline hover:underline-offset-2 hover:decoration-red-600"
 						>
 							Forgot Password?
 						</button>
-						<p class="text-red-500">{loginError}</p>
+						<p class="text-red-600">{loginError}</p>
 						<ButtonWithLoading
 							text="Log In"
 							bind:isLoading={isProcessing}
@@ -609,7 +642,7 @@
 					<div class="flex flex-row w-fit h-fit mt-3 self-center place-items-center">
 						<p>Don't have an account?</p>
 						<button
-							class="text-red-500 px-1"
+							class="text-red-600 px-1"
 							on:click={(e) => {
 								$loginActiveTab = 0;
 								selectTab(tabs[$loginActiveTab].name);
@@ -621,32 +654,43 @@
 					<h1 class="text-2xl self-center font-medium">Forgot Password</h1>
 					<p class="text-base self-center my-1">Enter the email associated with your account</p>
 					<form on:submit|preventDefault={forgotPassword}>
-						<InputEmail
-							bind:email={forgotPasswordEmail}
-							bind:errorMessage={forgotPasswordEmailError}
+						<InputText
+							bind:value={forgotPasswordEmail}
+							name="Email"
+							autocomplete="username"
+							placeholder="Enter Your Email"
+							validationFunction={isEmailValid}
+							validationErrorHandler={() => (isForgotPasswordEmailValid = false)}
+							validationSuccessHandler={() => (isForgotPasswordEmailValid = true)}
+							className="my-4"
 						/>
-						<p class="text-red-500">{forgotPasswordError}</p>
+						<p class="text-red-600">{forgotPasswordError}</p>
 						<ButtonWithLoading
 							text="Send OTP to Email"
 							bind:isLoading={isProcessing}
-							isDisabled={!isForgotPasswordDataValid}
+							isDisabled={!isForgotPasswordEmailValid}
 						/>
 					</form>
 				{:else if loginStage === LoginStage.VERIFY_EMAIL}
 					<h1 class="text-2xl self-center font-medium">VERIFY EMAIL</h1>
-					<p class="text-base self-center my-1">Enter the OTP sent to {loginEmail}</p>
+					<p class="text-base self-center my-1">Enter the OTP sent to {forgotPasswordEmail}</p>
 					<form on:submit|preventDefault={verifyEmail}>
 						<InputText
-							name="otp"
-							bind:text={forgotPasswordOtp}
-							bind:errorMessage={forgotPasswordOtpError}
+							bind:value={forgotPasswordOtp}
+							name="OTP"
+							autocomplete="one-time-code"
+							placeholder="Enter Your OTP"
+							validationFunction={isNotEmpty}
+							validationErrorHandler={() => (isForgotPasswordOtpValid = false)}
+							validationSuccessHandler={() => (isForgotPasswordOtpValid = true)}
+							className="mt-4"
 						/>
 						<ButtonResendOtp
 							on:click={() => {
 								sendOtp(loginEmail);
 							}}
 						/>
-						<p class="text-red-500">{verifyEmailError}</p>
+						<p class="text-red-600">{verifyEmailError}</p>
 						<ButtonWithLoading
 							text="Verify"
 							bind:isLoading={isProcessing}
@@ -657,8 +701,16 @@
 					<h1 class="text-2xl self-center font-medium">RESET PASSWORD</h1>
 					<p class="text-base self-center my-1">Create a new password</p>
 					<form on:submit|preventDefault={resetPassword}>
-						<InputPassword bind:password={newPassword} bind:errorMessage={loginPasswordError} />
-						<p class="text-red-500">{resetPasswordError}</p>
+						<InputPassword
+							bind:value={newPassword}
+							name="Password"
+							autocomplete="new-password"
+							placeholder="Enter a new password"
+							validationErrorHandler={() => (isNewPasswordValid = false)}
+							validationSuccessHandler={() => (isNewPasswordValid = true)}
+							className="mt-4"
+						/>
+						<p class="text-red-600">{resetPasswordError}</p>
 						<ButtonWithLoading
 							text="Reset Password"
 							bind:isLoading={isProcessing}
@@ -674,5 +726,4 @@
 			</div>
 		</div>
 	</Tab>
-	<!-- </div> -->
 </div>

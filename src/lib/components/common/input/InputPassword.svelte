@@ -2,8 +2,12 @@
 	import type { ValidationResult } from '$lib/types/ValidationResult';
 	import { debounce } from '$lib/utils/debounce';
 	import { generateSecureRandomString } from '$lib/utils/generateSecureRandomString';
+	import { isPasswordValid } from '$lib/utils/inputValidation';
+	import { Icon } from 'svelte-icons-pack';
+	import { AiFillEye, AiFillEyeInvisible } from 'svelte-icons-pack/ai';
 
 	export let name: string = '';
+	export let isPasswordVisible: boolean = false;
 	export let isDisabled: boolean = false;
 	export let value: string = '';
 	export let label: string = name;
@@ -12,15 +16,10 @@
 	export let validationErrorHandler: () => void = () => {};
 	export let validationSuccessHandler: (value: string) => void = () => {};
 	// Updated type definition to accept a value and return validation result
-	export let validationFunction: (
-		val: string
-	) => Promise<ValidationResult> | ValidationResult = () => ({
-		isValid: true,
-		errorMessage: '',
-		validationMessage: ''
-	});
 	export let className: string = '';
 
+	let validationFunction: (val: string) => Promise<ValidationResult> | ValidationResult =
+		isPasswordValid;
 	let id = 'input-' + name + '-' + generateSecureRandomString(5);
 
 	let validationMessage: string = '';
@@ -53,19 +52,47 @@
 		class="absolute -top-3 start-2 px-1 text-sm bg-yellow-100 border border-neutral-500 text-black rounded-md"
 		>{label}</label
 	>
-	<input
-		{id}
-		{name}
-		{placeholder}
-		{autocomplete}
-		bind:value
-		on:input={debouncedHandleInput}
-		type="text"
-		disabled={isDisabled}
-		class={`w-full px-3 pt-3 pb-2 rounded-md ${isDisabled ? 'bg-neutral-100' : 'bg-white'}`}
-		aria-invalid={errorMessage !== ''}
-		aria-errormessage="{id}-error"
-	/>
+	{#if isPasswordVisible}
+		<input
+			{id}
+			{name}
+			{placeholder}
+			{autocomplete}
+			bind:value
+			on:input={debouncedHandleInput}
+			type="text"
+			disabled={isDisabled}
+			class={`w-full px-3 pt-3 pb-2 rounded-md ${isDisabled ? 'bg-neutral-100' : 'bg-white'}`}
+			aria-invalid={errorMessage !== ''}
+			aria-errormessage="{id}-error"
+		/>
+	{:else}
+		<input
+			{id}
+			{name}
+			{placeholder}
+			{autocomplete}
+			bind:value
+			on:input={debouncedHandleInput}
+			type="password"
+			disabled={isDisabled}
+			class={`w-full px-3 pt-3 pb-2 rounded-md ${isDisabled ? 'bg-neutral-100' : 'bg-white'}`}
+			aria-invalid={errorMessage !== ''}
+			aria-errormessage="{id}-error"
+		/>
+	{/if}
+
+	<button
+		type="button"
+		class="flex absolute right-2 top-2.5 text-gray-600"
+		on:click={() => (isPasswordVisible = !isPasswordVisible)}
+	>
+		{#if isPasswordVisible}
+			<Icon src={AiFillEye} className="w-6 h-6" />
+		{:else}
+			<Icon src={AiFillEyeInvisible} className="w-6 h-6" />
+		{/if}
+	</button>
 
 	<p id="{id}-error" class:hidden={errorMessage === ''} class="text-red-600 ps-1 mb-1 h-5">
 		{errorMessage}
