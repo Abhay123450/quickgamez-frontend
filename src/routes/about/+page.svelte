@@ -8,10 +8,10 @@
 	<meta name="description" content="Know about the website and the developer behind the website." />
 </svelte:head>
 
-<div class="flex flex-col">
-	<div class="flex sticky top-0">
+<div class="flex flex-col overflow-auto max-h-dvh">
+	<header class="flex sticky top-0 z-10">
 		<TopNav />
-	</div>
+	</header>
 	<h1 class="text-xl font-bold text-center m-4">About Website</h1>
 	<p class="px-3 py-2">
 		Welcome to QuickGamez.com, where you can play free online games anytime! Currently, there are

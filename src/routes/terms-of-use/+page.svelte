@@ -3,8 +3,10 @@
 	import TopNav from '$lib/components/common/TopNav.svelte';
 </script>
 
-<div class="flex flex-col h-full max-h-full overflow-y-auto">
-	<TopNav isShowImage={true} />
+<div class="flex flex-col overflow-auto max-h-dvh">
+	<header class="flex sticky top-0 z-10">
+		<TopNav />
+	</header>
 	<div class="p-2 prose-sm lg:prose-base max-w-3xl self-center">
 		<h2><b>TERMS OF USE</b></h2>
 		<p>Last updated: 2025-05-14</p>
