@@ -65,9 +65,11 @@
 		type="text"
 		disabled={isDisabled}
 		class={`w-full px-3 pt-3 pb-2 rounded-md ${isDisabled ? 'bg-neutral-100' : 'bg-white'}`}
+		aria-invalid={errorMessage !== ''}
+		aria-errormessage="{id}-error"
 	/>
 	{#if errorMessage !== ''}
-		<p class="text-red-600 ps-1 mb-1 h-5">{errorMessage}</p>
+		<p id="{id}-error" class="text-red-600 ps-1 mb-1 h-5">{errorMessage}</p>
 	{:else if validationMessage !== ''}
 		<p class="text-emerald-600 ps-1 mb-1 h-5">{validationMessage}</p>
 	{/if}
