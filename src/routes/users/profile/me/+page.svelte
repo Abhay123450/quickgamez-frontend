@@ -2,14 +2,7 @@
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import { pushState } from '$app/navigation';
-	import {
-		addToast,
-		isLoggedIn,
-		isLoginPanelOpen,
-		loginActiveTab,
-		userDetails as userDetailsStore
-	} from '../../../stores';
-	import axios from 'axios';
+	import { addToast, isLoggedIn, userDetails as userDetailsStore } from '../../../stores';
 	import { fetchWithTokenRefresh } from '$lib/utils/fetchRequest';
 	import TopNav from '$lib/components/common/TopNav.svelte';
 	import TextEditable from '../TextEditable.svelte';
@@ -19,11 +12,11 @@
 	import { Icon } from 'svelte-icons-pack';
 	import { BiEdit } from 'svelte-icons-pack/bi';
 	import type { ValidationResult } from '$lib/types/ValidationResult';
+	import { API_ROUTES } from '$lib/constants/apiRoutes';
 
-	const url: URL = new URL(`http://${$page.url.hostname}:4000/api/v1/users/my-profile`);
-	let userDetailsLocal: Partial<User> | null = $userDetailsStore;
+	const url: URL = new URL(API_ROUTES.USER.GET_MY_PROFILE);
 	let updatedUserDetails: Partial<User> = {};
-	let errorMessage = '';
+	let errorMessage = 'Loading...';
 
 	let isSavingUserData = false;
 
@@ -36,9 +29,8 @@
 			errorMessage = error.error;
 			if (error.errorCode === 'LOGIN_REQUIRED') {
 				$isLoggedIn = false;
-				$loginActiveTab = 1;
-				$isLoginPanelOpen = true;
-				refreshOnLogin();
+				pushState('', { ...$page.state, isLoginPanelOpen: true, loginActiveTab: 1 });
+				// refreshOnLogin();
 			}
 		} else if (data) {
 			$userDetailsStore = data as User;
@@ -48,75 +40,6 @@
 		console.error(`on mount error ${JSON.stringify(error)}`);
 		console.info(`cookies ${document.cookie}`);
 	});
-
-	function refreshOnLogin() {
-		const interval = setInterval(async () => {
-			console.info('refreshing on login');
-			if ($isLoggedIn) {
-				console.info(`isLoggedIn ${$isLoggedIn}`);
-				const [error, data] = await getMyProfile();
-				if (!error && data) {
-					clearInterval(interval);
-					userDetailsLocal = data;
-					errorMessage = '';
-				}
-			}
-		}, 500);
-	}
-
-	async function getUserData(): Promise<any> {
-		const response = await fetch(url, {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			credentials: 'include'
-		});
-		const data = await response.json();
-
-		if (!data.success && data.errorCode === 'TOKEN_EXPIRED') {
-			const isLoggedIn = await login();
-			if (!isLoggedIn) {
-			}
-			return getUserData();
-		} else if (!data.success && data.errorCode === 'LOGIN_REQUIRED') {
-			$isLoginPanelOpen = true;
-			refreshUserDetails();
-		}
-
-		return data;
-	}
-
-	function login(): Promise<boolean> {
-		return new Promise<boolean>((resolve, reject) => {
-			axios
-				.get('http://localhost:4000/api/v1/users/auth/access-token', {
-					withCredentials: true
-				})
-				.then((res) => {
-					console.log(res);
-					resolve(true);
-				})
-				.catch((err) => {
-					console.log(err);
-					reject(false);
-				})
-				.finally(() => console.log('token refreshed'));
-		});
-	}
-
-	function refreshUserDetails() {
-		const interval = setInterval(async () => {
-			const accessTokenAvailable = document.cookie.includes('accessTokenValidTill');
-			if (accessTokenAvailable) {
-				clearInterval(interval);
-				const data = await getUserData();
-				if (data.success) {
-					userDetailsLocal = data.data;
-				}
-			}
-		}, 1000);
-	}
 
 	async function getMyProfile() {
 		const request: RequestInit = {
@@ -202,9 +125,7 @@
 	}
 
 	async function checkUsername(newUsername: string): Promise<boolean | string> {
-		const result = await fetch(
-			`http://${$page.url.hostname}:4000/api/v1/users/check-username?username=` + newUsername
-		);
+		const result = await fetch(new URL(API_ROUTES.USER.CHECK_USERNAME_AVAILABILITY(newUsername)));
 		const data = await result.json();
 		if (!data) {
 			return false;
@@ -218,6 +139,9 @@
 
 	async function updateUserData() {
 		isSavingUserData = true;
+		if (!$userDetailsStore?.userId) {
+			return;
+		}
 		const req: RequestInit = {
 			method: 'PUT',
 			headers: {
@@ -226,9 +150,7 @@
 			body: JSON.stringify(updatedUserDetails),
 			credentials: 'include'
 		};
-		const url = new URL(
-			`http://${$page.url.hostname}:4000/api/v1/users/${$userDetailsStore?.userId}`
-		);
+		const url = new URL(API_ROUTES.USER.UPDATE_USER_DATA($userDetailsStore.userId));
 
 		const [error, data] = await fetchWithTokenRefresh(url, req);
 
@@ -281,7 +203,7 @@
 <div class="flex flex-col h-full max-h-full overflow-y-auto">
 	<TopNav isShowImage={false} title="My Profile" />
 	<div class="relative flex flex-col w-full max-w-3xl self-center p-2">
-		{#if errorMessage !== ''}
+		{#if !$isLoggedIn}
 			<p class="border border-black px-2 py-1 text-lg">{errorMessage}</p>
 		{:else}
 			<h2 class="text-xl font-bold mb-2">User Details</h2>
