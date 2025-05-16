@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import { API_ROUTES } from '$lib/constants/apiRoutes';
 	import { fetchWithTokenRefresh } from '$lib/utils/fetchRequest';
 	import { throttle } from '$lib/utils/throttle';
 	import SelectOptions from './SelectOptions.svelte';
@@ -35,9 +36,7 @@
 	}
 
 	async function fetchLeaderboard(timeRange: TimeRange) {
-		const url = new URL(
-			host + `/api/v1/games/${game}/leaderboard?time=${timeRange.toLowerCase()}&count=10`
-		);
+		const url = new URL(API_ROUTES.LEADERBOARDS.GET_LEADERBOARD(game, timeRange.toLowerCase(), 10));
 		const request: RequestInit = {};
 
 		const [error, data] = await fetchWithTokenRefresh<Leaderboard>(url, request);

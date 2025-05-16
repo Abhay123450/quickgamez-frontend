@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { page } from '$app/stores';
 	import { onMount, tick } from 'svelte';
 	import CommentSingle from './CommentSingle.svelte';
 	import type { Comment } from '$lib/types/Comment';
 	import LoadingSpin from '../common/LoadingSpin.svelte';
 	import { getRepliesFromLocalStorage, saveRepliesToLocalStorage } from '$lib/utils/localStorage';
+	import { API_ROUTES } from '$lib/constants/apiRoutes';
 
 	export let commentId: string = '';
 	export let numberOfReplies: number = 6;
@@ -28,7 +28,7 @@
 
 	async function fetchReplies(commentId: string): Promise<Comment[]> {
 		isLoading = true;
-		const url = `http://${$page.url.hostname}:4000/api/v1/comments/${commentId}/replies?page=${pageNumber}&limit=${limit}`;
+		const url = API_ROUTES.COMMENTS.GET_REPLIES(commentId, pageNumber, limit);
 		const response = await fetch(url, {
 			method: 'GET',
 			headers: {

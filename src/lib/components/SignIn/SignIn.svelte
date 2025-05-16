@@ -16,14 +16,7 @@
 	import { replaceState } from '$app/navigation';
 	import InputText from '../common/input/InputText.svelte';
 	import { isEmailValid, isNotEmpty } from '$lib/utils/inputValidation';
-
-	const host = `http://${$page.url.hostname}:4000`;
-	const CREATE_USER_ROUTE = '/api/v1/users';
-	const VERIFY_EMAIL_ROUTE = `/api/v1/users/auth/verify-email`;
-	const SEND_EMAIL_OTP_ROUTE = `/api/v1/users/auth/send-email-otp`;
-	const LOGIN_ROUTE = `/api/v1/users/auth/login`;
-	const FORGOT_PASSWORD_ROUTE = `/api/v1/users/auth/forgot-password`;
-	const RESET_PASSWORD_ROUTE = `/api/v1/users/auth/reset-password`;
+	import { API_ROUTES } from '$lib/constants/apiRoutes';
 
 	let registerForm: HTMLFormElement;
 	let loginForm: HTMLFormElement;
@@ -123,7 +116,7 @@
 
 			const user = { email: registerEmail, password: registerPassword, name: registerName };
 
-			const url = `${host}${CREATE_USER_ROUTE}`;
+			const url = API_ROUTES.USER.CREATE_USER;
 			const response = await fetch(url, {
 				method: 'POST',
 				headers: {
@@ -173,7 +166,7 @@
 				otp: registerOtp
 			};
 
-			const url = `${host}${VERIFY_EMAIL_ROUTE}`;
+			const url = API_ROUTES.USER.AUTH.VERIFY_EMAIL;
 			const responseData = await fetchRequest('POST', url, data);
 
 			const success: boolean = responseData.success;
@@ -194,7 +187,7 @@
 
 	async function sendOtp(email: string) {
 		const payload = { email };
-		const url = `${host}${SEND_EMAIL_OTP_ROUTE}`;
+		const url = API_ROUTES.USER.AUTH.SEND_EMAIL_OTP;
 		const response = await fetch(url, {
 			method: 'POST',
 			headers: {
@@ -229,7 +222,7 @@
 
 		try {
 			const payload = { email: loginEmail, password: loginPassword };
-			const url = `${host}${LOGIN_ROUTE}`;
+			const url = API_ROUTES.USER.AUTH.LOGIN;
 			alert(url);
 			const response = await fetch(url, {
 				method: 'POST',
@@ -293,7 +286,7 @@
 			return;
 		}
 
-		const url = `${host}${FORGOT_PASSWORD_ROUTE}`;
+		const url = API_ROUTES.USER.AUTH.FORGOT_PASSWORD;
 		const response = await fetch(url, {
 			method: 'POST',
 			headers: {
@@ -339,7 +332,7 @@
 				otp: forgotPasswordOtp
 			};
 
-			const url = `${host}${VERIFY_EMAIL_ROUTE}`;
+			const url = API_ROUTES.USER.AUTH.VERIFY_EMAIL;
 			const response = await fetch(url, {
 				method: 'POST',
 				headers: {
@@ -389,7 +382,7 @@
 				newPassword: newPassword
 			};
 
-			const url = `${host}${RESET_PASSWORD_ROUTE}`;
+			const url = API_ROUTES.USER.AUTH.RESET_PASSWORD;
 
 			const responseData = await fetchRequest('POST', url, data);
 

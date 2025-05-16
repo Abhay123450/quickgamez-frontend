@@ -1,14 +1,9 @@
 <script lang="ts">
-	import { Icon } from 'svelte-icons-pack';
-	import { IoNotificationsOutline, IoNotificationsSharp } from 'svelte-icons-pack/io';
-	import { IoNotificationsCircleOutline } from 'svelte-icons-pack/io';
-	import MiniWindow from './MiniWindow.svelte';
-	import { page } from '$app/stores';
 	import { fetchWithTokenRefresh } from '$lib/utils/fetchRequest';
 	import LoadingSpin from './common/LoadingSpin.svelte';
 	import { onMount } from 'svelte';
-	import { goto } from '$app/navigation';
 	import { isLoggedIn, userDetails } from '../../routes/stores';
+	import { API_ROUTES } from '$lib/constants/apiRoutes';
 
 	const NotificationActions = {
 		OPEN_PROFILE: 'open_profile',
@@ -40,9 +35,7 @@
 				'Content-Type': 'application/json'
 			}
 		};
-		const url = new URL(
-			`http://${$page.url.hostname}:4000/api/v1/notifications/recent?page=1&limit=20`
-		);
+		const url = new URL(API_ROUTES.NOTIFICATIONS.GET_RECENT());
 		const [error, data] = await fetchWithTokenRefresh<Notification[]>(url, request);
 
 		if (error) {
@@ -50,8 +43,6 @@
 			isLoading = false;
 			return [];
 		}
-
-		console.log(`notifications ${JSON.stringify(data)}`);
 
 		saveNotificationsToCache(data);
 		isLoading = false;
@@ -65,17 +56,13 @@
 				'Content-Type': 'application/json'
 			}
 		};
-		const url = new URL(
-			`http://${$page.url.hostname}:4000/api/v1/notifications/${notificationId}/read`
-		);
+		const url = new URL(API_ROUTES.NOTIFICATIONS.MARK_AS_READ(notificationId));
 		const [error, data] = await fetchWithTokenRefresh(url, request);
 
 		if (error) {
 			console.error(`error fetching unread notifications ${JSON.stringify(error)}`);
 			return;
 		}
-
-		console.log(`notificationsmarkasread ${JSON.stringify(data)}`);
 	}
 
 	async function getNotifications(): Promise<Notification[]> {
@@ -86,7 +73,6 @@
 			isLoading = false;
 			return notifications;
 		}
-		console.log('notification cache miss');
 		return await fetchNotifications();
 	}
 

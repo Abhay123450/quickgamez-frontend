@@ -20,6 +20,7 @@
 	import { pushState, replaceState } from '$app/navigation';
 	import { fade, fly, slide } from 'svelte/transition';
 	import UserAvatar from '../common/UserAvatar.svelte';
+	import { API_ROUTES } from '$lib/constants/apiRoutes';
 
 	const dispatchNewReply = createEventDispatcher<{ newReply: Comment }>();
 
@@ -55,23 +56,23 @@
 	) {
 		console.info(`isLoggedIn ${$isLoggedIn}`);
 		let method: 'POST' | 'DELETE' = 'POST';
-		let url: URL = new URL(`http://${$page.url.hostname}:4000/api/v1/comments/${commentId}/like`);
+		let url: URL = new URL(API_ROUTES.COMMENTS.LIKE_COMMENT(commentId));
 		switch (reaction) {
 			case 'like':
 				method = 'POST';
-				url = new URL(`http://${$page.url.hostname}:4000/api/v1/comments/${commentId}/like`);
+				url = new URL(API_ROUTES.COMMENTS.LIKE_COMMENT(commentId));
 				break;
 			case 'dislike':
 				method = 'POST';
-				url = new URL(`http://${$page.url.hostname}:4000/api/v1/comments/${commentId}/dislike`);
+				url = new URL(API_ROUTES.COMMENTS.DISLIKE_COMMENT(commentId));
 				break;
 			case 'unlike':
 				method = 'DELETE';
-				url = new URL(`http://${$page.url.hostname}:4000/api/v1/comments/${commentId}/like`);
+				url = new URL(API_ROUTES.COMMENTS.UNLIKE_COMMENT(commentId));
 				break;
 			case 'undislike':
 				method = 'DELETE';
-				url = new URL(`http://${$page.url.hostname}:4000/api/v1/comments/${commentId}/dislike`);
+				url = new URL(API_ROUTES.COMMENTS.UNDISLIKE_COMMENT(commentId));
 				break;
 		}
 
@@ -173,7 +174,7 @@
 	}
 
 	async function deleteComment() {
-		const url = new URL(`http://${$page.url.hostname}:4000/api/v1/comments/${comment.commentId}`);
+		const url = new URL(API_ROUTES.COMMENTS.DELETE_COMMENT(comment.commentId));
 		const [error, response] = await fetchWithTokenRefresh(url, {
 			method: 'DELETE',
 			headers: {
@@ -191,9 +192,7 @@
 	}
 
 	async function reportComment() {
-		const url = new URL(
-			`http://${$page.url.hostname}:4000/api/v1/comments/${comment.commentId}/report`
-		);
+		const url = new URL(API_ROUTES.COMMENTS.REPORT_COMMENT(comment.commentId));
 		const [error, response] = await fetchWithTokenRefresh(url, {
 			method: 'POST',
 			headers: {

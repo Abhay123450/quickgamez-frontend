@@ -1,11 +1,9 @@
 <script lang="ts">
-	import { page } from '$app/stores';
 	import { fetchWithTokenRefresh } from '$lib/utils/fetchRequest';
 	import { onMount } from 'svelte';
-	import { Icon } from 'svelte-icons-pack';
-	import { IoClose } from 'svelte-icons-pack/io';
 	import { fade, fly } from 'svelte/transition';
 	import { addToast, userDetails } from '../../stores';
+	import { API_ROUTES } from '$lib/constants/apiRoutes';
 
 	let avatars: string[] = [];
 	let selectedAvatar: string | null = null;
@@ -29,7 +27,7 @@
 			return;
 		}
 		console.log(`selected avatar ${selectedAvatar}`);
-		const url = new URL(`http://${$page.url.hostname}:4000/api/v1/users/${$userDetails?.userId}`);
+		const url = new URL(API_ROUTES.USER.UPDATE_USER_DATA($userDetails.userId));
 		const [error, response] = await fetchWithTokenRefresh(url, {
 			body: JSON.stringify({ avatar: selectedAvatar }),
 			method: 'PUT'

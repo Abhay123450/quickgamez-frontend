@@ -15,8 +15,7 @@
 	import { Icon } from 'svelte-icons-pack';
 	import { pushState } from '$app/navigation';
 	import UserAvatar from './common/UserAvatar.svelte';
-
-	// let user: User | null = $userDetails;
+	import { API_ROUTES } from '$lib/constants/apiRoutes';
 
 	let confirmLogout = false;
 	let isProcessing = true;
@@ -47,7 +46,7 @@
 			},
 			credentials: 'include'
 		};
-		const url = new URL(`http://${$page.url.hostname}:4000/api/v1/users/my-profile`);
+		const url = new URL(API_ROUTES.USER.GET_MY_PROFILE);
 		const [error, data] = await fetchWithTokenRefresh<User>(url, req);
 
 		if (error) {
@@ -80,7 +79,7 @@
 			},
 			credentials: 'include'
 		};
-		const url = new URL(`http://${$page.url.hostname}:4000/api/v1/users/auth/logout`);
+		const url = new URL(API_ROUTES.USER.AUTH.LOGOUT);
 		const response = await fetch(url, req);
 		const data: any = await response.json();
 

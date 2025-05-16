@@ -1,9 +1,9 @@
 <script>
-	import { page } from '$app/stores';
 	import Footer from '$lib/components/common/Footer.svelte';
 	import InputText from '$lib/components/common/input/InputText.svelte';
 	import InputTextArea from '$lib/components/common/input/InputTextArea.svelte';
 	import TopNav from '$lib/components/common/TopNav.svelte';
+	import { API_ROUTES } from '$lib/constants/apiRoutes';
 	import { isEmailValid, isNotEmpty } from '$lib/utils/inputValidation';
 	import { addToast } from '../stores';
 
@@ -22,9 +22,9 @@
 			return;
 		}
 
-		const URL = `http://${$page.url.hostname}:4000/api/v1/contact-us`;
+		const url = new URL(API_ROUTES.CONTACT_US);
 
-		const response = await fetch(URL, {
+		const response = await fetch(url, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'

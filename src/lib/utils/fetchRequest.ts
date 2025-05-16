@@ -1,4 +1,5 @@
 // import { refreshToken } from './refreshToken';
+import { API_ROUTES } from '$lib/constants/apiRoutes';
 import { isLoginPanelOpen } from '../../routes/stores';
 export type FetchError = {
 	error: string;
@@ -204,7 +205,7 @@ export async function refreshLogin(
 	urlOrigin: string = 'http://localhost:4000'
 ): Promise<[FetchError | null, 'SUCCESS' | 'LOGIN_REQUIRED' | 'ERROR']> {
 	console.log(`refreshing login`);
-	const response = await fetch(`${urlOrigin}/api/v1/users/auth/access-token`, {
+	const response = await fetch(new URL(API_ROUTES.USER.AUTH.REFRESH_ACCESS_TOKEN), {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json'

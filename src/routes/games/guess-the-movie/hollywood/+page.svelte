@@ -63,6 +63,7 @@
 	import { FiPlayCircle } from 'svelte-icons-pack/fi';
 	import { CgClose } from 'svelte-icons-pack/cg';
 	import { AiOutlineInfoCircle } from 'svelte-icons-pack/ai';
+	import { API_ROUTES } from '$lib/constants/apiRoutes.js';
 
 	const host = `http://${$page.url.hostname}:4000`;
 
@@ -423,7 +424,7 @@
 				body: JSON.stringify(result)
 			};
 			const [error, response] = await fetchWithTokenRefresh(
-				new URL(`${host}/api/v1/games/guess-the-movie/results`),
+				new URL(API_ROUTES.GUESS_THE_MOVIE.SAVE_RESULT),
 				request
 			);
 			if (error) {
@@ -618,9 +619,7 @@
 		if (movie) {
 			return movie;
 		}
-		const url = new URL(
-			`${host}/api/v1/movies/unplayed?industry=${industry}&difficulty=${difficulty.toLowerCase()}&count=4`
-		);
+		const url = new URL(API_ROUTES.GUESS_THE_MOVIE.GET_UNPLAYED_MOVIES(industry, difficulty, 5));
 		const request: RequestInit = {
 			method: 'GET',
 			headers: {

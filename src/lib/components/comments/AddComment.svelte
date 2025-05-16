@@ -1,11 +1,12 @@
 <script lang="ts">
 	import { createEventDispatcher, onMount } from 'svelte';
-	import { addToast, isLoggedIn, isLoginPanelOpen } from '../../../routes/stores';
+	import { addToast, isLoggedIn } from '../../../routes/stores';
 	import { slide } from 'svelte/transition';
 	import type { Comment } from '$lib/types/Comment';
 	import { fetchWithTokenRefresh } from '$lib/utils/fetchRequest';
 	import { page } from '$app/stores';
 	import { pushState } from '$app/navigation';
+	import { API_ROUTES } from '$lib/constants/apiRoutes';
 	const dispatch = createEventDispatcher();
 
 	export let isReply = false;
@@ -33,7 +34,7 @@
 			isProcessing = false;
 			return;
 		}
-		let url: URL = new URL(`http://${$page.url.hostname}:4000/api/v1/comments`);
+		let url: URL = new URL(API_ROUTES.COMMENTS.ADD_COMMENT);
 		const postBody: {
 			comment: string;
 			game: string;
@@ -43,7 +44,7 @@
 		if (replyToComment) {
 			postBody.replyToCommentId = replyToComment.commentId;
 			postBody.parentCommentId = replyToComment.parentCommentId || replyToComment.commentId;
-			url = new URL(`http://${$page.url.hostname}:4000/api/v1/comments/reply`);
+			url = new URL(API_ROUTES.COMMENTS.ADD_REPLY);
 		}
 		console.info(`posting comment ${JSON.stringify(postBody)}`);
 		const [error, response] = await fetchWithTokenRefresh<Comment>(url, {

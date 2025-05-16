@@ -1,13 +1,12 @@
 <script lang="ts">
-	import { page } from '$app/stores';
 	import type { Comment } from '$lib/types/Comment';
-	import { onMount } from 'svelte';
 	import CommentSingle from './CommentSingle.svelte';
 	import AddComment from './AddComment.svelte';
 	import Dialog from '../Dialog.svelte';
 	import { getCommentsFromLocalStorage, saveCommentsToLocalStorage } from '$lib/utils/localStorage';
 	import LoadingSpin from '../common/LoadingSpin.svelte';
 	import SelectOptions from '../common/SelectOptions.svelte';
+	import { API_ROUTES } from '$lib/constants/apiRoutes';
 
 	export let game: string;
 	export let isWritingComment: boolean = false;
@@ -59,7 +58,7 @@
 				sortQuery = `sort=2`;
 				break;
 		}
-		const url = `http://${$page.url.hostname}:4000/api/v1/comments?game=${game}&page=${pageNumber}&limit=${limit}&${sortQuery}`;
+		const url = API_ROUTES.COMMENTS.GET_COMMENTS(game, pageNumber, limit, sortQuery);
 		const response = await fetch(url, {
 			method: 'GET',
 			headers: {
