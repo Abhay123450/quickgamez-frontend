@@ -102,3 +102,10 @@
 		{validationMessage}
 	</p>
 </div>
+
+<style>
+	input::-ms-clear,
+	input::-ms-reveal {
+		display: none;
+	}
+</style>
