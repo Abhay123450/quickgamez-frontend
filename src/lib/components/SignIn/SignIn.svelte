@@ -155,7 +155,7 @@
 			isProcessing = true;
 			registerStage2Error = '';
 
-			if (!isVerifyEmailDataValid) {
+			if (!isRegisterOtpValid) {
 				registerStage2Error = 'Please fill in all the required fields';
 				isProcessing = false;
 				return;
@@ -223,7 +223,6 @@
 		try {
 			const payload = { email: loginEmail, password: loginPassword };
 			const url = API_ROUTES.USER.AUTH.LOGIN;
-			alert(url);
 			const response = await fetch(url, {
 				method: 'POST',
 				headers: {
@@ -273,6 +272,8 @@
 			case 'EMAIL_NOT_VERIFIED':
 				loginStage = LoginStage.VERIFY_EMAIL;
 				sendOtp(loginEmail);
+				forgotPasswordEmail = loginEmail;
+				isForgotPasswordEmailValid = true;
 				break;
 		}
 	}
@@ -321,8 +322,8 @@
 			isProcessing = true;
 			registerStage2Error = '';
 
-			if (!isForgotPasswordOtpValid) {
-				registerStage2Error = 'Please fill in all the required fields';
+			if (!isVerifyEmailDataValid) {
+				verifyEmailError = 'Please fill in all the required fields';
 				isProcessing = false;
 				return;
 			}
