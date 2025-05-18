@@ -49,6 +49,12 @@
 	}
 </script>
 
+<svelte:head>
+	<title>Contact Us</title>
+	<meta name="description" content="Contact Us" />
+	<link rel="canonical" href="https://quickgamez.com/contact-us" />
+</svelte:head>
+
 <div class="flex flex-col overflow-auto min-h-dvh max-h-dvh">
 	<header class="flex sticky top-0 z-10">
 		<TopNav />
