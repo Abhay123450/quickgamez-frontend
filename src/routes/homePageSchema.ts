@@ -19,8 +19,20 @@ export const homePageSchema = [
 				{
 					'@type': 'ListItem',
 					position: 1,
-					name: 'Guess The Movie',
-					url: 'https://quickgamez.com/games/guess-the-movie'
+					name: 'Guess The Movie - Hollywood',
+					url: 'https://quickgamez.com/games/guess-the-movie/hollywood',
+					image: 'https://quickgamez.com/images/guess-the-movie-logo.webp',
+					description:
+						'A movie guessing game where you guess the name of hollywood movies before running out of lives or time, with hints to help.'
+				},
+				{
+					'@type': 'ListItem',
+					position: 2,
+					name: 'Guess The Movie - Bollywood',
+					url: 'https://quickgamez.com/games/guess-the-movie/bollywood',
+					image: 'https://quickgamez.com/images/guess-the-movie-logo.webp',
+					description:
+						'A movie guessing game where you guess the name of hindi movies before running out of lives or time, with hints to help.'
 				}
 			]
 		},

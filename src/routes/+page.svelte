@@ -1,6 +1,7 @@
 <script>
 	import Footer from '$lib/components/common/Footer.svelte';
 	import TopNav from '$lib/components/common/TopNav.svelte';
+	import LdTag from '$lib/jsonld/LDTag.svelte';
 	import { homePageSchema } from './homePageSchema';
 
 	// Dummy data or fetch it from a store/api
@@ -8,13 +9,13 @@
 		{
 			id: 1,
 			title: 'Guess The Movie - Hollywood',
-			image: '/images/guess-the-movie-logo.webp',
+			image: '/images/thumbnail/guess-the-movie-hollywood.webp',
 			slug: 'guess-the-movie/hollywood'
 		},
 		{
 			id: 2,
 			title: 'Guess The Movie - Bollywood',
-			image: '/images/guess-the-movie-logo.webp',
+			image: '/images/thumbnail/guess-the-movie-bollywood.webp',
 			slug: 'guess-the-movie/bollywood'
 		}
 	];
@@ -24,11 +25,12 @@
 	<title>QuickGamez - Play online games for free</title>
 	<meta
 		name="description"
-		content="Play free online games at QuickGamez! Enjoy hours of fun without any downloads or sign-ups. Start playing now!"
+		content="Play free online games at QuickGamez! Enjoy hours of fun on your mobile, tablet, or computer without any downloads or sign-ups. Start playing now!"
 	/>
-
-	{@html `<script type="application/ld+json">${JSON.stringify(homePageSchema)}</script>`}
+	<link rel="canonical" href="https://quickgamez.com" />
 </svelte:head>
+
+<LdTag schema={homePageSchema} />
 
 <div class="flex flex-col overflow-auto max-h-dvh">
 	<header class="flex sticky top-0 z-10">
@@ -45,7 +47,7 @@
 		<div class="grid grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 gap-2">
 			{#each games as game}
 				<article
-					class="flex flex-col bg-white rounded-md shadow-sm"
+					class="flex flex-col rounded-md shadow-sm overflow-clip bg-black"
 					aria-labelledby={`game-title-${game.slug}`}
 				>
 					<a
@@ -58,8 +60,10 @@
 							class="w-full h-full object-cover"
 						/>
 					</a>
-					<div class="flex flex-col px-1 pb-1">
-						<h2 id={`game-title-${game.slug}`} class="text-lg font-semibold">{game.title}</h2>
+					<div class="flex flex-col px-1 pb-1 bg-white">
+						<h2 id={`game-title-${game.slug}`} class="text-lg font-semibold text-black">
+							{game.title}
+						</h2>
 						{#if game.slug.length > 0}
 							<a
 								href={`/games/${game.slug}`}
