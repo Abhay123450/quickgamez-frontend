@@ -6,6 +6,7 @@
 <svelte:head>
 	<title>QuickGamez | About the website</title>
 	<meta name="description" content="Know about the website and the developer behind the website." />
+	<link rel="canonical" href="https://quickgamez.com/about" />
 </svelte:head>
 
 <section class="flex flex-col overflow-auto min-h-dvh max-h-dvh">

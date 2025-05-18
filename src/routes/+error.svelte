@@ -7,6 +7,11 @@
 	import { TrOutlineError404 } from 'svelte-icons-pack/tr';
 </script>
 
+<svelte:head>
+	<title>Error {$page.status}</title>
+	<meta name="description" content={$page.error?.message} />
+</svelte:head>
+
 <div class="flex flex-col h-full">
 	<TopNav />
 	<div class="flex flex-col grow h-full items-center justify-center px-2">

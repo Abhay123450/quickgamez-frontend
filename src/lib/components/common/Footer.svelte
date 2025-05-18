@@ -7,5 +7,5 @@
 	<p>•</p>
 	<a class="hover:underline underline-offset-2 text-red-700" href="/terms-of-use">Terms of Use</a>
 	<p>•</p>
-	<a class="hover:underline underline-offset-2 text-red-700" href="/contact">Contact Us</a>
+	<a class="hover:underline underline-offset-2 text-red-700" href="/contact-us">Contact Us</a>
 </footer>
