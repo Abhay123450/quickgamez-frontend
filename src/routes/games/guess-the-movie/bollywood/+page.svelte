@@ -64,6 +64,8 @@
 	import { CgClose } from 'svelte-icons-pack/cg';
 	import { AiOutlineInfoCircle } from 'svelte-icons-pack/ai';
 	import { API_ROUTES } from '$lib/constants/apiRoutes.js';
+	import LdTag from '$lib/jsonld/LDTag.svelte';
+	import { pageSchemaBollywood } from './pageSchema.js';
 
 	const host = `http://${$page.url.hostname}:4000`;
 
@@ -703,8 +705,10 @@
 	<title>Guess The Movie - Bollywood | Play online for free | QuickGamez</title>
 	<meta
 		name="description"
-		content="A movie guessing game where you guess the name of a movie one letter at a time before running out of lives or time, with hints to help."
+		content="A movie guessing game where you guess the name of hindi movies before running out of lives or time, with hints to help."
 	/>
+	<LdTag schema={pageSchemaBollywood} />
+	<link rel="canonical" href="https://quickgamez.com/games/guess-the-movie/bollywood" />
 </svelte:head>
 
 <audio preload="auto" bind:this={correctGuessAudio} class="hidden" src="/audio/correct-choice.mp3"
@@ -788,7 +792,7 @@
 	</div>
 
 	{#if currentGameState !== GameState.Playing}
-		<dialog open class="flex flex-col bg-transparent absolute top-0 left-0 w-full h-full z-20">
+		<div class="flex flex-col bg-transparent absolute top-0 left-0 w-full h-full z-20">
 			<div
 				in:fade={{ duration: 300 }}
 				out:fly={{ duration: 300 }}
@@ -999,7 +1003,7 @@
 					<AboutGame />
 				</div>
 			</Tab>
-		</dialog>
+		</div>
 	{/if}
 
 	{#key $page.state.showTutorial}
