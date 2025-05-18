@@ -155,7 +155,6 @@
 	<div
 		class="flex-grow overflow-auto"
 		class:hidden={(() => {
-			console.log('guessTheMovieActiveTab ', $page.state[stateVariablename]);
 			if ($page.state[stateVariablename] === undefined) {
 				return false;
 			} else {

@@ -27,8 +27,6 @@
 	export let comment: Comment;
 	export let game: string;
 
-	console.log('comment', comment);
-
 	let commentParagraph: HTMLParagraphElement;
 	let maxCommentLengthWhenCollapsed: number = 160; // number of chars
 
@@ -54,7 +52,7 @@
 		commentId: string,
 		reaction: 'like' | 'dislike' | 'unlike' | 'undislike'
 	) {
-		console.info(`isLoggedIn ${$isLoggedIn}`);
+		// console.info(`isLoggedIn ${$isLoggedIn}`);
 		let method: 'POST' | 'DELETE' = 'POST';
 		let url: URL = new URL(API_ROUTES.COMMENTS.LIKE_COMMENT(commentId));
 		switch (reaction) {
@@ -84,8 +82,8 @@
 			credentials: 'include'
 		});
 
-		console.info(`reaction response error ${JSON.stringify(error)}`);
-		console.info(`reaction response data ${JSON.stringify(response)}`);
+		// console.info(`reaction response error ${JSON.stringify(error)}`);
+		// console.info(`reaction response data ${JSON.stringify(response)}`);
 	}
 
 	function replyToComment() {
@@ -168,7 +166,6 @@
 
 	function newReplyAdded(e: CustomEvent<Comment>) {
 		const comment = e.detail;
-		console.log('new reply added event recieved', JSON.stringify(comment));
 		newReply = comment;
 		dispatchNewReply('newReply', comment);
 	}
@@ -182,8 +179,8 @@
 			},
 			credentials: 'include'
 		});
-		console.info(`delete comment response error ${JSON.stringify(error)}`);
-		console.info(`delete comment response data ${JSON.stringify(response)}`);
+		// console.info(`delete comment response error ${JSON.stringify(error)}`);
+		// console.info(`delete comment response data ${JSON.stringify(response)}`);
 		if (error) {
 			addToast('Error deleting comment', 'error', 3000);
 			return;
@@ -201,8 +198,8 @@
 			credentials: 'include',
 			body: JSON.stringify({ reason: reportReason })
 		});
-		console.info(`report comment response error ${JSON.stringify(error)}`);
-		console.info(`report comment response data ${JSON.stringify(response)}`);
+		// console.info(`report comment response error ${JSON.stringify(error)}`);
+		// console.info(`report comment response data ${JSON.stringify(response)}`);
 		if (error) {
 			if (error.errorCode === 'LOGIN_REQUIRED') {
 				addToast('You need to be logged in to report a comment.', 'error', 5000);
@@ -219,23 +216,40 @@
 	class="relative flex flex-col w-full min-w-full max-w-3xl p-2 mt-2 rounded-md border border-neutral-300"
 >
 	<header class="flex space-x-2 w-full h-fit">
-		<UserAvatar avatarUrl={comment.user.avatar} className="w-10 h-10" />
-		<div class="flex flex-col">
-			<p class="font-semibold text-base">
-				{comment.user.name}
-				{comment.user.userId === $userDetails?.userId ? '(You)' : ''}
-			</p>
+		<UserAvatar
+			avatarUrl={comment.user && comment.user.avatar ? comment.user.avatar : '1.svg'}
+			className="w-10 h-10"
+		/>
+		{#if comment.user}
+			<div class="flex flex-col">
+				<p class="font-semibold text-base">
+					{comment.user.name}
+					{comment.user.userId === $userDetails?.userId ? '(You)' : ''}
+				</p>
 
-			<div class="flex flex-row text-center">
-				<p class="text-neutral-600 leading-4 text-sm">@{comment.user.username}</p>
-				<p class="text-neutral-600 leading-4 mx-1">•</p>
-				<time
-					datetime={toDatetimeString(new Date(comment.createdAt))}
-					class="text-neutral-600 leading-4 text-sm"
-					>{dateToString(new Date(comment.createdAt))}</time
-				>
+				<div class="flex flex-row text-center">
+					<p class="text-neutral-600 leading-4 text-sm">@{comment.user.username}</p>
+					<p class="text-neutral-600 leading-4 mx-1">•</p>
+					<time
+						datetime={toDatetimeString(new Date(comment.createdAt))}
+						class="text-neutral-600 leading-4 text-sm"
+						>{dateToString(new Date(comment.createdAt))}</time
+					>
+				</div>
 			</div>
-		</div>
+		{:else}
+			<div class="flex flex-col">
+				<p class="font-semibold text-base text-neutral-500">[Deleted User]</p>
+
+				<div class="flex flex-row text-center">
+					<time
+						datetime={toDatetimeString(new Date(comment.createdAt))}
+						class="text-neutral-600 leading-4 text-sm"
+						>{dateToString(new Date(comment.createdAt))}</time
+					>
+				</div>
+			</div>
+		{/if}
 	</header>
 
 	<p
