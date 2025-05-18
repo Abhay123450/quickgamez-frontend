@@ -3,6 +3,12 @@
 	import TopNav from '$lib/components/common/TopNav.svelte';
 </script>
 
+<svelte:head>
+	<title>QuickGamez | Terms of Use</title>
+	<meta name="description" content="QuickGamez Terms of Use" />
+	<link rel="canonical" href="https://quickgamez.com/terms-of-use" />
+</svelte:head>
+
 <div class="flex flex-col overflow-auto max-h-dvh">
 	<header class="flex sticky top-0 z-10">
 		<TopNav />
