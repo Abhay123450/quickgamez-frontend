@@ -36,7 +36,6 @@
 		isProcessing = true;
 		if ($userDetails) {
 			isProcessing = false;
-			console.info(`user details found ${JSON.stringify($userDetails)}`);
 			return $userDetails;
 		}
 		const req: RequestInit = {
@@ -54,11 +53,9 @@
 				$isLoggedIn = false;
 			}
 			$isLoggedIn = false;
-			console.error(`error my account ${JSON.stringify(error)}`);
 			isProcessing = false;
 			return null;
 		} else if (data) {
-			console.info(`user details fetched ${JSON.stringify($userDetails)}`);
 			$isLoginPanelOpen = false;
 			$isLoggedIn = true;
 			$userDetails = data;
@@ -92,13 +89,10 @@
 		}
 	}
 
-	// $: $isLoggedIn,
-	// 	async () => {
-	// 		user = await getUserInfo();
-	// 	};
-
 	onMount(() => {
-		getUserInfo();
+		if ($isLoggedIn) {
+			getUserInfo();
+		}
 	});
 </script>
 

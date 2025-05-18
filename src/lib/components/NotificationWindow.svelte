@@ -39,7 +39,6 @@
 		const [error, data] = await fetchWithTokenRefresh<Notification[]>(url, request);
 
 		if (error) {
-			console.error(`error fetching unread notifications ${JSON.stringify(error)}`);
 			isLoading = false;
 			return [];
 		}
@@ -60,7 +59,6 @@
 		const [error, data] = await fetchWithTokenRefresh(url, request);
 
 		if (error) {
-			console.error(`error fetching unread notifications ${JSON.stringify(error)}`);
 			return;
 		}
 	}
@@ -68,7 +66,6 @@
 	async function getNotifications(): Promise<Notification[]> {
 		const notificationsFromCache = getNotificationsFromCache();
 		if (notificationsFromCache) {
-			console.log('notifications from cache');
 			notifications = notificationsFromCache;
 			isLoading = false;
 			return notifications;
@@ -98,7 +95,6 @@
 	}
 
 	onMount(async () => {
-		console.log('notification mounted');
 		if ($isLoggedIn) {
 			notifications = await getNotifications();
 		} else {
