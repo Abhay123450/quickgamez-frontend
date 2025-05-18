@@ -27,10 +27,9 @@
 		name="description"
 		content="Play free online games at QuickGamez! Enjoy hours of fun on your mobile, tablet, or computer without any downloads or sign-ups. Start playing now!"
 	/>
+	<LdTag schema={homePageSchema} />
 	<link rel="canonical" href="https://quickgamez.com" />
 </svelte:head>
-
-<LdTag schema={homePageSchema} />
 
 <div class="flex flex-col overflow-auto max-h-dvh">
 	<header class="flex sticky top-0 z-10">

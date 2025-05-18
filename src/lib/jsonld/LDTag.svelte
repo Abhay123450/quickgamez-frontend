@@ -4,6 +4,4 @@
 	export let schema: Object;
 </script>
 
-<svelte:head>
-	{@html serializeSchema(schema)}
-</svelte:head>
+{@html serializeSchema(schema)}

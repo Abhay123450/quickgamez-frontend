@@ -1,5 +1,31 @@
-const websiteDescription =
+export const websiteDescription =
 	'QuickGamez is a website where you can play onlines games for free on your mobile, tablet or computer. No downloads, no login. Play now!';
+
+export const isPartOf = {
+	'@type': 'WebSite',
+	'@id': 'https://quickgamez.com/#website',
+	name: 'QuickGamez',
+	url: 'https://quickgamez.com',
+	description:
+		'QuickGamez is a website where you can play onlines games for free on your mobile, tablet or computer. No downloads, no login. Play now!',
+	inLanguage: 'en',
+	publisher: {
+		'@type': 'Organization',
+		'@id': 'https://quickgamez.com/#organization',
+		url: 'https://quickgamez.com',
+		name: 'QuickGamez',
+		description:
+			'Play free online games at QuickGamez! Enjoy hours of fun on your mobile, tablet, or computer without any downloads or sign-ups. Start playing now!',
+		logo: 'https://quickgamez.com/images/logo/logo1600.webp',
+		brand: {
+			'@type': 'Brand',
+			'@id': 'https://quickgamez.com/#brand',
+			name: 'QuickGamez',
+			slogan: 'Play, Win, Repeat.'
+		},
+		email: 'contact@quickgamez.com'
+	}
+};
 
 export const homePageSchema = [
 	{
@@ -36,13 +62,6 @@ export const homePageSchema = [
 				}
 			]
 		},
-		isPartOf: {
-			'@type': 'WebSite',
-			'@id': 'https://quickgamez.com/#website',
-			name: 'QuickGamez',
-			url: 'https://quickgamez.com/',
-			description: websiteDescription,
-			inLanguage: 'en'
-		}
+		isPartOf: isPartOf
 	}
 ];
