@@ -68,7 +68,7 @@
 				content. Click “Accept All” to enjoy full functionality and a seamless experience. See our
 				<a
 					href="/privacy-policy"
-					class="underline text-blue-600 hover:text-blue-700"
+					class="underline underline-offset-2 text-blue-700 hover:text-blue-800"
 					target="_blank">Privacy Policy</a
 				>.
 			</p>
@@ -98,13 +98,7 @@
 			<div class="mt-4 p-4 bg-white rounded-xl">
 				<div class="flex items-center justify-between mb-2">
 					<label class="text-base" for="necessaryCookies">Necessary (always enabled)</label>
-					<input
-						id="necessaryCookies"
-						type="checkbox"
-						checked
-						disabled
-						class="form-checkbox text-blue-500"
-					/>
+					<input id="necessaryCookies" type="checkbox" checked disabled class="form-checkbox" />
 				</div>
 				<div class="flex items-center justify-between mb-2">
 					<label class="text-base" for="analyticsCookies">Analytics</label>
@@ -112,7 +106,7 @@
 						id="analyticsCookies"
 						type="checkbox"
 						bind:checked={preferences.analytics}
-						class="form-checkbox text-blue-500"
+						class="form-checkbox"
 					/>
 				</div>
 				<div class="flex items-center justify-between mb-4">
@@ -121,7 +115,7 @@
 						id="marketingCookies"
 						type="checkbox"
 						bind:checked={preferences.marketing}
-						class="form-checkbox text-blue-500"
+						class="form-checkbox"
 					/>
 				</div>
 				<div class="text-right">

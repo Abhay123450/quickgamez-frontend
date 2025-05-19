@@ -92,6 +92,8 @@
 	onMount(() => {
 		if ($isLoggedIn) {
 			getUserInfo();
+		} else {
+			isProcessing = false;
 		}
 	});
 </script>
