@@ -689,11 +689,6 @@
 		addToast('You have 1 chance left', 'warning', 5000);
 	}
 
-	onMount(() => {
-		// $isLeftPanelOpen = false;
-		// $isRightPanelOpen = false;
-	});
-
 	onDestroy(() => {
 		$isGameInProgess = false;
 	});

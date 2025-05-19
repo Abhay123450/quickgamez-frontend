@@ -1,0 +1,3 @@
+User-agent: *
+Disallow: /users/
+Sitemap: https://quickgamez.com/sitemap.xml

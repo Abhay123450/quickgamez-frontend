@@ -25,7 +25,7 @@
 		for new releases and updates. Don't forget to bookmark the site so you can easily check back for
 		the latest fun additions!
 	</p>
-	<h1 class="text-xl font-bold text-center m-4">About Developer</h1>
+	<h2 class="text-xl font-bold text-center m-4">About Developer</h2>
 	<p class="px-3 py-2">
 		Hi there! My name is Abhay Anand. I am a software developer and I love developing fun and
 		interesting projects. This website is a passion project of mine that I'm working on solo in my

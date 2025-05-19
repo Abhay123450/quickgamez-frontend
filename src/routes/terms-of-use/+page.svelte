@@ -14,7 +14,7 @@
 		<TopNav />
 	</header>
 	<div class="p-2 prose-sm lg:prose-base max-w-3xl self-center">
-		<h2><b>TERMS OF USE</b></h2>
+		<h1><b>TERMS OF USE</b></h1>
 		<p>Last updated: 2025-05-14</p>
 		<p>1. <b>Introduction</b></p>
 		<p>Welcome to <b>QuickGamez.com</b> (“Company”, “we”, “our”, “us”)!</p>
