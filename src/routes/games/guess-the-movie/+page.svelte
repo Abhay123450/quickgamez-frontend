@@ -4,17 +4,28 @@
 	import LdTag from '$lib/jsonld/LDTag.svelte';
 	import { guessTheMovieSchema } from './guessTheMovieSchema';
 
+	import guessTheMovieHollywoodThumbnail from '$lib/assets/images/thumbnail/guess-the-movie-hollywood-thumbnail.webp';
+	import guessTheMovieHollywoodThumbnail480 from '$lib/assets/images/thumbnail/guess-the-movie-hollywood-thumbnail-480.webp';
+	import guessTheMovieHollywoodThumbnail900 from '$lib/assets/images/thumbnail/guess-the-movie-hollywood-thumbnail-900.webp';
+	import guessTheMovieHollywoodThumbnail1180 from '$lib/assets/images/thumbnail/guess-the-movie-hollywood-thumbnail-1180.webp';
+
+	import guessTheMovieBollywoodThumbnail480 from '$lib/assets/images/thumbnail/guess-the-movie-bollywood-thumbnail-480.webp';
+	import guessTheMovieBollywoodThumbnail900 from '$lib/assets/images/thumbnail/guess-the-movie-bollywood-thumbnail-900.webp';
+	import guessTheMovieBollywoodThumbnail1180 from '$lib/assets/images/thumbnail/guess-the-movie-bollywood-thumbnail-1180.webp';
+
 	let games = [
 		{
 			id: 1,
 			title: 'Guess The Movie - Hollywood',
-			image: '/images/thumbnail/guess-the-movie-hollywood.webp',
+			image: guessTheMovieHollywoodThumbnail,
+			srcset: `${guessTheMovieHollywoodThumbnail480} 480w, ${guessTheMovieHollywoodThumbnail900} 900w, ${guessTheMovieHollywoodThumbnail1180} 1180w`,
 			slug: 'guess-the-movie/hollywood'
 		},
 		{
 			id: 2,
 			title: 'Guess The Movie - Bollywood',
-			image: '/images/thumbnail/guess-the-movie-bollywood.webp',
+			image: guessTheMovieBollywoodThumbnail480,
+			srcset: `${guessTheMovieBollywoodThumbnail480} 480w, ${guessTheMovieBollywoodThumbnail900} 900w, ${guessTheMovieBollywoodThumbnail1180} 1180w`,
 			slug: 'guess-the-movie/bollywood'
 		}
 	];
@@ -54,7 +65,9 @@
 					>
 						<img
 							src={game.image}
-							alt={`${game.title} game thumbnail`}
+							srcset={game.srcset}
+							sizes="(min-width: 1280px) calc(30.47vw - 26px), (min-width: 1040px) calc(37.73vw - 22px), calc(50vw - 20px)"
+							alt={`${game.title} thumbnail`}
 							class="w-full h-full object-cover"
 						/>
 					</a>
@@ -65,7 +78,7 @@
 						{#if game.slug.length > 0}
 							<a
 								href={`/games/${game.slug}`}
-								class="bg-red-600 text-white font-bold text-center py-1 px-3 rounded-md mt-2"
+								class="bg-red-600 hover:bg-red-700 text-white font-bold text-lg md:text-xl text-center py-2 md:py-3 px-3 rounded-md mt-2"
 								aria-label={`Play ${game.title} now`}
 							>
 								Play Now

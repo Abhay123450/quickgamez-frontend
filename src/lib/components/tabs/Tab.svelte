@@ -7,6 +7,9 @@
 	import { page } from '$app/stores';
 	import { pushState, replaceState } from '$app/navigation';
 
+	import keyboardSound from '$lib/assets/audio/keyboard.mp3';
+	import clickSound from '$lib/assets/audio/clickselect.mp3';
+
 	export let tabs: Tab[];
 	export let activeTab: string;
 	export let showIcon: boolean = true;
@@ -108,8 +111,8 @@
 	});
 </script>
 
-<audio class="hidden" bind:this={audioClickTab} src="/audio/keyboard.mp3" />
-<audio class="hidden" bind:this={audioHoverTab} src="/audio/clickselect.mp3" />
+<audio class="hidden" bind:this={audioClickTab} src={keyboardSound} />
+<audio class="hidden" bind:this={audioHoverTab} src={clickSound} />
 
 <div
 	in:fade={{ duration: 300 }}

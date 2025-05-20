@@ -1,12 +1,18 @@
 <script>
 	import { page } from '$app/stores';
+	import logo480 from '$lib/assets/images/logo/logo480.webp';
+	import logo768 from '$lib/assets/images/logo/logo768.webp';
+	import logo1024 from '$lib/assets/images/logo/logo1024.webp';
+	import logo1200 from '$lib/assets/images/logo/logo1200.webp';
+	import logo1600 from '$lib/assets/images/logo/logo1600.webp';
 </script>
 
 <div class="flex flex-col w-full h-auto bg-white rounded-b space-y-1 overflow-y-auto pb-1">
 	<a class="self-center" href="/">
 		<img
 			class="w-40 h-[74px] mix-blend-multiply"
-			srcset="/images/logo/logo768.webp 1x, /images/logo/logo1024.webp 2x, /images/logo/logo1200.webp 3x, /images/logo/logo1600.webp 4x"
+			srcset="{logo480} 0.63x, {logo768} 1x, {logo1024} 1.33x, {logo1200} 1.56x, {logo1600} 2.08x"
+			src="/images/logo/logo1600.webp"
 			alt="QuickGamez logo"
 			loading="lazy"
 		/>

@@ -3,19 +3,29 @@
 	import TopNav from '$lib/components/common/TopNav.svelte';
 	import LdTag from '$lib/jsonld/LDTag.svelte';
 	import { homePageSchema } from './homePageSchema';
+	import guessTheMovieHollywoodThumbnail from '$lib/assets/images/thumbnail/guess-the-movie-hollywood-thumbnail.webp';
+	import guessTheMovieHollywoodThumbnail480 from '$lib/assets/images/thumbnail/guess-the-movie-hollywood-thumbnail-480.webp';
+	import guessTheMovieHollywoodThumbnail900 from '$lib/assets/images/thumbnail/guess-the-movie-hollywood-thumbnail-900.webp';
+	import guessTheMovieHollywoodThumbnail1180 from '$lib/assets/images/thumbnail/guess-the-movie-hollywood-thumbnail-1180.webp';
+
+	import guessTheMovieBollywoodThumbnail480 from '$lib/assets/images/thumbnail/guess-the-movie-bollywood-thumbnail-480.webp';
+	import guessTheMovieBollywoodThumbnail900 from '$lib/assets/images/thumbnail/guess-the-movie-bollywood-thumbnail-900.webp';
+	import guessTheMovieBollywoodThumbnail1180 from '$lib/assets/images/thumbnail/guess-the-movie-bollywood-thumbnail-1180.webp';
 
 	// Dummy data or fetch it from a store/api
 	let games = [
 		{
 			id: 1,
 			title: 'Guess The Movie - Hollywood',
-			image: '/images/thumbnail/guess-the-movie-hollywood.webp',
+			image: guessTheMovieHollywoodThumbnail,
+			srcset: `${guessTheMovieHollywoodThumbnail480} 480w, ${guessTheMovieHollywoodThumbnail900} 900w, ${guessTheMovieHollywoodThumbnail1180} 1180w`,
 			slug: 'guess-the-movie/hollywood'
 		},
 		{
 			id: 2,
 			title: 'Guess The Movie - Bollywood',
-			image: '/images/thumbnail/guess-the-movie-bollywood.webp',
+			image: guessTheMovieBollywoodThumbnail480,
+			srcset: `${guessTheMovieBollywoodThumbnail480} 480w, ${guessTheMovieBollywoodThumbnail900} 900w, ${guessTheMovieBollywoodThumbnail1180} 1180w`,
 			slug: 'guess-the-movie/bollywood'
 		}
 	];
@@ -43,37 +53,36 @@
 		>
 			Featured Games
 		</h1>
-		<div class="grid grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 gap-2">
+		<!-- sizes="(min-width: 1540px) calc(15.27vw - 18px), (min-width: 1280px) calc(20vw - 16px), (min-width: 1040px) calc(25vw - 16px), (min-width: 780px) calc(33.33vw - 16px), calc(50vw - 20px)" -->
+		<div class="grid grid-cols-2 md:grid-cols-3 3xl:grid-cols-4 gap-2">
 			{#each games as game}
-				<article
-					class="flex flex-col rounded-md shadow-sm overflow-clip bg-black"
+				<a
+					href={game.slug.length > 0 ? `/games/${game.slug}` : '#'}
+					class="block"
 					aria-labelledby={`game-title-${game.slug}`}
 				>
-					<a
-						href={game.slug.length > 0 ? `/games/${game.slug}` : '#'}
-						class="block aspect-square rounded-t-md overflow-hidden"
-					>
-						<img
-							src={game.image}
-							alt={`${game.title} game thumbnail`}
-							class="w-full h-full object-cover"
-						/>
-					</a>
-					<div class="flex flex-col px-1 pb-1 bg-white">
-						<h2 id={`game-title-${game.slug}`} class="text-lg font-semibold text-black">
-							{game.title}
-						</h2>
-						{#if game.slug.length > 0}
-							<a
-								href={`/games/${game.slug}`}
-								class="bg-red-600 text-white font-bold text-center py-1 px-3 rounded-md mt-2"
-								aria-label={`Play ${game.title} now`}
-							>
-								Play Now
-							</a>
-						{/if}
-					</div>
-				</article>
+					<article class="flex flex-col rounded-md shadow-sm overflow-clip bg-black">
+						<div class="block aspect-square rounded-t-md overflow-hidden">
+							<img
+								srcset={game.srcset}
+								src={game.image}
+								sizes="(min-width: 1280px) calc(20.29vw - 20px), (min-width: 1040px) calc(25vw - 16px), (min-width: 780px) calc(33.33vw - 16px), calc(50vw - 20px)"
+								alt={`${game.title} thumbnail`}
+								class="w-full h-full object-cover"
+							/>
+						</div>
+						<div class="flex flex-col px-1 pb-1 bg-white">
+							<h2 id={`game-title-${game.slug}`} class="text-lg font-semibold text-black">
+								{game.title}
+							</h2>
+							{#if game.slug.length > 0}
+								<div class="bg-red-600 text-white font-bold text-center py-1 px-3 rounded-md mt-2">
+									Play Now
+								</div>
+							{/if}
+						</div>
+					</article>
+				</a>
 			{/each}
 		</div>
 	</section>
@@ -129,7 +138,12 @@
 		>
 			Current Game Collection
 		</h2>
-		<p class="text-base text-gray-800 mb-2">Our current lineup features two engaging titles:</p>
+		<p class="text-base text-gray-800 mb-2">
+			Our current lineup features two versions of <a
+				href="/games/guess-the-movie"
+				class="hover:underline underline-offset-2 text-red-700">Guess the Movie</a
+			> :
+		</p>
 		<ul class="list-disc pl-6 bg-white rounded-md py-2">
 			<li>
 				<a href="/games/guess-the-movie/hollywood" class="text-red-600 font-semibold"

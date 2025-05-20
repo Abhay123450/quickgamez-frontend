@@ -66,6 +66,11 @@
 	import { API_ROUTES } from '$lib/constants/apiRoutes.js';
 	import { pageSchemaHollywood } from './pageSchema.js';
 	import LdTag from '$lib/jsonld/LDTag.svelte';
+	// assets
+	import correctChoiceSound from '$lib/assets/audio/correct-choice.mp3';
+	import successSound from '$lib/assets/audio/success.mp3';
+	import errorSound from '$lib/assets/audio/error.mp3';
+	import loseSound from '$lib/assets/audio/lose.mp3';
 
 	const host = `http://${$page.url.hostname}:4000`;
 
@@ -711,14 +716,20 @@
 	<link rel="canonical" href="https://quickgamez.com/games/guess-the-movie/hollywood" />
 </svelte:head>
 
-<audio preload="auto" bind:this={correctGuessAudio} class="hidden" src="/audio/correct-choice.mp3"
+<!-- <audio preload="auto" bind:this={correctGuessAudio} class="hidden" src="/audio/correct-choice.mp3"
 ></audio>
 <audio preload="auto" bind:this={loseHealthAudio} class="hidden" src="/audio/error.mp3"></audio>
 <audio preload="auto" bind:this={gameWinAudio} class="hidden" src="/audio/success.mp3"></audio>
-<audio preload="auto" bind:this={gameLoseAudio} class="hidden" src="/audio/lose.mp3"></audio>
+<audio preload="auto" bind:this={gameLoseAudio} class="hidden" src="/audio/lose.mp3"></audio> -->
+
+<audio preload="auto" bind:this={correctGuessAudio} class="hidden" src={correctChoiceSound}></audio>
+<audio preload="auto" bind:this={loseHealthAudio} class="hidden" src={errorSound}></audio>
+<audio preload="auto" bind:this={gameWinAudio} class="hidden" src={successSound}></audio>
+<audio preload="auto" bind:this={gameLoseAudio} class="hidden" src={loseSound}></audio>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+
 <div
 	bind:this={parentDiv}
 	class="flex flex-col h-full w-full min-h-full bg-teal-200 focus:outline-none relative no-scrollbar"
