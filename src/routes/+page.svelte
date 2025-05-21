@@ -141,7 +141,8 @@
 		<p class="text-base text-gray-800 mb-2">
 			Our current lineup features two versions of <a
 				href="/games/guess-the-movie"
-				class="hover:underline underline-offset-2 text-red-700">Guess the Movie</a
+				class="hover:underline underline-offset-2 text-red-600 bg-white px-1 py-0.5 rounded"
+				>Guess the Movie</a
 			> :
 		</p>
 		<ul class="list-disc pl-6 bg-white rounded-md py-2">

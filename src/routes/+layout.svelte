@@ -96,9 +96,7 @@
 	{/key}
 
 	<!-- Middle Section (main content) -->
-	<main
-		class="w-full min-h-dvh h-dvh max-h-dvh lg:basis-3/4 xl:basis-3/5 flex flex-col bg-yellow-100"
-	>
+	<main class="w-full min-h-dvh h-dvh max-h-dvh lg:w-3/4 xl:w-3/5 flex flex-col bg-yellow-100">
 		<slot />
 		<ToastContainer />
 	</main>
