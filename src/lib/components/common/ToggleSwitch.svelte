@@ -4,6 +4,7 @@
 	import { Icon } from 'svelte-icons-pack';
 	import { FiCheck } from 'svelte-icons-pack/fi';
 	import { IoClose } from 'svelte-icons-pack/io';
+	import toggleSound from '$lib/assets/audio/click_for_game_menu.mp3';
 
 	export let isChecked = false;
 	export let label: string = '';
@@ -26,7 +27,7 @@
 </script>
 
 <audio class="hidden" bind:this={audioClickSelect} preload="auto">
-	<source src="/audio/click_for_game_menu.mp3" type="audio/mpeg" />
+	<source src={toggleSound} type="audio/mpeg" />
 </audio>
 
 <div class="flex flex-row justify-center p-1">

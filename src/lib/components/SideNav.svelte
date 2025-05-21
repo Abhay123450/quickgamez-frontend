@@ -12,7 +12,7 @@
 		<img
 			class="w-40 h-[74px] mix-blend-multiply"
 			srcset="{logo480} 0.63x, {logo768} 1x, {logo1024} 1.33x, {logo1200} 1.56x, {logo1600} 2.08x"
-			src="/images/logo/logo1600.webp"
+			src={logo1600}
 			alt="QuickGamez logo"
 			loading="lazy"
 		/>
