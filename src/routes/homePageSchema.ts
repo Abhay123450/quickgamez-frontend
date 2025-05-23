@@ -1,3 +1,7 @@
+import QuickGamezLogo from '$lib/assets/images/logo/logo1600.webp';
+import guessTheMovieHollywoodThumbnail from '$lib/assets/images/thumbnail/guess-the-movie-hollywood-thumbnail.webp';
+import guessTheMovieBollywoodThumbnail from '$lib/assets/images/thumbnail/guess-the-movie-bollywood-thumbnail.webp';
+
 export const websiteDescription =
 	'QuickGamez is a website where you can play onlines games for free on your mobile, tablet or computer. No downloads, no login. Play now!';
 
@@ -5,7 +9,7 @@ export const isPartOf = {
 	'@type': 'WebSite',
 	'@id': 'https://quickgamez.com/#website',
 	name: 'QuickGamez',
-	url: 'https://quickgamez.com',
+	url: 'https://quickgamez.com/',
 	description:
 		'QuickGamez is a website where you can play onlines games for free on your mobile, tablet or computer. No downloads, no login. Play now!',
 	inLanguage: 'en',
@@ -16,7 +20,7 @@ export const isPartOf = {
 		name: 'QuickGamez',
 		description:
 			'Play free online games at QuickGamez! Enjoy hours of fun on your mobile, tablet, or computer without any downloads or sign-ups. Start playing now!',
-		logo: 'https://quickgamez.com/images/logo/logo1600.webp',
+		logo: QuickGamezLogo,
 		brand: {
 			'@type': 'Brand',
 			'@id': 'https://quickgamez.com/#brand',
@@ -40,25 +44,25 @@ export const homePageSchema = [
 			'@type': 'ItemList',
 			name: 'Games',
 			itemListOrder: 'http://schema.org/ItemListOrderAscending',
-			numberOfItems: 1,
+			numberOfItems: 2,
 			itemListElement: [
 				{
 					'@type': 'ListItem',
 					position: 1,
 					name: 'Guess The Movie - Hollywood',
 					url: 'https://quickgamez.com/games/guess-the-movie/hollywood',
-					image: 'https://quickgamez.com/images/guess-the-movie-logo.webp',
+					image: guessTheMovieHollywoodThumbnail,
 					description:
-						'A movie guessing game where you guess the name of hollywood movies before running out of lives or time, with hints to help.'
+						'Play Guess the Movie - Hollywood and guess the name of hollywood movies before running out of lives or time, with hints to help.'
 				},
 				{
 					'@type': 'ListItem',
 					position: 2,
 					name: 'Guess The Movie - Bollywood',
 					url: 'https://quickgamez.com/games/guess-the-movie/bollywood',
-					image: 'https://quickgamez.com/images/guess-the-movie-logo.webp',
+					image: guessTheMovieBollywoodThumbnail,
 					description:
-						'A movie guessing game where you guess the name of hindi movies before running out of lives or time, with hints to help.'
+						'Play Guess the Movie - Bollywood and guess the name of hindi movies before running out of lives or time, with hints to help.'
 				}
 			]
 		},

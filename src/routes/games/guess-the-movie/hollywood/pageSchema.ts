@@ -1,4 +1,5 @@
 import { isPartOf } from '../../../homePageSchema';
+import guessTheMovieHollywoodthumbnail from '$lib/assets/images/thumbnail/guess-the-movie-hollywood-thumbnail.webp';
 
 export const pageSchemaHollywood = [
 	{
@@ -40,29 +41,29 @@ export const pageSchemaHollywood = [
 		},
 		primaryImageOfPage: {
 			'@type': 'ImageObject',
-			url: 'https://quickgamez.com/images/thumbnail/guess-the-movie-hollywood.webp',
-			thumbnailUrl: 'https://quickgamez.com/images/thumbnail/guess-the-movie-hollywood.webp',
-			image: 'https://quickgamez.com/images/thumbnail/guess-the-movie-hollywood.webp',
-			contentUrl: 'https://quickgamez.com/images/thumbnail/guess-the-movie-hollywood.webp',
+			url: guessTheMovieHollywoodthumbnail,
+			thumbnailUrl: guessTheMovieHollywoodthumbnail,
+			image: guessTheMovieHollywoodthumbnail,
+			contentUrl: guessTheMovieHollywoodthumbnail,
 			width: '2048',
 			height: '2048'
 		},
 		thumbnail: {
 			'@type': 'ImageObject',
-			url: 'https://quickgamez.com/images/thumbnail/guess-the-movie-hollywood.webp',
-			thumbnailUrl: 'https://quickgamez.com/images/thumbnail/guess-the-movie-hollywood.webp',
-			image: 'https://quickgamez.com/images/thumbnail/guess-the-movie-hollywood.webp',
-			contentUrl: 'https://quickgamez.com/images/thumbnail/guess-the-movie-hollywood.webp',
+			url: guessTheMovieHollywoodthumbnail,
+			thumbnailUrl: guessTheMovieHollywoodthumbnail,
+			image: guessTheMovieHollywoodthumbnail,
+			contentUrl: guessTheMovieHollywoodthumbnail,
 			width: '2048',
 			height: '2048'
 		},
-		thumbnailUrl: 'https://quickgamez.com/images/thumbnail/guess-the-movie-hollywood.webp',
+		thumbnailUrl: guessTheMovieHollywoodthumbnail,
 		image: {
 			'@type': 'ImageObject',
-			url: 'https://quickgamez.com/images/thumbnail/guess-the-movie-hollywood.webp',
-			thumbnailUrl: 'https://quickgamez.com/images/thumbnail/guess-the-movie-hollywood.webp',
-			image: 'https://quickgamez.com/images/thumbnail/guess-the-movie-hollywood.webp',
-			contentUrl: 'https://quickgamez.com/images/thumbnail/guess-the-movie-hollywood.webp',
+			url: guessTheMovieHollywoodthumbnail,
+			thumbnailUrl: guessTheMovieHollywoodthumbnail,
+			image: guessTheMovieHollywoodthumbnail,
+			contentUrl: guessTheMovieHollywoodthumbnail,
 			width: '2048',
 			height: '2048'
 		},
@@ -74,10 +75,10 @@ export const pageSchemaHollywood = [
 			url: 'https://quickgamez.com/games/guess-the-movie/hollywood',
 			image: {
 				'@type': 'ImageObject',
-				url: 'https://quickgamez.com/images/thumbnail/guess-the-movie-hollywood.webp',
-				thumbnailUrl: 'https://quickgamez.com/images/thumbnail/guess-the-movie-hollywood.webp',
-				image: 'https://quickgamez.com/images/thumbnail/guess-the-movie-hollywood.webp',
-				contentUrl: 'https://quickgamez.com/images/thumbnail/guess-the-movie-hollywood.webp',
+				url: guessTheMovieHollywoodthumbnail,
+				thumbnailUrl: guessTheMovieHollywoodthumbnail,
+				image: guessTheMovieHollywoodthumbnail,
+				contentUrl: guessTheMovieHollywoodthumbnail,
 				width: '2048',
 				height: '2048'
 			},
@@ -96,23 +97,23 @@ export const pageSchemaHollywood = [
 			},
 			screenshot: {
 				'@type': 'ImageObject',
-				url: 'https://quickgamez.com/images/thumbnail/guess-the-movie-hollywood.webp',
-				thumbnailUrl: 'https://quickgamez.com/images/thumbnail/guess-the-movie-hollywood.webp',
-				image: 'https://quickgamez.com/images/thumbnail/guess-the-movie-hollywood.webp',
-				contentUrl: 'https://quickgamez.com/images/thumbnail/guess-the-movie-hollywood.webp',
+				url: guessTheMovieHollywoodthumbnail,
+				thumbnailUrl: guessTheMovieHollywoodthumbnail,
+				image: guessTheMovieHollywoodthumbnail,
+				contentUrl: guessTheMovieHollywoodthumbnail,
 				width: '2048',
 				height: '2048'
 			},
 			thumbnail: {
 				'@type': 'ImageObject',
-				url: 'https://quickgamez.com/images/thumbnail/guess-the-movie-hollywood.webp',
-				thumbnailUrl: 'https://quickgamez.com/images/thumbnail/guess-the-movie-hollywood.webp',
-				image: 'https://quickgamez.com/images/thumbnail/guess-the-movie-hollywood.webp',
-				contentUrl: 'https://quickgamez.com/images/thumbnail/guess-the-movie-hollywood.webp',
+				url: guessTheMovieHollywoodthumbnail,
+				thumbnailUrl: guessTheMovieHollywoodthumbnail,
+				image: guessTheMovieHollywoodthumbnail,
+				contentUrl: guessTheMovieHollywoodthumbnail,
 				width: '2048',
 				height: '2048'
 			},
-			thumbnailUrl: 'https://quickgamez.com/images/thumbnail/guess-the-movie-hollywood.webp'
+			thumbnailUrl: guessTheMovieHollywoodthumbnail
 		},
 		isPartOf: isPartOf
 	}

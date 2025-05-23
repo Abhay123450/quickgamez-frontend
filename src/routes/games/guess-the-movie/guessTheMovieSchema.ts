@@ -1,4 +1,6 @@
-import { isPartOf, websiteDescription } from '../../homePageSchema';
+import { isPartOf } from '../../homePageSchema';
+import guessTheMovieHollywoodthumbnail from '$lib/assets/images/thumbnail/guess-the-movie-hollywood-thumbnail.webp';
+import guessTheMovieBollywoodthumbnail from '$lib/assets/images/thumbnail/guess-the-movie-bollywood-thumbnail.webp';
 
 export const guessTheMovieSchema = [
 	{
@@ -7,20 +9,21 @@ export const guessTheMovieSchema = [
 		'@id': 'https://quickgamez.com/games/guess-the-movie/#WebPage',
 		url: 'https://quickgamez.com/',
 		name: 'Guess The Movie - Play Now!',
-		description: websiteDescription,
+		description:
+			'Test your movie knowledge with our fun movie guessing games. Currently available for Hollywood and Bollywood (Hindi) movies.',
 		inLanguage: 'en',
 		mainEntity: {
 			'@type': 'ItemList',
 			name: 'Guess The Movie Games',
 			itemListOrder: 'http://schema.org/ItemListOrderAscending',
-			numberOfItems: 1,
+			numberOfItems: 2,
 			itemListElement: [
 				{
 					'@type': 'ListItem',
 					position: 1,
 					name: 'Guess The Movie - Hollywood',
 					url: 'https://quickgamez.com/games/guess-the-movie/hollywood',
-					image: 'https://quickgamez.com/images/thumbnail/guess-the-movie-hollywood.webp',
+					image: guessTheMovieHollywoodthumbnail,
 					description:
 						'A movie guessing game where you guess the name of hollywood movies before running out of lives or time, with hints to help.'
 				},
@@ -29,7 +32,7 @@ export const guessTheMovieSchema = [
 					position: 2,
 					name: 'Guess The Movie - Bollywood',
 					url: 'https://quickgamez.com/games/guess-the-movie/bollywood',
-					image: 'https://quickgamez.com/images/thumbnail/guess-the-movie-bollywood.webp',
+					image: guessTheMovieBollywoodthumbnail,
 					description:
 						'A movie guessing game where you guess the name of hindi movies before running out of lives or time, with hints to help.'
 				}

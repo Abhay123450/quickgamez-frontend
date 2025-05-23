@@ -1,4 +1,5 @@
 import { isPartOf } from '../../../homePageSchema';
+import guessTheMovieBollywoodthumbnail from '$lib/assets/images/thumbnail/guess-the-movie-bollywood-thumbnail.webp';
 
 export const pageSchemaBollywood = [
 	{
@@ -40,31 +41,31 @@ export const pageSchemaBollywood = [
 		},
 		primaryImageOfPage: {
 			'@type': 'ImageObject',
-			url: 'https://quickgamez.com/images/guess-the-movie.webp',
-			thumbnailUrl: 'https://quickgamez.com/images/guess-the-movie.webp',
-			image: 'https://quickgamez.com/images/guess-the-movie.webp',
-			contentUrl: 'https://quickgamez.com/images/guess-the-movie.webp',
-			width: '1200',
-			height: '1200'
+			url: guessTheMovieBollywoodthumbnail,
+			thumbnailUrl: guessTheMovieBollywoodthumbnail,
+			image: guessTheMovieBollywoodthumbnail,
+			contentUrl: guessTheMovieBollywoodthumbnail,
+			width: '2048',
+			height: '2048'
 		},
 		thumbnail: {
 			'@type': 'ImageObject',
-			url: 'https://quickgamez.com/images/guess-the-movie.webp',
-			thumbnailUrl: 'https://quickgamez.com/images/guess-the-movie.webp',
-			image: 'https://quickgamez.com/images/guess-the-movie.webp',
-			contentUrl: 'https://quickgamez.com/images/guess-the-movie.webp',
-			width: '1200',
-			height: '1200'
+			url: guessTheMovieBollywoodthumbnail,
+			thumbnailUrl: guessTheMovieBollywoodthumbnail,
+			image: guessTheMovieBollywoodthumbnail,
+			contentUrl: guessTheMovieBollywoodthumbnail,
+			width: '2048',
+			height: '2048'
 		},
-		thumbnailUrl: 'https://quickgamez.com/images/guess-the-movie.webp',
+		thumbnailUrl: guessTheMovieBollywoodthumbnail,
 		image: {
 			'@type': 'ImageObject',
-			url: 'https://quickgamez.com/images/guess-the-movie.webp',
-			thumbnailUrl: 'https://quickgamez.com/images/guess-the-movie.webp',
-			image: 'https://quickgamez.com/images/guess-the-movie.webp',
-			contentUrl: 'https://quickgamez.com/images/guess-the-movie.webp',
-			width: '1200',
-			height: '1200'
+			url: guessTheMovieBollywoodthumbnail,
+			thumbnailUrl: guessTheMovieBollywoodthumbnail,
+			image: guessTheMovieBollywoodthumbnail,
+			contentUrl: guessTheMovieBollywoodthumbnail,
+			width: '2048',
+			height: '2048'
 		},
 		mainEntity: {
 			'@type': ['Game', 'WebApplication'],
@@ -74,12 +75,12 @@ export const pageSchemaBollywood = [
 			url: 'https://quickgamez.com/games/guess-the-movie/bollywood',
 			image: {
 				'@type': 'ImageObject',
-				url: 'https://quickgamez.com/images/guess-the-movie.webp',
-				thumbnailUrl: 'https://quickgamez.com/images/guess-the-movie.webp',
-				image: 'https://quickgamez.com/images/guess-the-movie.webp',
-				contentUrl: 'https://quickgamez.com/images/guess-the-movie.webp',
-				width: '1200',
-				height: '1200'
+				url: guessTheMovieBollywoodthumbnail,
+				thumbnailUrl: guessTheMovieBollywoodthumbnail,
+				image: guessTheMovieBollywoodthumbnail,
+				contentUrl: guessTheMovieBollywoodthumbnail,
+				width: '2048',
+				height: '2048'
 			},
 			applicationCategory: 'Game',
 			applicationSubCategory: 'Trivia',
@@ -96,23 +97,23 @@ export const pageSchemaBollywood = [
 			},
 			screenshot: {
 				'@type': 'ImageObject',
-				url: 'https://quickgamez.com/images/guess-the-movie.webp',
-				thumbnailUrl: 'https://quickgamez.com/images/guess-the-movie.webp',
-				image: 'https://quickgamez.com/images/guess-the-movie.webp',
-				contentUrl: 'https://quickgamez.com/images/guess-the-movie.webp',
-				width: '1200',
-				height: '1200'
+				url: guessTheMovieBollywoodthumbnail,
+				thumbnailUrl: guessTheMovieBollywoodthumbnail,
+				image: guessTheMovieBollywoodthumbnail,
+				contentUrl: guessTheMovieBollywoodthumbnail,
+				width: '2048',
+				height: '2048'
 			},
 			thumbnail: {
 				'@type': 'ImageObject',
-				url: 'https://quickgamez.com/images/guess-the-movie.webp',
-				thumbnailUrl: 'https://quickgamez.com/images/guess-the-movie.webp',
-				image: 'https://quickgamez.com/images/guess-the-movie.webp',
-				contentUrl: 'https://quickgamez.com/images/guess-the-movie.webp',
-				width: '1200',
-				height: '1200'
+				url: guessTheMovieBollywoodthumbnail,
+				thumbnailUrl: guessTheMovieBollywoodthumbnail,
+				image: guessTheMovieBollywoodthumbnail,
+				contentUrl: guessTheMovieBollywoodthumbnail,
+				width: '2048',
+				height: '2048'
 			},
-			thumbnailUrl: 'https://quickgamez.com/images/guess-the-movie.webp'
+			thumbnailUrl: guessTheMovieBollywoodthumbnail
 		},
 		isPartOf: isPartOf
 	}
