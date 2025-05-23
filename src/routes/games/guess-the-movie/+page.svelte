@@ -35,7 +35,7 @@
 	<title>QuickGamez - Play online games for free</title>
 	<meta
 		name="description"
-		content="Test your movie knowledge with our fun movie guessing games. Currently available for hollywood and bollywood movies."
+		content="Test your movie knowledge with our fun movie guessing games. Currently available for Hollywood and Bollywood (Hindi) movies."
 	/>
 	<LdTag schema={guessTheMovieSchema} />
 	<link rel="canonical" href="https://quickgamez.com/games/guess-the-movie" />

@@ -497,7 +497,7 @@
 		//remove spaces and count letters
 		const nameLength = movieName.replace(/\s/g, '').length;
 		// 10 seconds extra for each letter
-		return nameLength < 6 ? defaultTime : defaultTime + (nameLength - 5) * 10;
+		return defaultTime + nameLength * 10;
 	}
 
 	async function startGame() {
@@ -533,9 +533,9 @@
 		hints = [
 			...hints,
 			{ hint: movie.hints[0], isLocked: false },
-			{ hint: movie.hints[5], isLocked: true },
+			{ hint: movie.hints[3], isLocked: true },
+			{ hint: `It was released in ${new Date(movie.releaseDate).getFullYear()}.`, isLocked: true },
 			{ hint: movie.hints[2], isLocked: true },
-			{ hint: movie.hints[4], isLocked: true },
 			{ hint: `It stars ${movie.actors.join(', ')}.`, isLocked: true }
 		];
 		// if (difficulty === Difficulty.Easy) {
