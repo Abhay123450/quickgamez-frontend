@@ -6,6 +6,8 @@
 	import { RiSystemTimerLine } from 'svelte-icons-pack/ri';
 	const dispatch = createEventDispatcher();
 
+	import timerSound from '$lib/assets/audio/timer-with-chime.mp3';
+
 	export let maxTime: number = 120; // default max time in seconds
 	export let timeLeft: number = maxTime;
 
@@ -42,10 +44,29 @@
 
 	$: if (timeLeft === maxTime) {
 		startTimer();
+	} else if (timeLeft === 120) {
+		timerAudio.volume = $soundVolume;
+		timerAudio.currentTime = 0;
+		timerAudio.play();
+		setTimeout(() => {
+			timerAudio.pause();
+		}, 2000);
 	} else if (timeLeft === 60) {
 		addToast(`60 seconds left`, 'warning', 3000);
+		timerAudio.volume = $soundVolume;
+		timerAudio.currentTime = 0;
+		timerAudio.play();
+		setTimeout(() => {
+			timerAudio.pause();
+		}, 2000);
 	} else if (timeLeft === 30) {
 		addToast(`30 seconds left`, 'warning', 3000);
+		timerAudio.volume = $soundVolume;
+		timerAudio.currentTime = 0;
+		timerAudio.play();
+		setTimeout(() => {
+			timerAudio.pause();
+		}, 2000);
 	} else if (timeLeft === 10) {
 		addToast(`10 seconds left`, 'warning', 3000);
 		timerAudio.volume = $soundVolume;
@@ -59,8 +80,7 @@
 	});
 </script>
 
-<audio src="/audio/timer-with-chime.mp3" class="hidden" bind:this={timerAudio} preload="auto"
-></audio>
+<audio src={timerSound} class="hidden" bind:this={timerAudio} preload="auto"></audio>
 
 <div class="flex flex-row p-1 bg-white rounded-md items-center space-x-1">
 	<Icon src={RiSystemTimerLine} className="w-6 h-6 self-center" />
