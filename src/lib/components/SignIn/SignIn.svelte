@@ -17,6 +17,8 @@
 	import InputText from '../common/input/InputText.svelte';
 	import { isEmailValid, isNotEmpty } from '$lib/utils/inputValidation';
 	import { API_ROUTES } from '$lib/constants/apiRoutes';
+	import { onMount } from 'svelte';
+	import type { User } from '$lib/types/User';
 
 	let registerForm: HTMLFormElement;
 	let loginForm: HTMLFormElement;
@@ -429,6 +431,79 @@
 			loginStage = LoginStage.ENTER_DETAILS;
 		}, 3000);
 	}
+
+	function handleCredentialResponse(response: any) {
+		signinWithGoogle(response.credential);
+	}
+
+	async function signinWithGoogle(data: any) {
+		try {
+			console.log('signinWithGoogle', data);
+			const url = new URL(API_ROUTES.USER.AUTH.GOOGLE_LOGIN);
+
+			const response = await fetch(url, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({ idToken: data })
+			});
+
+			const responseData = await response.json();
+			console.log('responseData', responseData);
+			const success: boolean = responseData.success;
+			if (!success) {
+				addToast(responseData.message, 'error', 10000);
+				return;
+			}
+			const userData = responseData?.user;
+			console.info('userData after google login', userData);
+			$userDetails = userData as User;
+			googleLoginSuccess(userData);
+		} catch (error) {
+			addToast('An error occurred', 'error', 8000);
+		}
+	}
+
+	function googleLoginSuccess(user: User) {
+		$isLoggedIn = true;
+		addToast(`Welcome ${$userDetails?.name}`, 'success', 10000);
+		if ($page.state.isLoginPanelOpen) {
+			history.back();
+		}
+	}
+
+	onMount(() => {
+		console.log('window.google', window?.google);
+		if (!window?.google?.accounts?.id) {
+			console.log('google not loaded');
+		}
+		window.google.accounts.id.initialize({
+			client_id: '231088337140-j5qomdu7q1q1aa2bfmc0kpircbiqt732.apps.googleusercontent.com',
+			callback: handleCredentialResponse
+		});
+		window.google.accounts.id.renderButton(
+			document.getElementById('google_signin_button'),
+			{
+				theme: 'outline',
+				size: 'large',
+				text: 'signin_with',
+				shape: 'rectangular',
+				logo_alignment: 'center'
+			} // customization attributes
+		);
+		window.google.accounts.id.renderButton(
+			document.getElementById('google_signup_button'),
+			{
+				theme: 'filled_blue',
+				size: 'large',
+				text: 'signup_with',
+				shape: 'rectangular',
+				logo_alignment: 'left'
+			} // customization attributes
+		);
+		window.google.accounts.id.prompt();
+	});
 </script>
 
 <div
@@ -528,6 +603,12 @@
 							isDisabled={!isRegisterDataValid}
 						/>
 					</form>
+					<p class="text-center my-2 font-bold text-neutral-600">OR</p>
+
+					<div class="self-center" id="google_signup_button"></div>
+
+					<div class="self-center h-[1px] w-full bg-gray-300 mt-4"></div>
+
 					<div class="flex flex-row w-fit h-fit mt-3 self-center place-items-center">
 						<p>Already have an account?</p>
 						<button
@@ -633,8 +714,16 @@
 							isDisabled={!isLoginDataValid}
 						/>
 					</form>
+
+					<p class="text-center my-2 font-bold text-neutral-600">OR</p>
+
+					<!-- Google Signin Button -->
+					<div class="self-center" id="google_signin_button"></div>
+
+					<div class="self-center h-[1px] w-full bg-gray-300 mt-4"></div>
+
 					<div class="flex flex-row w-fit h-fit mt-3 self-center place-items-center">
-						<p>Don't have an account?</p>
+						<p>New user?</p>
 						<button
 							class="text-red-600 px-1"
 							on:click={(e) => {

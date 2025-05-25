@@ -49,6 +49,10 @@
 	});
 </script>
 
+<svelte:head>
+	<script src="https://accounts.google.com/gsi/client" async></script>
+</svelte:head>
+
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div class="min-h-dvh w-full flex flex-col lg:flex-row lg:justify-center">

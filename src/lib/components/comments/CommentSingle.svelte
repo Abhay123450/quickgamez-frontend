@@ -342,7 +342,7 @@
 			<Icon className="w-5 h-5" src={BsReply} />
 			<p>Reply</p>
 		</button>
-		{#if $isLoggedIn && comment.user.userId.length > 0}
+		{#if $isLoggedIn && comment?.user?.userId?.length > 0}
 			<button
 				on:click={() => (showMenu = !showMenu)}
 				class="absolute right-2 top-2 hover:bg-neutral-200 rounded-md text-neutral-600 p-1"

@@ -4,16 +4,17 @@ const BASE_URL = (import.meta.env.VITE_API_BASE_URL as string) || 'http://192.16
 
 export const API_ROUTES = {
 	USER: {
-		CREATE_USER: '/api/v1/users',
+		CREATE_USER: BASE_URL + '/api/v1/users',
 		REGISTER: BASE_URL + '/api/v1/users/auth/register',
 		GET_MY_PROFILE: BASE_URL + '/api/v1/users/my-profile',
 		AUTH: {
 			LOGIN: BASE_URL + '/api/v1/users/auth/login',
+			GOOGLE_LOGIN: BASE_URL + '/api/v1/users/auth/google',
 			REFRESH_ACCESS_TOKEN: BASE_URL + '/api/v1/users/auth/access-token',
-			VERIFY_EMAIL: `/api/v1/users/auth/verify-email`,
-			SEND_EMAIL_OTP: `/api/v1/users/auth/send-email-otp`,
-			FORGOT_PASSWORD: `/api/v1/users/auth/forgot-password`,
-			RESET_PASSWORD: `/api/v1/users/auth/reset-password`,
+			VERIFY_EMAIL: BASE_URL + `/api/v1/users/auth/verify-email`,
+			SEND_EMAIL_OTP: BASE_URL + `/api/v1/users/auth/send-email-otp`,
+			FORGOT_PASSWORD: BASE_URL + `/api/v1/users/auth/forgot-password`,
+			RESET_PASSWORD: BASE_URL + `/api/v1/users/auth/reset-password`,
 			LOGOUT: BASE_URL + '/api/v1/users/auth/logout'
 		},
 		CHECK_USERNAME_AVAILABILITY: (username: string) =>
