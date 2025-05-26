@@ -21,6 +21,11 @@ declare global {
 		}
 		// interface Platform {}
 	}
+	namespace globalThis {
+		interface Window {
+			google?: any;
+		}
+	}
 }
 
 export {};
