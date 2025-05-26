@@ -56,7 +56,7 @@ export let soundVolume: Writable<number> = writable(0.75);
 /** LOGIN START*/
 export let isLoginPanelOpen: Writable<boolean> = writable(false);
 export let loginActiveTab: Writable<number> = writable(0);
-export let isLoggedIn: Writable<boolean> = writable(false);
+export let isLoggedIn: Writable<boolean> = writable(true);
 
 export let accessTokenExpiresAt: Writable<number> = writable(0);
 
