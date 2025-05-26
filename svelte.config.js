@@ -24,14 +24,11 @@ const config = {
 		adapter: adapter({ out: "./public", nodejsRuntime: 20, precompress: true }),
 		csp: {
 			directives: {
-				'script-src': ['self'],
-			},
-			reportOnly: {
-				'script-src': ['self'],
-				'report-to': ['default']
+				'script-src': ['self', 'https://accounts.google.com/gsi/client'],
 			},
 			mode: 'auto'
-		}
+		},
+
 	}
 };
 
