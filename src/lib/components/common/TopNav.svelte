@@ -8,6 +8,7 @@
 	import logo1024 from '$lib/assets/images/logo/logo1024.webp';
 	import logo1200 from '$lib/assets/images/logo/logo1200.webp';
 	import logo1600 from '$lib/assets/images/logo/logo1600.webp';
+	import { isNewNotificationAvailable } from '../../../routes/stores';
 
 	/**
 	 * Whether to show the logo or not.
@@ -69,9 +70,13 @@
 	<button
 		name="openRightPanel"
 		on:click={openRightPanel}
-		class="w-9 h-9 m-1 p-1 rounded bg-white text-black uppercase border border-black lg:invisible"
+		class="relative w-9 h-9 m-1 p-1 rounded bg-white text-black uppercase border border-black lg:invisible"
 		aria-label="Open right panel"
 	>
 		<Icon src={RiSystemMenuFold3Line2} size="24" />
+		<div
+			class:hidden={!$isNewNotificationAvailable}
+			class="absolute w-2 h-2 bg-red-600 rounded-full top-0.5 left-0.5"
+		></div>
 	</button>
 </div>

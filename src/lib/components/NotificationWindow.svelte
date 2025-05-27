@@ -2,7 +2,7 @@
 	import { fetchWithTokenRefresh } from '$lib/utils/fetchRequest';
 	import LoadingSpin from './common/LoadingSpin.svelte';
 	import { onMount } from 'svelte';
-	import { isLoggedIn, userDetails } from '../../routes/stores';
+	import { isLoggedIn, isNewNotificationAvailable, userDetails } from '../../routes/stores';
 	import { API_ROUTES } from '$lib/constants/apiRoutes';
 
 	const NotificationActions = {
@@ -44,6 +44,13 @@
 		}
 
 		saveNotificationsToCache(data);
+		if (data && data.length > 0) {
+			data.forEach((notification) => {
+				if (!notification.isRead) {
+					$isNewNotificationAvailable = true;
+				}
+			});
+		}
 		isLoading = false;
 		return data;
 	}
@@ -61,6 +68,20 @@
 		if (error) {
 			return;
 		}
+
+		notifications = notifications.map((notification) => {
+			if (notification.notificationId === notificationId) {
+				notification.isRead = true;
+			}
+			return notification;
+		});
+		saveNotificationsToCache(notifications);
+
+		notifications.forEach((notification) => {
+			if (!notification.isRead) {
+				$isNewNotificationAvailable = true;
+			}
+		});
 	}
 
 	async function getNotifications(): Promise<Notification[]> {
@@ -124,7 +145,7 @@
 				</p>
 
 				<div
-					class="absolute right-2 justify self-center w-2 h-2 rounded-full bg-yellow-600"
+					class="absolute right-2 justify self-center w-2 h-2 rounded-full bg-red-600"
 					class:hidden={notification.isRead}
 				></div>
 			</a>
