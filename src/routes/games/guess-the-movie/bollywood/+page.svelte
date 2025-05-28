@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onDestroy, onMount } from 'svelte';
+	import { onDestroy, onMount, tick } from 'svelte';
 
 	import { fade, fly } from 'svelte/transition';
 	import { page } from '$app/stores';
@@ -535,7 +535,7 @@
 			{ hint: movie.hints[0], isLocked: false },
 			{ hint: movie.hints[3], isLocked: true },
 			{ hint: `It was released in ${new Date(movie.releaseDate).getFullYear()}.`, isLocked: true },
-			{ hint: movie.hints[2], isLocked: true },
+			{ hint: `Genre: ${movie.genre.join(', ')}.`, isLocked: true },
 			{ hint: `It stars ${movie.actors.join(', ')}.`, isLocked: true }
 		];
 		// if (difficulty === Difficulty.Easy) {
@@ -693,6 +693,23 @@
 	$: if (chancesLeft === 1) {
 		addToast('You have 1 chance left', 'warning', 5000);
 	}
+
+	onMount(async () => {
+		const urlFragment = window.location.hash.slice(1);
+		const [fragment, id] = urlFragment.split('=');
+		console.log('urlFragment', urlFragment);
+		console.info('fragment', fragment);
+		console.info('id', id);
+		await tick();
+		switch (urlFragment) {
+			case 'comments':
+				pushState('#comments', { ...$page.state, guessTheMovieActiveTab: 2 });
+				break;
+			case 'leaderboard':
+				pushState('#leaderboard', { ...$page.state, guessTheMovieActiveTab: 1 });
+				break;
+		}
+	});
 
 	onDestroy(() => {
 		$isGameInProgess = false;
