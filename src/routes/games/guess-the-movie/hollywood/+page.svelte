@@ -535,7 +535,7 @@
 			{ hint: movie.hints[0], isLocked: false },
 			{ hint: movie.hints[3], isLocked: true },
 			{ hint: `It was released in ${new Date(movie.releaseDate).getFullYear()}.`, isLocked: true },
-			{ hint: movie.hints[2], isLocked: true },
+			{ hint: `Genre: ${movie.genre.join(', ')}`, isLocked: true },
 			{ hint: `It stars ${movie.actors.join(', ')}.`, isLocked: true }
 		];
 		// if (difficulty === Difficulty.Easy) {
