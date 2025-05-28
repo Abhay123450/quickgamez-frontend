@@ -1,8 +1,16 @@
 import type { GameData } from './movie';
 
 export function calculateScore(gameData: GameData): number {
-	const { movieNameUnguessed, difficulty, livesUsed, timeLeft, result, guesses, isTimerOn } =
-		gameData;
+	const {
+		movieNameUnguessed,
+		difficulty,
+		livesUsed,
+		timeLeft,
+		timeGiven,
+		result,
+		guesses,
+		isTimerOn
+	} = gameData;
 	gameData.pointsBreakdown = [];
 	let score = 0;
 	if (result === 'win') {
@@ -19,8 +27,9 @@ export function calculateScore(gameData: GameData): number {
 
 		if (isTimerOn) {
 			// +1 point for each second remaining
-			score += timeLeft;
-			gameData.pointsBreakdown.push(`+${timeLeft} for ${timeLeft} seconds remaining`);
+			const timeBonus = Math.ceil((timeLeft / timeGiven) * 100);
+			score += timeBonus;
+			gameData.pointsBreakdown.push(`+${timeBonus} for ${timeLeft}/${timeGiven} seconds remaining`);
 		}
 
 		// for each lives remaining, add 20 points
