@@ -104,3 +104,9 @@ export function popPreviousFocusElement(): HTMLElement | null {
 }
 
 /** trapfocus END */
+
+/** Notification START */
+
+export let isNewNotificationAvailable: Writable<boolean> = writable(false);
+
+/** Notification END */

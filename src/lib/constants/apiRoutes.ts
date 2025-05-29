@@ -1,6 +1,6 @@
 import type { Difficulty, Industry } from '../../routes/games/guess-the-movie/movie';
 
-const BASE_URL = (import.meta.env.VITE_API_BASE_URL as string) || 'http://192.168.1.6:4000';
+const BASE_URL = 'https://quickgamez.com';
 
 export const API_ROUTES = {
 	USER: {
@@ -50,6 +50,7 @@ export const API_ROUTES = {
 		GET_UNPLAYED_MOVIES: (industry: Industry, difficulty: Difficulty, count: number = 5) =>
 			BASE_URL +
 			`/api/v1/movies/unplayed?industry=${industry}&difficulty=${difficulty.toLowerCase()}&count=${count}`,
-		SAVE_RESULT: BASE_URL + `/api/v1/games/guess-the-movie/results`
+		SAVE_RESULT: BASE_URL + `/api/v1/games/guess-the-movie/results`,
+		SAVE_MULTIPLE_RESULTS: BASE_URL + `/api/v1/games/guess-the-movie/results/multiple`
 	}
 };

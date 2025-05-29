@@ -92,7 +92,7 @@ export const pageSchemaHollywood = [
 				'@type': 'Offer',
 				category: 'free',
 				price: 0,
-				priceCurrency: 'INR',
+				priceCurrency: 'USD',
 				availability: 'http://schema.org/InStock'
 			},
 			screenshot: {
