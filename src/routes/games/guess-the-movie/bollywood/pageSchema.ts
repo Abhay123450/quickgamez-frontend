@@ -9,7 +9,7 @@ export const pageSchemaBollywood = [
 		url: 'https://quickgamez.com/games/guess-the-movie/bollywood',
 		name: 'Guess the Movie - Bollywood | Play Online for Free! | QuickGamez',
 		description:
-			'Play Guess the Movie - Bollywood and guess the name of hindi movies before running out of lives or time, with hints to help. Play on your mobile, tablet, or computer. No downloads, no login. Play now!',
+			'Play Guess the Movie - Bollywood and guess the name of hindi movies before running out of lives or time, with hints to help. With over 500 hindi movies to guess, this movie guessing game is a fun way to test your movie knowledge.',
 		inLanguage: 'en',
 		breadcrumb: {
 			'@type': 'BreadcrumbList',
@@ -71,7 +71,7 @@ export const pageSchemaBollywood = [
 			'@type': ['Game', 'WebApplication'],
 			name: 'Guess the Movie - Bollywood',
 			description:
-				'Love Hindi movies? Play this movie guessing game and guess the name of hindi movies before running out of lives or time, with hints to help.',
+				'Play Guess the Movie - Bollywood and guess the name of hindi movies before running out of lives or time, with hints to help. With over 500 hindi movies to guess, this movie guessing game is a fun way to test your movie knowledge.',
 			url: 'https://quickgamez.com/games/guess-the-movie/bollywood',
 			image: {
 				'@type': 'ImageObject',

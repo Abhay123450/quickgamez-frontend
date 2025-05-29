@@ -724,7 +724,7 @@
 	<title>Guess The Movie - Bollywood | Play online for free | QuickGamez</title>
 	<meta
 		name="description"
-		content="A movie guessing game where you guess the name of hindi movies before running out of lives or time, with hints to help."
+		content="Play Guess the Movie - Bollywood and guess the name of hindi movies before running out of lives or time, with hints to help. With over 500 hindi movies to guess, this movie guessing game is a fun way to test your movie knowledge."
 	/>
 	<LdTag schema={pageSchemaBollywood} />
 	<link rel="canonical" href="https://quickgamez.com/games/guess-the-movie/bollywood" />
@@ -756,7 +756,7 @@
 
 		<!-- center -->
 		<div class="flex grow items-center justify-around">
-			<h1 class="text-xl font-semibold">Guess The Movie - Bollywood</h1>
+			<h1 class="text-base sm:text-lg md:text-xl font-semibold">Guess The Movie - Bollywood</h1>
 		</div>
 
 		<!-- right -->

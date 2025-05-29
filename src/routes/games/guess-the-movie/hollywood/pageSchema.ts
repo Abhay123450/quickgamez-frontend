@@ -9,7 +9,7 @@ export const pageSchemaHollywood = [
 		url: 'https://quickgamez.com/games/guess-the-movie/hollywood',
 		name: 'Guess the Movie - Hollywood | Play Online for Free! | QuickGamez',
 		description:
-			'Play Guess the Movie - Hollywood and guess the name of hollywood movies before running out of lives or time, with hints to help. Play on your mobile, tablet, or computer. No downloads, no login. Play now!',
+			'Play Guess the Movie - Hollywood and guess the name of Hollywood movies before running out of lives or time, with hints to help. With over 1000 movies to guess, this movie guessing game is a fun way to test your movie knowledge.',
 		inLanguage: 'en',
 		breadcrumb: {
 			'@type': 'BreadcrumbList',
@@ -71,7 +71,7 @@ export const pageSchemaHollywood = [
 			'@type': ['Game', 'WebApplication'],
 			name: 'Guess the Movie - Hollywood',
 			description:
-				'Test your movie knowledge with this movie guessing game and guess the name of hollywood movies before running out of lives or time, with hints to help.',
+				'Play Guess the Movie - Hollywood and guess the name of Hollywood movies before running out of lives or time, with hints to help. With over 1000 movies to guess, this movie guessing game is a fun way to test your movie knowledge.',
 			url: 'https://quickgamez.com/games/guess-the-movie/hollywood',
 			image: {
 				'@type': 'ImageObject',

@@ -712,7 +712,7 @@
 	<title>Guess The Movie - Hollywood | Play online for free | QuickGamez</title>
 	<meta
 		name="description"
-		content="A movie guessing game where you guess the name of hollywood movies before running out of lives or time, with hints to help."
+		content="Play Guess the Movie - Hollywood and guess the name of Hollywood movies before running out of lives or time, with hints to help. With over 1000 movies to guess, this movie guessing game is a fun way to test your movie knowledge."
 	/>
 	<LdTag schema={pageSchemaHollywood} />
 	<link rel="canonical" href="https://quickgamez.com/games/guess-the-movie/hollywood" />
@@ -751,7 +751,7 @@
 
 		<!-- center -->
 		<div class="flex grow items-center justify-around">
-			<h1 class="text-xl font-semibold">Guess The Movie - Hollywood</h1>
+			<h1 class="text-base sm:text-lg md:text-xl font-semibold">Guess The Movie - Hollywood</h1>
 		</div>
 
 		<!-- right -->
