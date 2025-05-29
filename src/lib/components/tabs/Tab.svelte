@@ -61,18 +61,18 @@
 			});
 		} else if (shallowRouteMode === 'home-tab-only') {
 			if (currentTabIndex === undefined || currentTabIndex === 0) {
-				pushState('', {
+				pushState(`#${tabName.toLowerCase()}`, {
 					...$page.state,
 					[stateVariablename]: tabs.findIndex((t) => t.name === tabName)
 				});
 			} else {
-				replaceState('', {
+				replaceState(tabName === tabs[0].name ? '' : `#${tabName.toLowerCase()}`, {
 					...$page.state,
 					[stateVariablename]: tabs.findIndex((t) => t.name === tabName)
 				});
 			}
 		} else {
-			pushState('', {
+			pushState(`#${tabName.toLowerCase()}`, {
 				...$page.state,
 				[stateVariablename]: tabs.findIndex((t) => t.name === tabName)
 			});
