@@ -16,14 +16,14 @@
 	let games = [
 		{
 			id: 1,
-			title: 'Guess The Movie - Hollywood',
+			title: 'Guess The Movie – Hollywood',
 			image: guessTheMovieHollywoodThumbnail,
 			srcset: `${guessTheMovieHollywoodThumbnail480} 480w, ${guessTheMovieHollywoodThumbnail900} 900w, ${guessTheMovieHollywoodThumbnail1180} 1180w`,
 			slug: 'guess-the-movie/hollywood'
 		},
 		{
 			id: 2,
-			title: 'Guess The Movie - Bollywood',
+			title: 'Guess The Movie – Bollywood',
 			image: guessTheMovieBollywoodThumbnail480,
 			srcset: `${guessTheMovieBollywoodThumbnail480} 480w, ${guessTheMovieBollywoodThumbnail900} 900w, ${guessTheMovieBollywoodThumbnail1180} 1180w`,
 			slug: 'guess-the-movie/bollywood'

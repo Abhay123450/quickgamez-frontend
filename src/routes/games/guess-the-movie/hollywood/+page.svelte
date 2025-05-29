@@ -97,7 +97,7 @@
 
 	$: scrollToTarget(newHintDiv);
 
-	let movieName: string = 'Guess The Movie - Hollywood';
+	let movieName: string = 'Guess The Movie – Hollywood';
 
 	let isStarting: boolean = false;
 	let showHints = false;
@@ -110,7 +110,7 @@
 	let hints: MovieHint[] = [];
 
 	let disabledKeys: string[] = [];
-	let isQwertyKeyboard: boolean = false;
+	let isQwertyKeyboard: boolean = true;
 	let isTimerOn: boolean = true;
 	let maxTime: number = 120; // in seconds
 	let timeLeft: number = 120;
@@ -145,7 +145,7 @@
 	}
 
 	function movieStringToObject(movie: string): MovieObj[] {
-		if (movieName === 'Guess The Movie - Hollywood') {
+		if (movieName === 'Guess The Movie – Hollywood') {
 			return movie.split('').map((char: string): MovieObj => {
 				return {
 					character: char.toLocaleUpperCase(),
@@ -770,7 +770,11 @@
 		</div>
 	</nav>
 	<div class="flex flex-col flex-grow overflow-auto">
-		<div class="flex font-mono w-full justify-center">{movieInfo}</div>
+		<div
+			class="flex font-mono w-full min-h-fit justify-center text-sm md:text-base overflow-x-auto"
+		>
+			{movieInfo}
+		</div>
 		<div class="flex flex-row flex-wrap bg-yellow-300">
 			{#each movieObjArray as movieObj}
 				<InputSingle {...movieObj} />
@@ -811,7 +815,7 @@
 				out:fly={{ duration: 300 }}
 				class="bg-black bg-opacity-50 xl:hidden h-auto"
 			>
-				<TopNav isShowImage={false} title="Guess The Movie - Hollywood" isH1Tag={false} />
+				<TopNav isShowImage={false} title="Guess The Movie – Hollywood" isH1Tag={false} />
 			</div>
 
 			<Tab {tabs} bind:activeTab={currentTab} context="gametab" shallowRouteMode="home-tab-only">
@@ -1048,7 +1052,7 @@
 				transition:fly={{ duration: 300, y: 50 }}
 				class="bg-white p-2 max-h-full flex flex-col items-center rounded shadow-lg overflow-y-auto cursor-auto"
 			>
-				<h2 class="text-2xl font-bold">Guess The Movie - Hollywood: How To Play?</h2>
+				<h2 class="text-2xl font-bold">Guess The Movie – Hollywood: How To Play?</h2>
 				<HowToPlay steps={howToPlay} />
 			</div>
 		</div>

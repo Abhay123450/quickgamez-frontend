@@ -97,7 +97,7 @@
 
 	$: scrollToTarget(newHintDiv);
 
-	let movieName: string = 'Guess The Movie - Bollywood';
+	let movieName: string = 'Guess The Movie – Bollywood';
 
 	let isStarting: boolean = false;
 	let showHints = false;
@@ -110,7 +110,7 @@
 	let hints: MovieHint[] = [];
 
 	let disabledKeys: string[] = [];
-	let isQwertyKeyboard: boolean = false;
+	let isQwertyKeyboard: boolean = true;
 	let isTimerOn: boolean = true;
 	let maxTime: number = 120; // in seconds
 	let timeLeft: number = 120;
@@ -145,7 +145,7 @@
 	}
 
 	function movieStringToObject(movie: string): MovieObj[] {
-		if (movieName === 'Guess The Movie - Bollywood') {
+		if (movieName === 'Guess The Movie – Bollywood') {
 			return movie.split('').map((char: string): MovieObj => {
 				return {
 					character: char.toLocaleUpperCase(),
@@ -816,7 +816,7 @@
 				out:fly={{ duration: 300 }}
 				class="bg-black bg-opacity-50 xl:hidden h-auto"
 			>
-				<TopNav isShowImage={false} title="Guess The Movie - Bollywood" isH1Tag={false} />
+				<TopNav isShowImage={false} title="Guess The Movie – Bollywood" isH1Tag={false} />
 			</div>
 
 			<Tab {tabs} bind:activeTab={currentTab} context="gametab" shallowRouteMode="home-tab-only">
@@ -1053,7 +1053,7 @@
 				transition:fly={{ duration: 300, y: 50 }}
 				class="bg-white p-2 max-h-full flex flex-col items-center rounded shadow-lg overflow-y-auto cursor-auto"
 			>
-				<h2 class="text-2xl font-bold">Guess The Movie - Bollywood: How To Play?</h2>
+				<h2 class="text-2xl font-bold">Guess The Movie – Bollywood: How To Play?</h2>
 				<HowToPlay steps={howToPlay} />
 			</div>
 		</div>

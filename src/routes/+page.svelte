@@ -16,14 +16,14 @@
 	let games = [
 		{
 			id: 1,
-			title: 'Guess The Movie - Hollywood',
+			title: 'Guess The Movie – Hollywood',
 			image: guessTheMovieHollywoodThumbnail,
 			srcset: `${guessTheMovieHollywoodThumbnail480} 480w, ${guessTheMovieHollywoodThumbnail900} 900w, ${guessTheMovieHollywoodThumbnail1180} 1180w`,
 			slug: 'guess-the-movie/hollywood'
 		},
 		{
 			id: 2,
-			title: 'Guess The Movie - Bollywood',
+			title: 'Guess The Movie – Bollywood',
 			image: guessTheMovieBollywoodThumbnail480,
 			srcset: `${guessTheMovieBollywoodThumbnail480} 480w, ${guessTheMovieBollywoodThumbnail900} 900w, ${guessTheMovieBollywoodThumbnail1180} 1180w`,
 			slug: 'guess-the-movie/bollywood'
@@ -32,7 +32,7 @@
 </script>
 
 <svelte:head>
-	<title>QuickGamez - Play online games for free</title>
+	<title>QuickGamez – Play online games for free</title>
 	<meta
 		name="description"
 		content="Play free online games at QuickGamez! Enjoy hours of fun on your mobile, tablet, or computer without any downloads or sign-ups. Start playing now!"
@@ -89,7 +89,7 @@
 
 	<section class="p-2" aria-labelledby="about-heading">
 		<h2 id="about-heading" class="text-xl font-semibold text-gray-900 mb-2">
-			Play Free Online Games - Fun, Fast & On Any Device!
+			Play Free Online Games – Fun, Fast & On Any Device!
 		</h2>
 		<p class="text-base text-gray-800">
 			Welcome to QuickGamez.com, your go-to hub for exciting and free online games! Whether you're
