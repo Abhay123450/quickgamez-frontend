@@ -7,9 +7,9 @@ export const pageSchemaBollywood = [
 		'@type': 'ItemPage',
 		'@id': 'https://quickgamez.com/games/guess-the-movie/bollywood/#ItemPage',
 		url: 'https://quickgamez.com/games/guess-the-movie/bollywood',
-		name: 'Guess the Movie - Bollywood | Play Online for Free! | QuickGamez',
+		name: 'Guess the Movie – Bollywood | Play Online for Free! | QuickGamez',
 		description:
-			'Play Guess the Movie - Bollywood and guess the name of hindi movies before running out of lives or time, with hints to help. With over 500 hindi movies to guess, this movie guessing game is a fun way to test your movie knowledge.',
+			'Play Guess the Movie – Bollywood and guess the name of hindi movies before running out of lives or time, with hints to help. With over 500 hindi movies to guess, this movie guessing game is a fun way to test your movie knowledge.',
 		inLanguage: 'en',
 		breadcrumb: {
 			'@type': 'BreadcrumbList',
@@ -34,7 +34,7 @@ export const pageSchemaBollywood = [
 					item: {
 						'@type': 'Thing',
 						'@id': 'https://quickgamez.com/games/guess-the-movie/bollywood',
-						name: 'Guess the Movie - Bollywood'
+						name: 'Guess the Movie – Bollywood'
 					}
 				}
 			]
@@ -69,9 +69,9 @@ export const pageSchemaBollywood = [
 		},
 		mainEntity: {
 			'@type': ['Game', 'WebApplication'],
-			name: 'Guess the Movie - Bollywood',
+			name: 'Guess the Movie – Bollywood',
 			description:
-				'Play Guess the Movie - Bollywood and guess the name of hindi movies before running out of lives or time, with hints to help. With over 500 hindi movies to guess, this movie guessing game is a fun way to test your movie knowledge.',
+				'Play Guess the Movie – Bollywood and guess the name of hindi movies before running out of lives or time, with hints to help. With over 500 hindi movies to guess, this movie guessing game is a fun way to test your movie knowledge.',
 			url: 'https://quickgamez.com/games/guess-the-movie/bollywood',
 			image: {
 				'@type': 'ImageObject',

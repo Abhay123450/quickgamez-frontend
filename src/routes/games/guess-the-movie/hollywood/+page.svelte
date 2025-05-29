@@ -709,10 +709,10 @@
 </script>
 
 <svelte:head>
-	<title>Guess The Movie - Hollywood | Play online for free | QuickGamez</title>
+	<title>Guess The Movie – Hollywood | Play online for free | QuickGamez</title>
 	<meta
 		name="description"
-		content="Play Guess the Movie - Hollywood and guess the name of Hollywood movies before running out of lives or time, with hints to help. With over 1000 movies to guess, this movie guessing game is a fun way to test your movie knowledge."
+		content="Play Guess the Movie – Hollywood and guess the name of Hollywood movies before running out of lives or time, with hints to help. With over 1000 movies to guess, this movie guessing game is a fun way to test your movie knowledge."
 	/>
 	<LdTag schema={pageSchemaHollywood} />
 	<link rel="canonical" href="https://quickgamez.com/games/guess-the-movie/hollywood" />
@@ -751,7 +751,7 @@
 
 		<!-- center -->
 		<div class="flex grow items-center justify-around">
-			<h1 class="text-base sm:text-lg md:text-xl font-semibold">Guess The Movie - Hollywood</h1>
+			<h1 class="text-base sm:text-lg md:text-xl font-semibold">Guess The Movie – Hollywood</h1>
 		</div>
 
 		<!-- right -->
@@ -821,7 +821,7 @@
 							<div
 								class="bg-white px-2 py-4 w-11/12 h-11/12 flex flex-col items-center rounded shadow-lg overflow-auto space-y-2 rounded-scrollbar"
 							>
-								<p class="text-2xl font-bold hidden xl:flex">Guess The Movie - Hollywood</p>
+								<p class="text-2xl font-bold hidden xl:flex">Guess The Movie – Hollywood</p>
 
 								<div class="flex w-full md:w-10/12 lg:w-8/12">
 									<Dropdown
@@ -889,7 +889,7 @@
 									<Icon src={CgClose} size="24" />
 								</button>
 
-								<p class="text-2xl font-bold">Guess The Movie - Hollywood</p>
+								<p class="text-2xl font-bold">Guess The Movie – Hollywood</p>
 
 								<button
 									on:click={hideModal}
