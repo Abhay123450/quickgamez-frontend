@@ -71,6 +71,8 @@
 	import successSound from '$lib/assets/audio/success.mp3';
 	import errorSound from '$lib/assets/audio/error.mp3';
 	import loseSound from '$lib/assets/audio/lose.mp3';
+	import youLoseImage from '$lib/assets/images/you-lose.webp';
+	import youWinImage from '$lib/assets/images/you-win.webp';
 
 	const host = `http://${$page.url.hostname}:4000`;
 
@@ -927,7 +929,7 @@
 							<div
 								class="bg-white p-6 w-11/12 h-11/12 flex flex-col items-center rounded shadow-lg"
 							>
-								<img class="w-8/12 my-3" src="/images/you-win.webp" alt="you win" />
+								<img class="w-8/12 my-3" src={youWinImage} alt="you win" />
 
 								<p
 									class="self-center text-lg font-medium text-neutral-600 underline underline-offset-2"
@@ -948,7 +950,7 @@
 							<div
 								class="bg-white p-6 w-11/12 h-11/12 flex flex-col items-center rounded shadow-lg"
 							>
-								<img class="w-8/12 my-3" src="/images/you-lose.webp" alt="you win" />
+								<img class="w-8/12 my-3" src={youLoseImage} alt="you lose" />
 
 								<p
 									class="self-center text-lg font-medium text-neutral-600 underline underline-offset-2"
