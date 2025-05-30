@@ -4,6 +4,7 @@
 	import NotificationWindow from './NotificationWindow.svelte';
 	import MyAccountWindow from './MyAccountWindow.svelte';
 	import {
+		isLoggedIn,
 		isMyAccountWindowOpen,
 		isNotificationWindowOpen,
 		showGameLog
@@ -65,21 +66,23 @@
 			<MyAccountWindow />
 		</MiniWindow>
 	</div>
-	<div class="flex flex-col min-h-8 h-fit max-h-fit max-h-fit-firefox overflow-y-auto">
-		<MiniWindow
-			isMaximized={$isNotificationWindowOpen}
-			icon={IoNotificationsSharp}
-			title="Notifications"
-			on:maximize={() => {
-				$isNotificationWindowOpen = true;
-			}}
-			on:minimize={() => {
-				$isNotificationWindowOpen = false;
-			}}
-		>
-			<NotificationWindow />
-		</MiniWindow>
-	</div>
+	{#key $isLoggedIn}
+		<div class="flex flex-col min-h-8 h-fit max-h-fit max-h-fit-firefox overflow-y-auto">
+			<MiniWindow
+				isMaximized={$isNotificationWindowOpen}
+				icon={IoNotificationsSharp}
+				title="Notifications"
+				on:maximize={() => {
+					$isNotificationWindowOpen = true;
+				}}
+				on:minimize={() => {
+					$isNotificationWindowOpen = false;
+				}}
+			>
+				<NotificationWindow />
+			</MiniWindow>
+		</div>
+	{/key}
 	{#if $showGameLog}
 		<div class="flex flex-col min-h-8 h-fit max-h-fit max-h-fit-firefox overflow-y-auto">
 			<MiniWindow isMaximized={true} icon={IoNotificationsSharp} title="Game Log">
