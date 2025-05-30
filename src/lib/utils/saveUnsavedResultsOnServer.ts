@@ -8,7 +8,6 @@ export async function saveUnsavedResultsOnServer() {
 	}
 	const data = localStorage.getItem('games-not-saved-on-server');
 	if (!data) {
-		addToast('No results to save', 'info', 3000);
 		return;
 	}
 	const games = JSON.parse(data);
@@ -25,8 +24,9 @@ export async function saveUnsavedResultsOnServer() {
 
 	if (error) {
 		console.error(`error saving unsaved results on server ${JSON.stringify(error)}`);
+		return;
 	}
 
 	localStorage.removeItem('games-not-saved-on-server');
-	addToast('Results saved successfully', 'success', 3000);
+	addToast('Your game progress saved successfully', 'success', 3000);
 }
