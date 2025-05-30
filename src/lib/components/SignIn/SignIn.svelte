@@ -19,6 +19,7 @@
 	import { API_ROUTES } from '$lib/constants/apiRoutes';
 	import { onMount } from 'svelte';
 	import type { User } from '$lib/types/User';
+	import { saveUnsavedResultsOnServer } from '$lib/utils/saveUnsavedResultsOnServer';
 
 	let registerForm: HTMLFormElement;
 	let loginForm: HTMLFormElement;
@@ -415,6 +416,7 @@
 		loginStage = LoginStage.LOGIN_SUCCESSFULL;
 		addToast('Login successful', 'success', 10000);
 		$isLoggedIn = true;
+		saveUnsavedResultsOnServer();
 		setTimeout(() => {
 			if ($page.state.isLoginPanelOpen === true) {
 				history.back();
@@ -468,6 +470,7 @@
 	function googleLoginSuccess(user: User) {
 		$isLoggedIn = true;
 		addToast(`Welcome ${$userDetails?.name}`, 'success', 10000);
+		saveUnsavedResultsOnServer();
 		if ($page.state.isLoginPanelOpen) {
 			history.back();
 		}

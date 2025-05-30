@@ -1,7 +1,7 @@
 <script lang="ts">
 	import '../app.css';
 	import { fade, fly } from 'svelte/transition';
-	import { theme, isGameInProgess } from './stores';
+	import { theme, isGameInProgess, isLoggedIn, addToast } from './stores';
 	import { trapFocus } from '$lib/actions';
 	import ToastContainer from '$lib/components/common/ToastContainer.svelte';
 	import { Theme } from '$lib/constants/theme.enum';
@@ -15,32 +15,39 @@
 	import { Icon } from 'svelte-icons-pack';
 	import { IoClose } from 'svelte-icons-pack/io';
 	import CookiePolicy from '$lib/components/CookiePolicy.svelte';
+	import { saveUnsavedResultsOnServer } from '$lib/utils/saveUnsavedResultsOnServer';
 
 	let href = '';
 
-	onMount(() => {
-		function handleLinkClick(e: MouseEvent) {
-			const target = e.target as HTMLElement;
-			const anchor = target.closest('a');
+	function handleLinkClick(e: MouseEvent) {
+		const target = e.target as HTMLElement;
+		const anchor = target.closest('a');
 
-			if (anchor && $isGameInProgess) {
-				e.preventDefault();
-				e.stopPropagation();
+		if (anchor && $isGameInProgess) {
+			e.preventDefault();
+			e.stopPropagation();
 
-				const linkHref = anchor.getAttribute('href') || '';
+			const linkHref = anchor.getAttribute('href') || '';
 
-				// Use setTimeout to ensure this runs after other handlers
-				setTimeout(() => {
-					href = linkHref;
-					pushState('', { showPageNavigationDialog: true });
-				}, 0);
+			// Use setTimeout to ensure this runs after other handlers
+			setTimeout(() => {
+				href = linkHref;
+				pushState('', { showPageNavigationDialog: true });
+			}, 0);
 
-				return false; // Also return false for good measure
-			}
+			return false; // Also return false for good measure
 		}
+	}
 
+	onMount(() => {
 		// Use capture phase to ensure this runs before other handlers
 		document.addEventListener('click', handleLinkClick, true);
+
+		setTimeout(() => {
+			if ($isLoggedIn) {
+				saveUnsavedResultsOnServer();
+			}
+		}, 1000);
 
 		// Clean up on component destruction
 		return () => {
