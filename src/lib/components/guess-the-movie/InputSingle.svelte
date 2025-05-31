@@ -6,7 +6,9 @@
 	export let isGuessedByUser: boolean;
 </script>
 
-<div class="flex w-8 h-8 md:w-10 md:h-10 items-center justify-center rounded-md mx-1 my-2 md:mx-2">
+<div
+	class="flex w-8 h-8 md:w-10 md:h-10 items-center justify-center rounded-md mx-1 my-1 md:mx-2 md:my-2"
+>
 	{#if isGuessed && isGuessedByUser}
 		<input
 			transition:scale={{ duration: 500 }}

@@ -29,7 +29,7 @@
 	import AboutGame from './AboutGuessTheMovie.svelte';
 	import GameComments from '$lib/components/comments/GameComments.svelte';
 	import SoundControl from '$lib/components/common/SoundControl.svelte';
-	import { RiSystemInformation2Line, RiSystemMenuUnfold3Line2 } from 'svelte-icons-pack/ri';
+	import { RiSystemInformation2Line } from 'svelte-icons-pack/ri';
 	import { TrOutlineMenu2 } from 'svelte-icons-pack/tr';
 	import TopNav from '$lib/components/common/TopNav.svelte';
 	import { fetchWithTokenRefresh } from '$lib/utils/fetchRequest.js';
@@ -63,6 +63,7 @@
 	import { FiPlayCircle } from 'svelte-icons-pack/fi';
 	import { CgClose } from 'svelte-icons-pack/cg';
 	import { AiOutlineInfoCircle } from 'svelte-icons-pack/ai';
+	import { BsQuestionSquare } from 'svelte-icons-pack/bs';
 	import { API_ROUTES } from '$lib/constants/apiRoutes.js';
 	import { pageSchemaHollywood } from './pageSchema.js';
 	import LdTag from '$lib/jsonld/LDTag.svelte';
@@ -491,7 +492,7 @@
 			letterInfo += ',';
 		}
 		letterInfo = letterInfo.slice(0, -1);
-		return `${industry} - ${numberOfWords} ${numberOfWords > 1 ? 'words' : 'word'} (${letterInfo})`;
+		return `${difficulty.slice(0, 1).toUpperCase() + difficulty.slice(1).toLowerCase()} - ${numberOfWords} ${numberOfWords > 1 ? 'words' : 'word'} (${letterInfo})`;
 	}
 
 	function getTimerDuration(movieName: string): number {
@@ -743,9 +744,16 @@
 	<nav class="flex flex-row w-full bg-teal-200">
 		<!-- left -->
 		<div class="flex flex-row">
-			<!-- Placeholder button, no use -->
-			<button class="w-9 h-9 m-1 p-1 rounded bg-white text-white uppercase lg:hidden invisible">
-				<Icon src={RiSystemMenuUnfold3Line2} size="24" />
+			<button
+				on:click={() => pushState('', { ...$page.state, showTutorial: true })}
+				class="w-9 h-9 m-1 p-1 rounded bg-white text-white uppercase place-self-end flex"
+				tabindex={currentGameState === GameState.Playing ? 0 : -1}
+				aria-disabled={currentGameState === GameState.Playing ? false : true}
+				aria-label="How to play"
+			>
+				<i class="flex w-full h-full text-black">
+					<Icon className="w-7 h-7" src={BsQuestionSquare} />
+				</i>
 			</button>
 		</div>
 
@@ -769,9 +777,9 @@
 			</button>
 		</div>
 	</nav>
-	<div class="flex flex-col flex-grow overflow-auto">
+	<div class="flex flex-col flex-grow overflow-y-auto">
 		<div
-			class="flex font-mono w-full min-h-fit justify-center text-sm md:text-base overflow-x-auto"
+			class="flex flex-row font-mono w-fit max-w-full self-center text-nowrap overflow-x-auto no-scrollbar p-0.5"
 		>
 			{movieInfo}
 		</div>
@@ -793,7 +801,7 @@
 		</div>
 		<p class="w-auto text-center text-xl uppercase font-medium">Hints</p>
 		<div class="flex flex-col overflow-auto" class:hidden={!showHints}>
-			{#each hints as hint}
+			{#each hints as hint, i (i)}
 				<Hint hint={hint.hint} isLocked={hint.isLocked} bind:newHintDiv />
 			{/each}
 		</div>
