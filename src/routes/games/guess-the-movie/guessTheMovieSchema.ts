@@ -8,10 +8,31 @@ export const guessTheMovieSchema = [
 		'@type': 'WebPage',
 		'@id': 'https://quickgamez.com/games/guess-the-movie/#WebPage',
 		url: 'https://quickgamez.com/',
-		name: 'Guess The Movie - Play Now!',
+		name: 'Guess The Movie - Play Online for Free! | QuickGamez',
 		description:
 			'Test your movie knowledge with our fun movie guessing games. Currently available for Hollywood and Bollywood (Hindi) movies.',
 		inLanguage: 'en',
+		breadcrumb: {
+			'@type': 'BreadcrumbList',
+			'@id': 'https://quickgamez.com/games/guess-the-movie/#BreadcrumbList',
+			name: 'Guess The Movie - Play Online for Free! | QuickGamez',
+			itemListElement: [
+				{
+					'@type': 'ListItem',
+					position: 1,
+					item: { '@type': 'Thing', '@id': 'https://quickgamez.com', name: 'QuickGamez' }
+				},
+				{
+					'@type': 'ListItem',
+					position: 2,
+					item: {
+						'@type': 'Thing',
+						'@id': 'https://quickgamez.com/games/guess-the-movie',
+						name: 'Guess The Movie'
+					}
+				}
+			]
+		},
 		mainEntity: {
 			'@type': 'ItemList',
 			name: 'Guess The Movie Games',
@@ -25,7 +46,7 @@ export const guessTheMovieSchema = [
 					url: 'https://quickgamez.com/games/guess-the-movie/hollywood',
 					image: guessTheMovieHollywoodthumbnail,
 					description:
-						'A movie guessing game where you guess the name of hollywood movies before running out of lives or time, with hints to help.'
+						'Play Guess the Movie – Hollywood and guess the name of Hollywood movies before running out of lives or time, with hints to help. With over 1000 movies to guess, this movie guessing game is a fun way to test your movie knowledge.'
 				},
 				{
 					'@type': 'ListItem',
@@ -34,7 +55,7 @@ export const guessTheMovieSchema = [
 					url: 'https://quickgamez.com/games/guess-the-movie/bollywood',
 					image: guessTheMovieBollywoodthumbnail,
 					description:
-						'A movie guessing game where you guess the name of hindi movies before running out of lives or time, with hints to help.'
+						'Play Guess the Movie – Bollywood and guess the name of hindi movies before running out of lives or time, with hints to help. With over 500 hindi movies to guess, this movie guessing game is a fun way to test your movie knowledge.'
 				}
 			]
 		},

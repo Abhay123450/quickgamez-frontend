@@ -13,6 +13,8 @@ export const pageSchemaHollywood = [
 		inLanguage: 'en',
 		breadcrumb: {
 			'@type': 'BreadcrumbList',
+			'@id': 'https://quickgamez.com/games/guess-the-movie/hollywood/#BreadcrumbList',
+			name: 'Guess the Movie – Hollywood | Play Online for Free! | QuickGamez',
 			itemListElement: [
 				{
 					'@type': 'ListItem',

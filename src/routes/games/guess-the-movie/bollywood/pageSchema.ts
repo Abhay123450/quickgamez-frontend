@@ -13,6 +13,8 @@ export const pageSchemaBollywood = [
 		inLanguage: 'en',
 		breadcrumb: {
 			'@type': 'BreadcrumbList',
+			'@id': 'https://quickgamez.com/games/guess-the-movie/bollywood/#BreadcrumbList',
+			name: 'Guess the Movie – Bollywood | Play Online for Free! | QuickGamez',
 			itemListElement: [
 				{
 					'@type': 'ListItem',
