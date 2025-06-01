@@ -3,6 +3,8 @@
 	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
 
+	export let bgColor: string = 'bg-teal-200';
+
 	function clicked(e: any) {
 		if (e.target.tagName === 'BUTTON') {
 			e.stopPropagation();
@@ -33,7 +35,7 @@
 <div
 	on:click={clicked}
 	id="keyboard-buttons-parent"
-	class="flex flex-wrap py-2 justify-center w-full max-w-full bg-teal-200 dark:text-gray-200 p-0 md:p-2 box-border"
+	class="flex flex-wrap py-2 justify-center w-full max-w-full {bgColor} dark:text-gray-200 p-0 md:p-2 box-border"
 >
 	{#if isQwerty}
 		<div class="flex flex-col">

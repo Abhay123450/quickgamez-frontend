@@ -11,12 +11,12 @@
 	export let maxTime: number = 120; // default max time in seconds
 	export let timeLeft: number = maxTime;
 
-	let timer: number;
+	let timer: any;
 	let timerAudio: HTMLAudioElement;
 
 	function startTimer() {
 		clearInterval(timer);
-		timer = window.setInterval(() => {
+		timer = setInterval(() => {
 			if (timeLeft > 0) {
 				timeLeft -= 1;
 				onTick(timeLeft);
