@@ -179,7 +179,6 @@
 		let gap = 6;
 		let nextPos;
 		let random = getRandomNumBetween(0, 4);
-		console.log(`movieObjArr ${JSON.stringify(movieObjArr)}`);
 		// starting from 1st index to never guess first letter (0th index)
 		for (let i = 1; i < movieObjArr.length; i += gap) {
 			let letterGuessed = false;
@@ -385,7 +384,6 @@
 		gameData.result = 'win';
 		gameData.livesUsed = maxChances - chancesLeft;
 		gameData.timeLeft = timeLeft;
-		console.log('gameData won', gameData);
 		saveResultOnServer(gameData as GameData);
 		addGameLog({
 			timestamp: new Date(),
@@ -405,7 +403,6 @@
 		gameData.result = 'lose';
 		gameData.livesUsed = maxChances - chancesLeft;
 		gameData.timeLeft = timeLeft;
-		console.log('gameData lost', gameData);
 		saveResultOnServer(gameData as GameData);
 		addGameLog({
 			timestamp: new Date(),
@@ -438,13 +435,10 @@
 				request
 			);
 			if (error) {
-				console.log('error saving on server', error);
 				saveResultNotSavedOnServerInLocalStorage(result);
 				return;
 			}
-			console.log('result saved on server', response);
 		} catch (error) {
-			console.log('error saving on server', error);
 			saveResultNotSavedOnServerInLocalStorage(result);
 		}
 	}
@@ -455,9 +449,7 @@
 			let games: GameData[] = JSON.parse(localStorage.getItem(key) || '[]');
 			games.push(result);
 			localStorage.setItem(key, JSON.stringify(games));
-		} catch (error) {
-			console.error('oops');
-		}
+		} catch (error) {}
 	}
 
 	function changeGameState(gameState: GameState) {
@@ -541,11 +533,6 @@
 			{ hint: `Genre: ${movie.genre.join(', ')}.`, isLocked: true },
 			{ hint: `It stars ${movie.actors.join(', ')}.`, isLocked: true }
 		];
-		// if (difficulty === Difficulty.Easy) {
-		// 	hints[0].isLocked = false;
-		// 	hints = [...hints, { hint: movie.hints[4], isLocked: true }];
-		// }
-		// hide modal
 		hideModal();
 		focus(parentDiv);
 		// change gamestate
@@ -588,7 +575,6 @@
 			timeGiven: maxTime,
 			guesses: []
 		};
-		console.log('gameData', gameData);
 		closeMiniWindows();
 		$showGameLog = true;
 		$isGameInProgess = true;
@@ -607,7 +593,6 @@
 
 	function changeDifficulty(value: string) {
 		difficulty = value as Difficulty;
-		console.log('selectedDefficulty', difficulty);
 	}
 
 	function viewHowToPlay() {
@@ -667,28 +652,23 @@
 			let key = `movies-${industry.toUpperCase()}-${difficulty.toLowerCase()}`;
 			key = base64Encode(key);
 			let encodedCachedMovies = sessionStorage.getItem(key);
-			console.log('cachedMovies', encodedCachedMovies);
 			if (!encodedCachedMovies) {
 				return null;
 			}
 
 			const movies: Movie[] = decodeJSON(encodedCachedMovies) as Movie[];
-			console.info('movies from cache', movies);
 
 			if (movies.length === 0) {
 				return null;
 			}
 			const movie = movies.pop() || null;
 			if (!movie) {
-				console.log('cached movie not found');
 				return null;
 			}
 			// sessionStorage.setItem(key, encodeJSON(movies));
 			saveMovieToCache(movies);
-			console.log('movie from cache', movie);
 			return movie;
 		} catch (error) {
-			console.error(error);
 			return null;
 		}
 	}
@@ -700,16 +680,13 @@
 	onMount(async () => {
 		const urlFragment = window.location.hash.slice(1);
 		const [fragment, id] = urlFragment.split('=');
-		console.log('urlFragment', urlFragment);
-		console.info('fragment', fragment);
-		console.info('id', id);
 		await tick();
 		switch (urlFragment) {
 			case 'comments':
-				pushState('#comments', { ...$page.state, guessTheMovieActiveTab: 2 });
+				pushState('#comments', { ...$page.state, gamePageActiveTab: 2 });
 				break;
 			case 'leaderboard':
-				pushState('#leaderboard', { ...$page.state, guessTheMovieActiveTab: 1 });
+				pushState('#leaderboard', { ...$page.state, gamePageActiveTab: 1 });
 				break;
 		}
 	});
