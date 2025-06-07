@@ -683,10 +683,10 @@
 		await tick();
 		switch (urlFragment) {
 			case 'comments':
-				pushState('#comments', { ...$page.state, guessTheMovieActiveTab: 2 });
+				pushState('#comments', { ...$page.state, gamePageActiveTab: 2 });
 				break;
 			case 'leaderboard':
-				pushState('#leaderboard', { ...$page.state, guessTheMovieActiveTab: 1 });
+				pushState('#leaderboard', { ...$page.state, gamePageActiveTab: 1 });
 				break;
 		}
 	});
