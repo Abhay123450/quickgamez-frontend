@@ -761,7 +761,7 @@
 	</nav>
 	<div class="flex flex-col flex-grow overflow-y-auto">
 		<div
-			class="flex flex-row font-mono w-fit max-w-full self-center text-nowrap overflow-x-auto no-scrollbar p-0.5"
+			class="flex flex-row font-mono w-full justify-center max-w-full h-fit text-nowrap overflow-x-auto no-scrollbar px-0.5"
 		>
 			{movieInfo}
 		</div>
