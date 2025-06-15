@@ -15,7 +15,7 @@ declare global {
 			showCommentReportDialog?: boolean;
 			showAvatarSelectionDialog?: boolean;
 			loginActiveTab?: number;
-			guessTheMovieActiveTab?: number;
+			gamePageActiveTab?: number;
 			showHowToPlayDialog?: boolean;
 			showTutorial?: boolean;
 		}

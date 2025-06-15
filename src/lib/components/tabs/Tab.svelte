@@ -16,16 +16,16 @@
 	export let shallowRouteMode: 'none' | 'home-tab-only' | 'all' = 'none';
 	export let context: 'gametab' | 'logintab';
 
-	const stateVariablename: 'guessTheMovieActiveTab' | 'loginActiveTab' = getStateVariableName();
+	const stateVariablename: 'gamePageActiveTab' | 'loginActiveTab' = getStateVariableName();
 
 	function getStateVariableName() {
 		switch (context) {
 			case 'gametab':
-				return 'guessTheMovieActiveTab';
+				return 'gamePageActiveTab';
 			case 'logintab':
 				return 'loginActiveTab';
 			default:
-				return 'guessTheMovieActiveTab';
+				return 'gamePageActiveTab';
 		}
 	}
 
