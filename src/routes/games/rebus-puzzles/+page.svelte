@@ -26,31 +26,22 @@
 	import ToggleFullscreen from '$lib/components/common/ToggleFullscreen.svelte';
 	import Timer from '$lib/components/common/Timer.svelte';
 	import HowToPlay from '$lib/components/common/HowToPlay.svelte';
-	import AboutGame from '../guess-the-movie/bollywood/AboutGuessTheMovie.svelte';
+	import AboutGame from './AboutRebusPuzzles.svelte';
 	import GameComments from '$lib/components/comments/GameComments.svelte';
 	import SoundControl from '$lib/components/common/SoundControl.svelte';
 	import { RiSystemInformation2Line } from 'svelte-icons-pack/ri';
 	import { TrOutlineMenu2 } from 'svelte-icons-pack/tr';
 	import TopNav from '$lib/components/common/TopNav.svelte';
 	import { fetchWithTokenRefresh } from '$lib/utils/fetchRequest.js';
-	import {
-		Difficulty,
-		GameState,
-		type Hint as MovieHint,
-		type Industry,
-		type Movie,
-		type MovieObj,
-		type GameData
-	} from '../guess-the-movie/movie.js';
-	import Hint from '$lib/components/common/Hint.svelte';
-	import { calculateScore } from '../guess-the-movie/calculateScore.js';
+
+	import { calculateScore } from './calculateScore.js';
 	import Leaderboards from '$lib/components/common/Leaderboards.svelte';
 	import type { Tab as TabType } from '$lib/components/tabs/Tabs.js';
 	import Tab from '$lib/components/tabs/Tab.svelte';
 	import Dropdown from '$lib/components/common/Dropdown.svelte';
 	import { pushState } from '$app/navigation';
 	import ScoreCounter from '$lib/components/common/ScoreCounter.svelte';
-	import howToPlay from '../guess-the-movie/howToPlay.js';
+	import howToPlay from './howToPlay.js';
 	// utils
 	import { getRandomNumBetween } from '$lib/utils/getRandomNumBetween.js';
 	import { focus } from '$lib/utils/focus.js';
@@ -66,7 +57,7 @@
 	import { BsQuestionSquare } from 'svelte-icons-pack/bs';
 	import { API_ROUTES } from '$lib/constants/apiRoutes.js';
 	import LdTag from '$lib/jsonld/LDTag.svelte';
-	import { pageSchemaBollywood } from '../guess-the-movie/bollywood/pageSchema.js';
+	import { pageSchemaRebusPuzzles } from './pageSchema.js';
 	// assets
 	import correctChoiceSound from '$lib/assets/audio/correct-choice.mp3';
 	import successSound from '$lib/assets/audio/success.mp3';
@@ -74,8 +65,7 @@
 	import loseSound from '$lib/assets/audio/lose.mp3';
 	import youLoseImage from '$lib/assets/images/you-lose.webp';
 	import youWinImage from '$lib/assets/images/you-win.webp';
-
-	const host = `http://${$page.url.hostname}:4000`;
+	import { Difficulty, GameState, type GameData, type Rebus, type RebusObj } from './Rebus.js';
 
 	let tabs: TabType[] = [
 		{ name: 'PLAY', icon: FiPlayCircle },
@@ -87,45 +77,34 @@
 
 	let parentDiv: HTMLDivElement;
 	let startDiv: HTMLDivElement;
-	let newHintDiv: HTMLDivElement; // scroll to this new hint (when unlocked)
+	let rebusImageNode: HTMLImageElement;
 
 	let keysPressed = new Set<string>();
 
-	function scrollToTarget(targetElement: HTMLElement) {
-		if (!targetElement) return;
-		targetElement.scrollIntoView({ behavior: 'smooth' });
-	}
-
-	$: scrollToTarget(newHintDiv);
-
-	let movieName: string = 'Guess The Movie – Bollywood';
+	let rebusImageUrl: string = '#';
+	let rebusAnswer: string = 'Rebus Puzzles';
+	let rebusExplanation: string = '';
 
 	let isStarting: boolean = false;
-	let showHints = false;
 
-	let movieObjArray: MovieObj[];
+	let rebusObjArray: RebusObj[];
 
 	const maxChances: number = 5;
 	let chancesLeft: number = 5;
-
-	let hints: MovieHint[] = [];
 
 	let disabledKeys: string[] = [];
 	let isQwertyKeyboard: boolean = true;
 	let isTimerOn: boolean = true;
 	let maxTime: number = 120; // in seconds
 	let timeLeft: number = 120;
-	let movieInfo: string = '_';
+	let rebusInfo: string = '_';
 	const difficultyOptions: Difficulty[] = [Difficulty.Easy, Difficulty.Medium, Difficulty.Hard];
 	let difficulty: Difficulty = Difficulty.Easy;
 
 	$: timeLeft = maxTime;
 
-	let currentGameState: GameState = GameState.Playing;
+	let currentGameState: GameState = GameState.Start;
 	let previousGameState: GameState = GameState.Start;
-
-	const options: Industry[] = ['Bollywood', 'Hollywood'];
-	let industry: Industry = options[0];
 
 	//audio
 	let loseHealthAudio: HTMLAudioElement;
@@ -145,9 +124,9 @@
 		isTimerOn = !isTimerOn;
 	}
 
-	function movieStringToObject(movie: string): MovieObj[] {
-		if (movieName === 'Guess The Movie – Bollywood') {
-			return movie.split('').map((char: string): MovieObj => {
+	function rebusStringToObject(rebus: string): RebusObj[] {
+		if (rebusAnswer === 'Rebus Puzzles') {
+			return rebus.split('').map((char: string): RebusObj => {
 				return {
 					character: char.toLocaleUpperCase(),
 					isGuessed: true,
@@ -155,7 +134,7 @@
 				};
 			});
 		}
-		return movie.split('').map((char: string): MovieObj => {
+		return rebus.split('').map((char: string): RebusObj => {
 			return {
 				character: char.toLocaleUpperCase(),
 				isGuessed: !isAlphaNumeric(char),
@@ -164,27 +143,27 @@
 		});
 	}
 
-	function guessRandomWords(movieObjArr: MovieObj[]): MovieObj[] {
+	function guessRandomWords(rebusObjArr: RebusObj[]): RebusObj[] {
 		// whitespaces and special characters are always guessed
-		let positions: number[] = getRandomPositionToGuess(movieObjArr);
+		let positions: number[] = getRandomPositionToGuess(rebusObjArr);
 		positions.forEach((pos) => {
-			movieObjArr[pos].isGuessed = true;
-			movieObjArr[pos].isGuessedByUser = false;
+			rebusObjArr[pos].isGuessed = true;
+			rebusObjArr[pos].isGuessedByUser = false;
 		});
-		return movieObjArr;
+		return rebusObjArr;
 	}
 
-	function getRandomPositionToGuess(movieObjArr: MovieObj[]): number[] {
+	function getRandomPositionToGuess(rebusObjArr: RebusObj[]): number[] {
 		let result: number[] = [];
 		let gap = 6;
 		let nextPos;
 		let random = getRandomNumBetween(0, 4);
-		console.log(`movieObjArr ${JSON.stringify(movieObjArr)}`);
+		console.log(`rebusObjArr ${JSON.stringify(rebusObjArr)}`);
 		// starting from 1st index to never guess first letter (0th index)
-		for (let i = 1; i < movieObjArr.length; i += gap) {
+		for (let i = 1; i < rebusObjArr.length; i += gap) {
 			let letterGuessed = false;
-			for (let j = i; j < i + gap && j < movieObjArr.length; j++) {
-				if (!isAlphaNumeric(movieObjArr[j].character) && movieObjArr[j].character !== ' ') {
+			for (let j = i; j < i + gap && j < rebusObjArr.length; j++) {
+				if (!isAlphaNumeric(rebusObjArr[j].character) && rebusObjArr[j].character !== ' ') {
 					result.push(j);
 					letterGuessed = true;
 				}
@@ -196,7 +175,7 @@
 			random = getRandomNumBetween(0, gap - 1);
 
 			nextPos = i + random;
-			if (nextPos >= movieObjArr.length) {
+			if (nextPos >= rebusObjArr.length) {
 				break;
 			}
 			result.push(nextPos);
@@ -278,14 +257,14 @@
 			return;
 		}
 		const guessedAt = Date.now();
-		let correct = checkGuess(char, movieObjArray);
+		let correct = checkGuess(char, rebusObjArray);
 		if (correct) {
 			correctGuessAudio.volume = $soundVolume;
 			correctGuessAudio.currentTime = 0;
 			correctGuessAudio.play();
 
-			movieObjArray = [...movieObjArray];
-			const guessComplete = isAllGuessed(movieObjArray);
+			rebusObjArray = [...rebusObjArray];
+			const guessComplete = isAllGuessed(rebusObjArray);
 			addToast(`Your guess: ${char} is correct`, 'success');
 			addGameLog({
 				timestamp: new Date(guessedAt),
@@ -315,16 +294,10 @@
 			//reduce chances (health)
 			chancesLeft--;
 			addToast(`Your guess: ${char} is incorrect`, 'error');
-			addToast(`New hint unlocked`, 'info');
 			addGameLog({
 				timestamp: new Date(guessedAt),
 				message: `Your guess: ${char} is incorrect`,
 				type: 'error'
-			});
-			addGameLog({
-				timestamp: new Date(guessedAt),
-				message: `New hint unlocked`,
-				type: 'info'
 			});
 			gameData.guesses?.push({
 				guessedAt: new Date(guessedAt),
@@ -339,16 +312,15 @@
 				});
 				gameLost();
 			}
-			unlockHint();
 			parentDiv.focus();
 		}
 	}
 
-	function checkGuess(char: string, movieObjArray: MovieObj[]): boolean {
-		for (let i = 0; i < movieObjArray.length; i++) {
-			if (movieObjArray[i].character === char && !movieObjArray[i].isGuessed) {
-				movieObjArray[i].isGuessed = true;
-				movieObjArray[i].isGuessedByUser = true;
+	function checkGuess(char: string, rebusObjArray: RebusObj[]): boolean {
+		for (let i = 0; i < rebusObjArray.length; i++) {
+			if (rebusObjArray[i].character === char && !rebusObjArray[i].isGuessed) {
+				rebusObjArray[i].isGuessed = true;
+				rebusObjArray[i].isGuessedByUser = true;
 				return true;
 			}
 		}
@@ -356,9 +328,9 @@
 		return false;
 	}
 
-	function isAllGuessed(movieObjArray: MovieObj[]): boolean {
-		for (let i = 0; i < movieObjArray.length; i++) {
-			const element = movieObjArray[i];
+	function isAllGuessed(rebusObjArray: RebusObj[]): boolean {
+		for (let i = 0; i < rebusObjArray.length; i++) {
+			const element = rebusObjArray[i];
 			if (!element.isGuessed) {
 				return false;
 			}
@@ -374,7 +346,7 @@
 		});
 		addGameLog({
 			timestamp: new Date(),
-			message: `You lost!`,
+			message: `You lose!`,
 			type: 'error'
 		});
 		gameLost();
@@ -389,7 +361,7 @@
 		saveResultOnServer(gameData as GameData);
 		addGameLog({
 			timestamp: new Date(),
-			message: `The movie was: ${movieName}`,
+			message: `The answer was: ${rebusAnswer}`,
 			type: 'info'
 		});
 		gameScore = calculateScore(gameData as GameData);
@@ -409,7 +381,7 @@
 		saveResultOnServer(gameData as GameData);
 		addGameLog({
 			timestamp: new Date(),
-			message: `The movie was: ${movieName}`,
+			message: `The answer was: ${rebusAnswer}`,
 			type: 'info'
 		});
 		gameScore = calculateScore(gameData as GameData);
@@ -434,7 +406,7 @@
 				body: JSON.stringify(result)
 			};
 			const [error, response] = await fetchWithTokenRefresh(
-				new URL(API_ROUTES.GUESS_THE_MOVIE.SAVE_RESULT),
+				new URL(API_ROUTES.REBUS_PUZZLES.SAVE_RESULT),
 				request
 			);
 			if (error) {
@@ -451,7 +423,7 @@
 
 	function saveResultNotSavedOnServerInLocalStorage(result: GameData) {
 		try {
-			const key = 'games-not-saved-on-server';
+			const key = 'games-not-saved-on-server-rebus';
 			let games: GameData[] = JSON.parse(localStorage.getItem(key) || '[]');
 			games.push(result);
 			localStorage.setItem(key, JSON.stringify(games));
@@ -473,16 +445,7 @@
 		changeGameState(GameState.Playing);
 	}
 
-	function unlockHint() {
-		for (let i = 0; i < hints.length; i++) {
-			if (hints[i].isLocked) {
-				hints[i].isLocked = false;
-				break;
-			}
-		}
-	}
-
-	function movieNameInfo(name: string): string {
+	function rebusAnswerInfo(name: string): string {
 		const words: string[] = name.split(' ');
 		const numberOfWords: number = words.length;
 		let letterInfo: string = '';
@@ -492,15 +455,27 @@
 			letterInfo += ',';
 		}
 		letterInfo = letterInfo.slice(0, -1);
-		return `${difficulty.slice(0, 1).toUpperCase() + difficulty.slice(1).toLowerCase()} - ${numberOfWords} ${numberOfWords > 1 ? 'words' : 'word'} (${letterInfo})`;
+		return `${numberOfWords} ${numberOfWords > 1 ? 'words' : 'word'} (${letterInfo})`;
 	}
 
-	function getTimerDuration(movieName: string): number {
+	function getTimerDuration(rebusAnswer: string, rebusDifficulty: Difficulty): number {
 		let defaultTime = 120;
+
+		switch (rebusDifficulty) {
+			case Difficulty.Easy:
+				defaultTime = 180;
+				break;
+			case Difficulty.Medium:
+				defaultTime = 300;
+				break;
+			case Difficulty.Hard:
+				defaultTime = 420;
+				break;
+		}
 		//remove spaces and count letters
-		const nameLength = movieName.replace(/\s/g, '').length;
-		// 10 seconds extra for each letter
-		return defaultTime + nameLength * 10;
+		const nameLength = rebusAnswer.replace(/\s/g, '').length;
+		// 5 seconds extra for each letter
+		return defaultTime + nameLength * 5;
 	}
 
 	async function startGame() {
@@ -515,37 +490,24 @@
 		disabledKeys = [];
 		disabledKeys = disabledKeys;
 
-		let movie = await getMovieFromApi();
+		let rebus = await getRebusFromApi();
 
-		if (!movie) {
+		if (!rebus) {
 			isStarting = false;
-			return addToast('Failed to load movie', 'error', 8000);
+			return addToast('Failed to load rebus', 'error', 8000);
 		}
 
-		showHints = true;
-		movieName = movie.name;
-		movieInfo = movieNameInfo(movieName);
-		movieObjArray = movieStringToObject(movieName);
-		movieObjArray = guessRandomWords(movieObjArray);
+		rebusImageUrl = rebus.rebusImageUrl;
+		rebusAnswer = rebus.answer;
+		rebusExplanation = rebus.explanation;
+		rebusInfo = rebusAnswerInfo(rebusAnswer);
+		rebusObjArray = rebusStringToObject(rebusAnswer);
+		await imageLoaded(rebusImageNode);
+		// rebusObjArray = guessRandomWords(rebusObjArray);
 		// reset lives
 		chancesLeft = maxChances;
 		// reset timer
-		maxTime = getTimerDuration(movieName);
-		// reset hints
-		hints = [];
-		hints = [
-			...hints,
-			{ hint: movie.hints[0], isLocked: false },
-			{ hint: movie.hints[3], isLocked: true },
-			{ hint: `It was released in ${new Date(movie.releaseDate).getFullYear()}.`, isLocked: true },
-			{ hint: `Genre: ${movie.genre.join(', ')}.`, isLocked: true },
-			{ hint: `It stars ${movie.actors.join(', ')}.`, isLocked: true }
-		];
-		// if (difficulty === Difficulty.Easy) {
-		// 	hints[0].isLocked = false;
-		// 	hints = [...hints, { hint: movie.hints[4], isLocked: true }];
-		// }
-		// hide modal
+		maxTime = getTimerDuration(rebusAnswer, rebus.difficulty);
 		hideModal();
 		focus(parentDiv);
 		// change gamestate
@@ -557,12 +519,12 @@
 		});
 		addGameLog({
 			timestamp: new Date(),
-			message: `${movieInfo}`,
+			message: `${rebusInfo}`,
 			type: 'neutral'
 		});
 		addGameLog({
 			timestamp: new Date(),
-			message: `Movie to guess:\n ${movieObjArray
+			message: `Rebus to guess:\n ${rebusObjArray
 				.map((obj) => {
 					return obj.isGuessed ? obj.character : '_';
 				})
@@ -577,12 +539,11 @@
 			});
 		}
 		gameData = {
-			movieId: movie.id,
-			movieNameUnguessed: movieObjArray
+			rebusId: rebus.rebusId,
+			rebusAnswerUnguessed: rebusObjArray
 				.map((obj) => (obj.isGuessed ? obj.character : '*'))
 				.join(''),
 			difficulty: difficulty,
-			industry: industry,
 			startedAt: Date.now(),
 			isTimerOn: isTimerOn,
 			timeGiven: maxTime,
@@ -593,6 +554,14 @@
 		$showGameLog = true;
 		$isGameInProgess = true;
 		isStarting = false;
+	}
+
+	async function imageLoaded(imgElement: HTMLImageElement): Promise<void> {
+		return new Promise((resolve) => {
+			imgElement.onload = function () {
+				resolve();
+			};
+		});
 	}
 
 	function closeMiniWindows() {
@@ -624,69 +593,68 @@
 		document.getElementById('how-to-play-button')?.focus();
 	}
 
-	async function getMovieFromApi(): Promise<Movie | null> {
-		let movie = getMovieFromCache(industry, difficulty);
-		if (movie) {
-			return movie;
+	async function getRebusFromApi(): Promise<Rebus | null> {
+		let rebus = getRebusFromCache(difficulty);
+		if (rebus) {
+			return rebus;
 		}
-		const url = new URL(API_ROUTES.GUESS_THE_MOVIE.GET_UNPLAYED_MOVIES(industry, difficulty, 5));
+		const url = new URL(API_ROUTES.REBUS_PUZZLES.GET_RANDOM_PUZZLES(difficulty, 5));
 		const request: RequestInit = {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json'
 			}
 		};
-		const [error, response] = await fetchWithTokenRefresh<Movie[]>(url, request);
+		const [error, response] = await fetchWithTokenRefresh<Rebus[]>(url, request);
 		// Check if the response is successful (status code in the range 200-299)
 		if (error) {
 			addToast(error.error, 'error', 12000);
 			return null;
 		}
 
-		const movies: Movie[] = response;
-		if (movies.length < 1) {
-			addToast('No movies found', 'error', 5000);
+		const rebuses: Rebus[] = response;
+		if (rebuses.length < 1) {
+			addToast('No rebus found', 'error', 5000);
 			return null;
 		}
-		movie = movies[0];
-		saveMovieToCache(movies.slice(1));
-		return movie;
+		rebus = rebuses[0];
+		saveRebusToCache(rebuses.slice(1));
+		return rebus;
 	}
 
-	function saveMovieToCache(movies: Movie[]) {
+	function saveRebusToCache(rebuses: Rebus[]) {
 		try {
-			const key = `movies-${industry.toUpperCase()}-${difficulty.toLowerCase()}`;
-			sessionStorage.setItem(base64Encode(key), encodeJSON(movies.slice(1)));
+			const key = `rebus-${difficulty.toLowerCase()}`;
+			sessionStorage.setItem(base64Encode(key), encodeJSON(rebuses.slice(1)));
 		} catch (error) {
 			// error
 		}
 	}
 
-	function getMovieFromCache(industry: Industry, difficulty: Difficulty): Movie | null {
+	function getRebusFromCache(difficulty: Difficulty): Rebus | null {
 		try {
-			let key = `movies-${industry.toUpperCase()}-${difficulty.toLowerCase()}`;
+			let key = `rebus-${difficulty.toLowerCase()}`;
 			key = base64Encode(key);
-			let encodedCachedMovies = sessionStorage.getItem(key);
-			console.log('cachedMovies', encodedCachedMovies);
-			if (!encodedCachedMovies) {
+			let encodedCacheRebuses = sessionStorage.getItem(key);
+			console.log('cachedrebuses', encodedCacheRebuses);
+			if (!encodedCacheRebuses) {
 				return null;
 			}
 
-			const movies: Movie[] = decodeJSON(encodedCachedMovies) as Movie[];
-			console.info('movies from cache', movies);
+			const rebuses: Rebus[] = decodeJSON(encodedCacheRebuses) as Rebus[];
+			console.info('rebuses from cache', rebuses);
 
-			if (movies.length === 0) {
+			if (rebuses.length === 0) {
 				return null;
 			}
-			const movie = movies.pop() || null;
-			if (!movie) {
-				console.log('cached movie not found');
+			const rebus = rebuses.pop() || null;
+			if (!rebus) {
+				console.log('cached rebus not found');
 				return null;
 			}
-			// sessionStorage.setItem(key, encodeJSON(movies));
-			saveMovieToCache(movies);
-			console.log('movie from cache', movie);
-			return movie;
+			saveRebusToCache(rebuses);
+			console.log('rebus from cache', rebus);
+			return rebus;
 		} catch (error) {
 			console.error(error);
 			return null;
@@ -706,10 +674,10 @@
 		await tick();
 		switch (urlFragment) {
 			case 'comments':
-				pushState('#comments', { ...$page.state, guessTheMovieActiveTab: 2 });
+				pushState('#comments', { ...$page.state, gamePageActiveTab: 2 });
 				break;
 			case 'leaderboard':
-				pushState('#leaderboard', { ...$page.state, guessTheMovieActiveTab: 1 });
+				pushState('#leaderboard', { ...$page.state, gamePageActiveTab: 1 });
 				break;
 		}
 	});
@@ -718,17 +686,17 @@
 		$isGameInProgess = false;
 	});
 
-	movieObjArray = movieStringToObject(movieName);
+	rebusObjArray = rebusStringToObject(rebusAnswer);
 </script>
 
 <svelte:head>
-	<title>Guess The Movie – Bollywood | Play online for free | QuickGamez</title>
+	<title>Rebus Puzzles | Play online for free | QuickGamez</title>
 	<meta
 		name="description"
-		content="Play Guess the Movie – Bollywood and guess the name of hindi movies before running out of lives or time, with hints to help. With over 500 hindi movies to guess, this movie guessing game is a fun way to test your movie knowledge."
+		content="Play Rebus Puzzles online – a fun and brain-teasing word game where images, symbols, and letters combine to reveal hidden phrases. New puzzles added daily!"
 	/>
-	<LdTag schema={pageSchemaBollywood} />
-	<link rel="canonical" href="https://quickgamez.com/games/guess-the-movie/bollywood" />
+	<LdTag schema={pageSchemaRebusPuzzles} />
+	<link rel="canonical" href="https://quickgamez.com/games/rebus-puzzles" />
 </svelte:head>
 
 <audio preload="auto" bind:this={correctGuessAudio} class="hidden" src={correctChoiceSound}></audio>
@@ -786,11 +754,11 @@
 		<div
 			class="flex flex-row font-mono w-fit max-w-full self-center text-nowrap overflow-x-auto no-scrollbar p-0.5"
 		>
-			{movieInfo}
+			{rebusInfo}
 		</div>
 		<div class="flex flex-row flex-wrap bg-yellow-300 py-1">
-			{#each movieObjArray as movieObj}
-				<InputSingle {...movieObj} />
+			{#each rebusObjArray as rebusAnswerObj}
+				<InputSingle {...rebusAnswerObj} />
 			{/each}
 		</div>
 		<div class="flex p-2 justify-between">
@@ -804,11 +772,13 @@
 				/>
 			{/if}
 		</div>
-		<p class="w-auto text-center text-xl uppercase font-medium">Rebus Puzzle</p>
-		<div class="flex flex-col overflow-auto" class:hidden={!showHints}>
-			{#each hints as hint, i (i)}
-				<Hint hint={hint.hint} isLocked={hint.isLocked} bind:newHintDiv />
-			{/each}
+		<div class="flex flex-col overflow-auto px-1">
+			<img
+				bind:this={rebusImageNode}
+				class="w-full max-w-3xl h-full mix-blend-normal aspect-auto self-center rounded-md"
+				src={rebusImageUrl}
+				alt="rebus puzzle"
+			/>
 		</div>
 	</div>
 	<div class="flex" inert={currentGameState === GameState.Playing ? false : true}>
@@ -828,7 +798,7 @@
 				out:fly={{ duration: 300 }}
 				class="bg-black bg-opacity-50 xl:hidden h-auto"
 			>
-				<TopNav isShowImage={false} title="Guess The Movie – Bollywood" isH1Tag={false} />
+				<TopNav isShowImage={false} title="Rebus Puzzles" isH1Tag={false} />
 			</div>
 
 			<Tab {tabs} bind:activeTab={currentTab} context="gametab" shallowRouteMode="home-tab-only">
@@ -838,7 +808,7 @@
 							<div
 								class="bg-white px-2 py-4 w-11/12 h-11/12 flex flex-col items-center rounded shadow-lg overflow-auto space-y-2 rounded-scrollbar"
 							>
-								<p class="text-2xl font-bold hidden xl:flex">Guess The Movie – Bollywood</p>
+								<p class="text-2xl font-bold hidden xl:flex">Rebus Puzzles</p>
 
 								<div class="flex w-full md:w-10/12 lg:w-8/12">
 									<Dropdown
@@ -906,7 +876,7 @@
 									<Icon src={CgClose} size="24" />
 								</button>
 
-								<p class="text-2xl font-bold">Guess The Movie – Bollywood</p>
+								<p class="text-2xl font-bold">Rebus Puzzles</p>
 
 								<button
 									on:click={hideModal}
@@ -953,7 +923,14 @@
 								>
 									Answer
 								</p>
-								<p class="self-center text-lg font-semibold">{movieName}</p>
+								<p class="self-center text-lg font-semibold">{rebusAnswer}</p>
+
+								<p
+									class="self-center text-lg font-medium text-neutral-600 underline underline-offset-2"
+								>
+									Explanation
+								</p>
+								<p class="self-center text-lg font-semibold">{rebusExplanation}</p>
 
 								<button
 									on:click={() => changeGameState(GameState.ShowScore)}
@@ -974,7 +951,14 @@
 								>
 									Answer
 								</p>
-								<p class="self-center text-lg font-semibold">{movieName}</p>
+								<p class="self-center text-lg font-semibold">{rebusAnswer}</p>
+
+								<p
+									class="self-center text-lg font-medium text-neutral-600 underline underline-offset-2"
+								>
+									Explanation
+								</p>
+								<p class="self-center text-lg font-semibold">{rebusExplanation}</p>
 
 								<button
 									on:click={() => changeGameState(GameState.ShowScore)}
@@ -1006,7 +990,7 @@
 									>
 										Answer
 									</h4>
-									<p class="text-lg font-semibold">{movieName}</p>
+									<p class="text-lg font-semibold">{rebusAnswer}</p>
 								</div>
 
 								<button
@@ -1022,11 +1006,11 @@
 				<!-- Tab 2 -->
 				<!-- Leaderboards -->
 				<div slot="tab2" class="relative w-full h-full flex flex-col justify-center p-1 pt-0">
-					<Leaderboards game="guess-the-movie-bollywood" />
+					<Leaderboards game="rebus-puzzles" />
 				</div>
 
 				<div slot="tab3" class="relative w-full h-full flex flex-col justify-center p-1 pt-0">
-					<GameComments game="guess-the-movie-bollywood" />
+					<GameComments game="rebus-puzzles" />
 				</div>
 
 				<div slot="tab4" class="relative w-full h-full flex flex-col justify-center p-1 pt-0">
@@ -1065,7 +1049,7 @@
 				transition:fly={{ duration: 300, y: 50 }}
 				class="bg-white p-2 max-h-full flex flex-col items-center rounded shadow-lg overflow-y-auto cursor-auto"
 			>
-				<h2 class="text-2xl font-bold">Guess The Movie – Bollywood: How To Play?</h2>
+				<h2 class="text-2xl font-bold">Rebus Puzzles: How To Play?</h2>
 				<HowToPlay steps={howToPlay} />
 			</div>
 		</div>
