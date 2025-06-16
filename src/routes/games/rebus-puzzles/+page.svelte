@@ -87,6 +87,12 @@
 
 	let isStarting: boolean = false;
 
+	/**
+	 * Hide the rebus image until the game starts
+	 * because there is no rebus to display
+	 */
+	let isRebusImageHidden: boolean = true;
+
 	let rebusObjArray: RebusObj[];
 
 	const maxChances: number = 5;
@@ -503,6 +509,7 @@
 		rebusInfo = rebusAnswerInfo(rebusAnswer);
 		rebusObjArray = rebusStringToObject(rebusAnswer);
 		await imageLoaded(rebusImageNode);
+		isRebusImageHidden = false;
 		// rebusObjArray = guessRandomWords(rebusObjArray);
 		// reset lives
 		chancesLeft = maxChances;
@@ -775,6 +782,7 @@
 		<div class="flex flex-col overflow-auto px-1">
 			<img
 				bind:this={rebusImageNode}
+				class:hidden={isRebusImageHidden}
 				class="w-full max-w-3xl h-full mix-blend-normal aspect-auto self-center rounded-md"
 				src={rebusImageUrl}
 				alt="rebus puzzle"
