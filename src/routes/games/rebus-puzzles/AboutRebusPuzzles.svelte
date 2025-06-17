@@ -1,19 +1,19 @@
 <article
 	aria-labelledby="about-title"
-	class="flex flex-col w-auto h-full p-2 rounded-md bg-white space-y-1 overflow-y-auto rounded-scrollbar"
+	class="flex flex-col w-auto h-full p-2 rounded-md bg-white text-justify space-y-1 overflow-y-auto rounded-scrollbar"
 >
 	<header>
-		<h2 id="about-title" class="text-xl font-bold">What Are Rebus Puzzles?</h2>
+		<h2 id="about-title" class="text-xl mb-2 font-bold">What are Rebus Puzzles?</h2>
 	</header>
 
-	<p>
+	<p class="mb-2">
 		Rebus puzzles are a fun and creative type of brain teaser that use pictures, symbols, numbers,
 		and letters to represent words or phrases. Solving them involves interpreting visual clues and
 		thinking outside the box. These puzzles test your logic, language skills, and lateral thinking —
 		all in a playful and rewarding way.
 	</p>
 
-	<p>
+	<p class="mb-2">
 		Rebus puzzles stand out because they’re not just about what you see — they're about what you
 		understand. The challenge lies in deciphering a hidden message using minimal visuals. That makes
 		them perfect for puzzle lovers, wordplay enthusiasts, and anyone who enjoys a mental workout.
@@ -22,7 +22,7 @@
 	</p>
 
 	<section aria-labelledby="benifits-of-rebus-puzzzles">
-		<h3 id="benifits-of-rebus-puzzzles" class="text-xl font-bold">
+		<h3 id="benifits-of-rebus-puzzzles" class="text-xl mb-2 font-bold">
 			Benefits of Solving Rebus Puzzles
 		</h3>
 		<ul class="list-disc ps-4 lg:ps-5">
@@ -39,8 +39,19 @@
 		</ul>
 	</section>
 
+	<h2 class="text-xl mb-2 font-bold">Play Rebus Puzzles Online on QuickGamez</h2>
+
+	<p>
+		Play Rebus Puzzles on QuickGamez and put your brain to work and test your language and guessing
+		skills in this fun and challenging game. There is also a leaderboard where you can compete with
+		others and show off your skills. Also, Don't forget to play "Today's Rebus Puzzle", which is
+		updated every day. So, whether you're a fan of brain teasers or simply looking for a fun and
+		rewarding way to pass the time, Rebus Puzzles offer the perfect blend of entertainment and
+		intellectual exercise.
+	</p>
+
 	<section aria-labelledby="start-title">
-		<h3 id="start-title" class="text-xl font-bold">Starting the Game</h3>
+		<h3 id="start-title" class="text-xl mb-2 font-bold">Starting the Game</h3>
 		<ul class="list-disc ps-4 lg:ps-5">
 			<li>Choose a difficulty level: Easy, Medium, or Hard.</li>
 			<li>
@@ -54,7 +65,7 @@
 	</section>
 
 	<section aria-labelledby="gameplay-title">
-		<h3 id="gameplay-title" class="text-xl font-bold">Gameplay</h3>
+		<h3 id="gameplay-title" class="text-xl mb-2 font-bold">Gameplay</h3>
 		<ul class="list-disc ps-4 lg:ps-5">
 			<li>
 				You start the game with 5 lives and a limited amount of time to guess the rebus puzzle.
@@ -71,7 +82,7 @@
 	</section>
 
 	<section aria-labelledby="leaderboard-title">
-		<h3 id="leaderboard-title" class="text-xl font-bold">Climbing the Leaderboard</h3>
+		<h3 id="leaderboard-title" class="text-xl mb-2 font-bold">Climbing the Leaderboard</h3>
 		<ul class="list-disc ps-4 lg:ps-5">
 			<li>
 				Your score determines your position on the daily, weekly, and all-time leaderboards. The
@@ -86,7 +97,7 @@
 	</section>
 
 	<section aria-labelledby="points-title">
-		<h3 id="points-title" class="text-xl font-bold">Points System</h3>
+		<h3 id="points-title" class="text-xl mb-2 font-bold">Points System</h3>
 		<ul class="list-disc ps-4 lg:ps-5">
 			<li>+20 points for each remaining life.</li>
 			<li>+100 points for winning in Easy difficulty.</li>
@@ -105,7 +116,7 @@
 	</section>
 
 	<section aria-labelledby="credits">
-		<h3 id="credits" class="text-xl font-bold">Credits</h3>
+		<h3 id="credits" class="text-xl mb-2 font-bold">Credits</h3>
 		<p>
 			This project was made possible with the help of several open-source libraries and tools. I
 			sincerely appreciate the developers and maintainers of these projects for their valuable
