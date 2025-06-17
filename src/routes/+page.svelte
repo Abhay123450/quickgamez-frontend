@@ -12,7 +12,7 @@
 	import guessTheMovieBollywoodThumbnail900 from '$lib/assets/images/thumbnail/guess-the-movie-bollywood-thumbnail-900.webp';
 	import guessTheMovieBollywoodThumbnail1180 from '$lib/assets/images/thumbnail/guess-the-movie-bollywood-thumbnail-1180.webp';
 
-	import rebusPuzzleThumbnail from '$lib/assets/images/thumbnail/RebusPuzzlesTempLogo.webp';
+	import rebusPuzzleThumbnail from '$lib/assets/images/thumbnail/rebus-puzzles-thumbnail-1080.webp';
 
 	// Dummy data or fetch it from a store/api
 	let games = [
