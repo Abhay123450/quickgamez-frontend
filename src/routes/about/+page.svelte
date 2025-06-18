@@ -13,17 +13,17 @@
 	<header class="flex sticky top-0 z-10">
 		<TopNav />
 	</header>
-	<h1 class="text-xl font-bold text-center m-4">About Website</h1>
+	<h1 class="text-xl font-bold text-center m-4">About QuickGamez</h1>
 	<p class="px-3 py-2">
 		Welcome to QuickGamez.com, where you can play free online games anytime! Currently, there are
 		two exciting games available: <a class="text-red-700" href="/games/guess-the-movie/hollywood"
 			>Guess The Movie - Hollywood</a
-		>
-		and
-		<a class="text-red-700" href="/games/guess-the-movie/bollywood">Guess The Movie - Bollywood</a>.
-		This is just the beginning—many more games are in the works and will be coming soon. Stay tuned
-		for new releases and updates. Don't forget to bookmark the site so you can easily check back for
-		the latest fun additions!
+		>,
+		<a class="text-red-700" href="/games/guess-the-movie/bollywood">Guess The Movie - Bollywood</a>
+		and <a class="text-red-700" href="/games/rebus-puzzles">Rebus puzzles</a>. This is just the
+		beginning—many more games are in the works and will be coming soon. Stay tuned for new releases
+		and updates. Don't forget to bookmark the site so you can easily check back for the latest fun
+		additions!
 	</p>
 	<h2 class="text-xl font-bold text-center m-4">About Developer</h2>
 	<p class="px-3 py-2">
