@@ -46,7 +46,7 @@
 		<TopNav />
 	</header>
 
-	<section aria-labelledby="featured-games-heading" class="p-2">
+	<div class="flex-grow p-2">
 		<h1
 			id="featured-games-heading"
 			class="text-2xl font-bold text-center border-b-2 border-black w-fit mx-auto mb-4"
@@ -96,6 +96,6 @@
 			your movie knowledge with friends and family. Ready to put your movie knowledge to the test?
 			Let's play!
 		</p>
-	</section>
+	</div>
 	<Footer />
 </div>
