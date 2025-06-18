@@ -54,46 +54,44 @@
 		<TopNav />
 	</header>
 
-	<section aria-labelledby="featured-games-heading" class="p-2">
-		<h1
-			id="featured-games-heading"
-			class="text-2xl font-bold text-center border-b-2 border-black w-fit mx-auto mb-4"
-		>
-			Featured Games
-		</h1>
-		<!-- sizes="(min-width: 1540px) calc(15.27vw - 18px), (min-width: 1280px) calc(20vw - 16px), (min-width: 1040px) calc(25vw - 16px), (min-width: 780px) calc(33.33vw - 16px), calc(50vw - 20px)" -->
-		<div class="grid grid-cols-2 md:grid-cols-3 3xl:grid-cols-4 gap-2">
-			{#each games as game}
-				<a
-					href={game.slug.length > 0 ? `/games/${game.slug}` : '#'}
-					class="block"
-					aria-labelledby={`game-title-${game.slug}`}
-				>
-					<article class="flex flex-col rounded-md shadow-sm overflow-clip bg-black">
-						<div class="block aspect-square rounded-t-md overflow-hidden">
-							<img
-								srcset={game.srcset}
-								src={game.image}
-								sizes="(min-width: 1280px) calc(20.29vw - 20px), (min-width: 1040px) calc(25vw - 16px), (min-width: 780px) calc(33.33vw - 16px), calc(50vw - 20px)"
-								alt={`${game.title} thumbnail`}
-								class="w-full h-full object-cover"
-							/>
-						</div>
-						<div class="flex flex-col px-1 pb-1 bg-white">
-							<h2 id={`game-title-${game.slug}`} class="text-lg font-semibold text-black">
-								{game.title}
-							</h2>
-							{#if game.slug.length > 0}
-								<div class="bg-red-600 text-white font-bold text-center py-1 px-3 rounded-md mt-2">
-									Play Now
-								</div>
-							{/if}
-						</div>
-					</article>
-				</a>
-			{/each}
-		</div>
-	</section>
+	<h1
+		id="featured-games-heading"
+		class="text-2xl font-bold text-center border-b-2 border-black w-fit mx-auto mb-4 px-2 pt-2"
+	>
+		Online Games at QuickGamez
+	</h1>
+	<!-- sizes="(min-width: 1540px) calc(15.27vw - 18px), (min-width: 1280px) calc(20vw - 16px), (min-width: 1040px) calc(25vw - 16px), (min-width: 780px) calc(33.33vw - 16px), calc(50vw - 20px)" -->
+	<div class="grid grid-cols-2 md:grid-cols-3 3xl:grid-cols-4 gap-2 px-2">
+		{#each games as game}
+			<a
+				href={game.slug.length > 0 ? `/games/${game.slug}` : '#'}
+				class="block"
+				aria-labelledby={`game-title-${game.slug}`}
+			>
+				<article class="flex flex-col rounded-md shadow-sm overflow-clip bg-black">
+					<div class="block aspect-square rounded-t-md overflow-hidden">
+						<img
+							srcset={game.srcset}
+							src={game.image}
+							sizes="(min-width: 1280px) calc(20.29vw - 20px), (min-width: 1040px) calc(25vw - 16px), (min-width: 780px) calc(33.33vw - 16px), calc(50vw - 20px)"
+							alt={`${game.title} thumbnail`}
+							class="w-full h-full object-cover"
+						/>
+					</div>
+					<div class="flex flex-col px-1 pb-1 bg-white">
+						<h2 id={`game-title-${game.slug}`} class="text-lg font-semibold text-black">
+							{game.title}
+						</h2>
+						{#if game.slug.length > 0}
+							<div class="bg-red-600 text-white font-bold text-center py-1 px-3 rounded-md mt-2">
+								Play Now
+							</div>
+						{/if}
+					</div>
+				</article>
+			</a>
+		{/each}
+	</div>
 
 	<section class="p-2" aria-labelledby="about-heading">
 		<h2 id="about-heading" class="text-xl font-semibold text-gray-900 mb-2">
@@ -168,6 +166,15 @@
 				>
 				<p class="text-base text-gray-800">
 					Love Hindi movies? Try to guess the movie titles based on clues and challenge your memory.
+				</p>
+			</li>
+		</ul>
+		<p class="text-base text-gray-800 my-2">And</p>
+		<ul class="list-disc pl-6 bg-white rounded-md py-2">
+			<li>
+				<a href="/games/rebus-puzzles" class="text-red-600 font-semibold">Rebus Puzzles</a>
+				<p class="text-base text-gray-800">
+					Put your brain to work and test your language skills with these challenging puzzles.
 				</p>
 			</li>
 		</ul>
