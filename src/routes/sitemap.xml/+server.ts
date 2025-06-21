@@ -7,20 +7,18 @@ export async function GET() {
         </url>
         <url>
             <loc>https://quickgamez.com/games/guess-the-movie/hollywood</loc>
-            <lastmod>${new Date().toISOString()}</lastmod>
         </url>
         <url>
             <loc>https://quickgamez.com/games/guess-the-movie/bollywood</loc>
-            <lastmod>${new Date().toISOString()}</lastmod>
+        </url>
+        <url>
+            <loc>https://quickgamez.com/games/rebus-puzzles</loc>
         </url>
         <url>
             <loc>https://quickgamez.com/games/guess-the-movie</loc>
         </url>
         <url>
             <loc>https://quickgamez.com/about</loc>
-        </url>
-        <url>
-            <loc>https://quickgamez.com/contact-us</loc>
         </url>
     </urlset>
 `.trim(),
