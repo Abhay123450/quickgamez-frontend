@@ -9,6 +9,7 @@
 		addToast,
 		isGameInProgess,
 		isGamesNavWindowOpen,
+		isLoggedIn,
 		isMyAccountWindowOpen,
 		isNotificationWindowOpen,
 		isSettingsWindowOpen,
@@ -614,7 +615,9 @@
 		if (movie) {
 			return movie;
 		}
-		const url = new URL(API_ROUTES.GUESS_THE_MOVIE.GET_UNPLAYED_MOVIES(industry, difficulty, 5));
+		const url = $isLoggedIn
+			? new URL(API_ROUTES.GUESS_THE_MOVIE.GET_UNPLAYED_MOVIES(industry, difficulty, 5))
+			: new URL(API_ROUTES.GUESS_THE_MOVIE.GET_RANDOM_MOVIES(industry, difficulty, 5));
 		const request: RequestInit = {
 			method: 'GET',
 			headers: {

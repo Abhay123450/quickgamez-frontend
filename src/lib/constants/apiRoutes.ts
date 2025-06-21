@@ -50,6 +50,9 @@ export const API_ROUTES = {
 		GET_UNPLAYED_MOVIES: (industry: Industry, difficulty: Difficulty, count: number = 5) =>
 			BASE_URL +
 			`/api/v1/movies/unplayed?industry=${industry}&difficulty=${difficulty.toLowerCase()}&count=${count}`,
+		GET_RANDOM_MOVIES: (industry: Industry, difficulty: Difficulty, count: number = 5) =>
+			BASE_URL +
+			`/api/v1/movies/random?industry=${industry}&difficulty=${difficulty.toLowerCase()}&count=${count}`,
 		SAVE_RESULT: BASE_URL + `/api/v1/games/guess-the-movie/results`,
 		SAVE_MULTIPLE_RESULTS: BASE_URL + `/api/v1/games/guess-the-movie/results/multiple`
 	},
