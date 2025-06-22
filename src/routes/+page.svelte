@@ -58,7 +58,7 @@
 		id="featured-games-heading"
 		class="text-2xl font-bold text-center border-b-2 border-black w-fit mx-auto mb-4 px-2 pt-2"
 	>
-		Online Games at QuickGamez
+		Online Games on QuickGamez
 	</h1>
 	<!-- sizes="(min-width: 1540px) calc(15.27vw - 18px), (min-width: 1280px) calc(20vw - 16px), (min-width: 1040px) calc(25vw - 16px), (min-width: 780px) calc(33.33vw - 16px), calc(50vw - 20px)" -->
 	<div class="grid grid-cols-2 md:grid-cols-3 3xl:grid-cols-4 gap-2 px-2">

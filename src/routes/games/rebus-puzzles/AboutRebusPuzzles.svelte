@@ -44,9 +44,9 @@
 	<p>
 		Play Rebus Puzzles on QuickGamez to put your brain to work and test your language and guessing
 		skills in this fun and challenging game. Compete with others on the leaderboard and show off
-		your knowledge. Don’t forget to play Today’s Rebus Puzzle, which is updated daily. Whether
-		you’re a fan of brain teasers or simply looking for a fun and rewarding way to pass the time,
-		Rebus Puzzles offer the perfect blend of entertainment and intellectual challenge.
+		your knowledge. Whether you’re a fan of brain teasers or simply looking for a fun and rewarding
+		way to pass the time, Rebus Puzzles offer the perfect blend of entertainment and intellectual
+		challenge.
 	</p>
 
 	<section aria-labelledby="start-title">
