@@ -9,6 +9,7 @@
 		addToast,
 		isGameInProgess,
 		isGamesNavWindowOpen,
+		isLoggedIn,
 		isMyAccountWindowOpen,
 		isNotificationWindowOpen,
 		isSettingsWindowOpen,
@@ -451,7 +452,7 @@
 		changeGameState(GameState.Playing);
 	}
 
-	function rebusAnswerInfo(name: string): string {
+	function rebusAnswerInfo(name: string, difficulty: Difficulty): string {
 		const words: string[] = name.split(' ');
 		const numberOfWords: number = words.length;
 		let letterInfo: string = '';
@@ -461,7 +462,7 @@
 			letterInfo += ',';
 		}
 		letterInfo = letterInfo.slice(0, -1);
-		return `${numberOfWords} ${numberOfWords > 1 ? 'words' : 'word'} (${letterInfo})`;
+		return `${difficulty.toUpperCase()} - ${numberOfWords} ${numberOfWords > 1 ? 'words' : 'word'} (${letterInfo})`;
 	}
 
 	function getTimerDuration(rebusAnswer: string, rebusDifficulty: Difficulty): number {
@@ -505,8 +506,10 @@
 
 		rebusImageUrl = rebus.rebusImageUrl;
 		rebusAnswer = rebus.answer;
-		rebusExplanation = rebus.explanation;
-		rebusInfo = rebusAnswerInfo(rebusAnswer);
+		rebusExplanation =
+			new DOMParser().parseFromString(rebus.explanation, 'text/html').documentElement.textContent ||
+			'';
+		rebusInfo = rebusAnswerInfo(rebusAnswer, rebus.difficulty);
 		rebusObjArray = rebusStringToObject(rebusAnswer);
 		await imageLoaded(rebusImageNode);
 		isRebusImageHidden = false;
@@ -601,11 +604,13 @@
 	}
 
 	async function getRebusFromApi(): Promise<Rebus | null> {
-		let rebus = getRebusFromCache(difficulty);
+		let rebus = getRebusFromCache();
 		if (rebus) {
 			return rebus;
 		}
-		const url = new URL(API_ROUTES.REBUS_PUZZLES.GET_RANDOM_PUZZLES(difficulty, 5));
+		const url = $isLoggedIn
+			? new URL(API_ROUTES.REBUS_PUZZLES.GET_UNPLAYED_PUZZLES(5))
+			: new URL(API_ROUTES.REBUS_PUZZLES.GET_RANDOM_PUZZLES(5));
 		const request: RequestInit = {
 			method: 'GET',
 			headers: {
@@ -631,16 +636,16 @@
 
 	function saveRebusToCache(rebuses: Rebus[]) {
 		try {
-			const key = `rebus-${difficulty.toLowerCase()}`;
+			const key = `rebuses`;
 			sessionStorage.setItem(base64Encode(key), encodeJSON(rebuses.slice(1)));
 		} catch (error) {
 			// error
 		}
 	}
 
-	function getRebusFromCache(difficulty: Difficulty): Rebus | null {
+	function getRebusFromCache(): Rebus | null {
 		try {
-			let key = `rebus-${difficulty.toLowerCase()}`;
+			let key = `rebuses`;
 			key = base64Encode(key);
 			let encodedCacheRebuses = sessionStorage.getItem(key);
 			console.log('cachedrebuses', encodedCacheRebuses);
@@ -818,14 +823,7 @@
 							>
 								<p class="text-2xl font-bold hidden xl:flex">Rebus Puzzles</p>
 
-								<div class="flex w-full md:w-10/12 lg:w-8/12">
-									<Dropdown
-										options={difficultyOptions.map((option) => ({ label: option, value: option }))}
-										defaultOption={difficulty}
-										name="Difficulty"
-										handleOptionChange={changeDifficulty}
-									/>
-								</div>
+								<p>Can you solve the Rebus puzzle hidden in the image? Click 'Start' to begin!</p>
 
 								{#if !isTimerOn}
 									<div
@@ -924,7 +922,9 @@
 							<div
 								class="bg-white p-6 w-11/12 h-11/12 flex flex-col items-center rounded shadow-lg"
 							>
-								<img class="w-8/12 my-3" src={youWinImage} alt="you win" />
+								<img class="w-8/12 mb-1" src={youWinImage} alt="you win" />
+
+								<img class="w-11/12 max-w-md my-1" src={rebusImageUrl} alt="{rebusAnswer} rebus" />
 
 								<p
 									class="self-center text-lg font-medium text-neutral-600 underline underline-offset-2"
@@ -933,12 +933,9 @@
 								</p>
 								<p class="self-center text-lg font-semibold">{rebusAnswer}</p>
 
-								<p
-									class="self-center text-lg font-medium text-neutral-600 underline underline-offset-2"
-								>
-									Explanation
-								</p>
-								<p class="self-center text-lg font-semibold">{rebusExplanation}</p>
+								<div class="h-[1px] w-full bg-neutral-200 my-1"></div>
+								<p class="max-w-lg self-center text-base font-normal">{rebusExplanation}</p>
+								<div class="h-[1px] w-full bg-neutral-200 my-1"></div>
 
 								<button
 									on:click={() => changeGameState(GameState.ShowScore)}
@@ -952,7 +949,9 @@
 							<div
 								class="bg-white p-6 w-11/12 h-11/12 flex flex-col items-center rounded shadow-lg"
 							>
-								<img class="w-8/12 my-3" src={youLoseImage} alt="you lose" />
+								<img class="w-8/12 mb-1" src={youLoseImage} alt="you lose" />
+
+								<img class="w-8/12 my-1" src={rebusImageUrl} alt="{rebusAnswer} rebus" />
 
 								<p
 									class="self-center text-lg font-medium text-neutral-600 underline underline-offset-2"
@@ -961,12 +960,9 @@
 								</p>
 								<p class="self-center text-lg font-semibold">{rebusAnswer}</p>
 
-								<p
-									class="self-center text-lg font-medium text-neutral-600 underline underline-offset-2"
-								>
-									Explanation
-								</p>
-								<p class="self-center text-lg font-semibold">{rebusExplanation}</p>
+								<div class="h-[1px] w-full bg-neutral-200 my-1"></div>
+								<p class="max-w-lg self-center text-base font-normal">{rebusExplanation}</p>
+								<div class="h-[1px] w-full bg-neutral-200 my-1"></div>
 
 								<button
 									on:click={() => changeGameState(GameState.ShowScore)}

@@ -57,10 +57,12 @@ export const API_ROUTES = {
 		SAVE_MULTIPLE_RESULTS: BASE_URL + `/api/v1/games/guess-the-movie/results/multiple`
 	},
 	REBUS_PUZZLES: {
-		GET_UNPLAYED_PUZZLES: (difficulty: Difficulty, count: number = 5) =>
-			BASE_URL + `/api/v1/rebus/unplayed?difficulty=${difficulty.toLowerCase()}&count=${count}`,
-		GET_RANDOM_PUZZLES: (difficulty: Difficulty, count: number = 5) =>
-			BASE_URL + `/api/v1/rebus/random?difficulty=${difficulty.toLowerCase()}&count=${count}`,
+		GET_UNPLAYED_PUZZLES: (count: number = 5, difficulty?: Difficulty) =>
+			BASE_URL +
+			`/api/v1/rebus/unplayed?count=${count}${difficulty ? `&difficulty=${difficulty.toLowerCase()}` : ''}`,
+		GET_RANDOM_PUZZLES: (count: number = 5, difficulty?: Difficulty) =>
+			BASE_URL +
+			`/api/v1/rebus/random?count=${count}${difficulty ? `&difficulty=${difficulty.toLowerCase()}` : ''}`,
 		SAVE_RESULT: BASE_URL + `/api/v1/games/rebus-puzzles/results`,
 		SAVE_MULTIPLE_RESULTS: BASE_URL + `/api/v1/games/rebus-puzzles/results/multiple`
 	}
