@@ -58,6 +58,7 @@
 
 <svelte:head>
 	<script src="https://accounts.google.com/gsi/client" async></script>
+	<script defer src="https://cloud.umami.is/script.js" data-website-id="bacac3b5-ba28-4058-a25f-03f713d1dc8e"></script>
 </svelte:head>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->

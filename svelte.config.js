@@ -24,7 +24,7 @@ const config = {
 		adapter: adapter({ out: "./public", nodejsRuntime: 20, precompress: true }),
 		csp: {
 			directives: {
-				'script-src': ['self', 'https://accounts.google.com/gsi/client'],
+				'script-src': ['self', 'https://accounts.google.com/gsi/client', 'https://cloud.umami.is'],
 			},
 			mode: 'auto'
 		},
