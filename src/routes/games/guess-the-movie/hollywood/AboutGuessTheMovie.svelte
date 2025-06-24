@@ -86,6 +86,51 @@
 			</li>
 		</ul>
 	</section>
+
+	<section aria-labelledby="credits">
+		<h3 id="credits" class="text-xl mb-2 font-bold">Credits</h3>
+		<p>
+			This project was made possible with the help of several open-source libraries and tools. I
+			sincerely appreciate the developers and maintainers of these projects for their valuable
+			contributions to the open-source community. Below is a list of attributions acknowledging the
+			resources I have used:
+		</p>
+		<ul class="list-disc ps-4 lg:ps-5">
+			<li>
+				Sound Effect by <a
+					href="https://pixabay.com/users/soundsgreat-35440963/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=146641"
+					class="underline underline-offset-2">soundsgreat</a
+				>
+				from
+				<a
+					href="https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=146641"
+					class="underline underline-offset-2">Pixabay</a
+				>
+			</li>
+			<li>
+				Sound Effect by <a
+					href="https://pixabay.com/users/universfield-28281460/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=144746"
+					class="underline underline-offset-2">Universfield</a
+				>
+				from
+				<a
+					href="https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=144746"
+					class="underline underline-offset-2">Pixabay</a
+				>
+			</li>
+			<li>
+				Sound Effect by <a
+					href="https://pixabay.com/users/freesound_community-46691455/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=43861"
+					class="underline underline-offset-2">freesound_community</a
+				>
+				from
+				<a
+					href="https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=43861"
+					class="underline underline-offset-2">Pixabay</a
+				>
+			</li>
+		</ul>
+	</section>
 </article>
 
 <style>
