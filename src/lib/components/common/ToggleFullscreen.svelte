@@ -7,8 +7,10 @@
 	function toggleFullscreen(): void {
 		if (!isFullscreen) {
 			enterFullscreen();
+			window.umami.track('enter-fullscreen');
 		} else {
 			exitFullscreen();
+			window.umami.track('exit-fullscreen');
 		}
 	}
 

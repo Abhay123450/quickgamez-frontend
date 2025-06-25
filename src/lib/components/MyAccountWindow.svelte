@@ -24,12 +24,14 @@
 		$isLoginPanelOpen = true;
 		$loginActiveTab = 1;
 		pushState('', { ...$page.state, isLoginPanelOpen: true, loginActiveTab: 1 });
+		window.umami.track('login-clicked');
 	}
 
 	function openSignup() {
 		$isLoginPanelOpen = true;
 		$loginActiveTab = 0;
 		pushState('', { ...$page.state, isLoginPanelOpen: true, loginActiveTab: 0 });
+		window.umami.track('create-account-clicked');
 	}
 
 	export async function getUserInfo(): Promise<User | null> {
