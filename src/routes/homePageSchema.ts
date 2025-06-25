@@ -1,6 +1,7 @@
 import QuickGamezLogo from '$lib/assets/images/logo/logo1600.webp';
 import guessTheMovieHollywoodThumbnail from '$lib/assets/images/thumbnail/guess-the-movie-hollywood-thumbnail.webp';
 import guessTheMovieBollywoodThumbnail from '$lib/assets/images/thumbnail/guess-the-movie-bollywood-thumbnail.webp';
+import rebusPuzzlesThumbnail from '$lib/assets/images/thumbnail/rebus-puzzles-thumbnail-1080.webp';
 
 export const websiteDescription =
 	'QuickGamez is a website where you can play onlines games for free on your mobile, tablet or computer. No downloads, no login. Play now!';
@@ -63,6 +64,15 @@ export const homePageSchema = [
 					image: guessTheMovieBollywoodThumbnail,
 					description:
 						'Play Guess the Movie - Bollywood and guess the name of hindi movies before running out of lives or time, with hints to help.'
+				},
+				{
+					'@type': 'ListItem',
+					position: 3,
+					name: 'Rebus Puzzles',
+					url: 'https://quickgamez.com/games/rebus-puzzles',
+					image: rebusPuzzlesThumbnail,
+					description:
+						'Play Rebus Puzzles online – a fun and brain-teasing word game where images, symbols, and letters combine to reveal hidden phrases.'
 				}
 			]
 		},
