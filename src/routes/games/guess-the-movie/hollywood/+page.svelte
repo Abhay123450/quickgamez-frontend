@@ -397,6 +397,7 @@
 		gameWinAudio.play();
 		currentGameState = GameState.Won;
 		$isGameInProgess = false;
+		window.umami.track('game-won-gtm-hollywood');
 	}
 
 	function gameLost() {
@@ -416,6 +417,7 @@
 		gameLoseAudio.play();
 		currentGameState = GameState.Lost;
 		$isGameInProgess = false;
+		window.umami.track('game-lost-gtm-hollywood');
 	}
 
 	function quitGame() {
@@ -580,6 +582,7 @@
 		$showGameLog = true;
 		$isGameInProgess = true;
 		isStarting = false;
+		window.umami.track('game-started-gtm-hollywood');
 	}
 
 	function closeMiniWindows() {

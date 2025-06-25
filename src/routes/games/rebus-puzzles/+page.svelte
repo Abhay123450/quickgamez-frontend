@@ -377,6 +377,7 @@
 		gameWinAudio.play();
 		currentGameState = GameState.Won;
 		$isGameInProgess = false;
+		window.umami.track('game-won-rebus-puzzles');
 	}
 
 	function gameLost() {
@@ -397,6 +398,7 @@
 		gameLoseAudio.play();
 		currentGameState = GameState.Lost;
 		$isGameInProgess = false;
+		window.umami.track('game-lost-rebus-puzzles');
 	}
 
 	function quitGame() {
@@ -564,6 +566,7 @@
 		$showGameLog = true;
 		$isGameInProgess = true;
 		isStarting = false;
+		window.umami.track('game-started-rebus-puzzles');
 	}
 
 	async function imageLoaded(imgElement: HTMLImageElement): Promise<void> {

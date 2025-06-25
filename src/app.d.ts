@@ -24,6 +24,7 @@ declare global {
 	namespace globalThis {
 		interface Window {
 			google?: any;
+			umami?: any;
 		}
 	}
 }
